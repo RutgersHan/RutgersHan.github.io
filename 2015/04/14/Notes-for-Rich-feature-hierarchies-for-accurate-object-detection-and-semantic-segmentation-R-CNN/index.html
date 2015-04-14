@@ -123,7 +123,11 @@
 <li>Performance lyaer-by-layer, with fine tuning: pool5经过finetuning之后，mAP的提高不明显，所以卷积层提取出来的特征是具有普遍性的，而fc7经过finetuning后得到很大的提升，说明finetuning的效果主要是在全连接层上。</li>
 <li>Comparision to recent feature learning methods: 这里主要说明CNN的特征学习能力比其他方法要好</li>
 </ul>
-<h3 id="Network_architectures,_Detection_error_analysis,_Bounding-box_regression">Network architectures, Detection error analysis, Bounding-box regression</h3><p>Network architectures: Other achitectures, like OxfordNet can boost the recognition rate, but take more time to train<br>Bounding-box Regression: To reduce localization errors, train a linear regression model to predict a new detection window given the pool5 features for a selective search region proposal<br>Detection error analysis: 用了一个工具来分析错误</p>
+<h3 id="Network_architectures,_Detection_error_analysis,_Bounding-box_regression">Network architectures, Detection error analysis, Bounding-box regression</h3><ul>
+<li>Network architectures: Other achitectures, like OxfordNet can boost the recognition rate, but take more time to train</li>
+<li>Bounding-box Regression: To reduce localization errors, train a linear regression model to predict a new detection window given the pool5 features for a selective search region proposal</li>
+<li>Detection error analysis: 用了一个工具来分析错误</li>
+</ul>
 <h4 id="Semantic_segmentation">Semantic segmentation</h4><ul>
 <li>worked within O2P(leading semantic segmentation system) to  compare</li>
 <li>CNN features for segmentions: </li>
@@ -134,7 +138,7 @@
 </ul>
 </li>
 </ul>
-<h3 id="Appendix">Appendix</h3><h4 id="Positive_vs-_Negative_examples_and_softmax">Positive vs. Negative examples and softmax</h4><p>Why having differernt definition for CNN and SVM?<br>Fine tune data is limited, so by define different, we can have more fine tune data.<br>Why not using softmax, but a extra SVM?<br>The location for fine tune data is not very accurate. </p>
+<h3 id="Appendix">Appendix</h3><h4 id="Positive_vs-_Negative_examples_and_softmax">Positive vs. Negative examples and softmax</h4><p><strong>Why having differernt definition for CNN and SVM?</strong><br>Fine tune data is limited, so by define different, we can have more fine tune data.<br><strong>Why not using softmax, but a extra SVM?</strong><br>The location for fine tune data is not very accurate. </p>
   
 	</div>
 		<footer class="article-footer clearfix">
