@@ -4,37 +4,24 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Hello Blog - Fresh Start | Be a geek</title>
+    <title>Notes for &lt;Show, Attend and Tell: Neural Image Caption Generation with Visual Attention&gt; | Be a geek</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Han Zhang">
     
 
     
-    <meta name="description" content="Fresh Start. 
-some links is helpful for building this blog
-
-如何搭建一个独立博客
-Markdown语法
-Markdown 在线编辑器">
+    <meta name="description" content="Short Summary:Use CNN feature and LSTM to learn to fix attention to a particular part of image while generating the corresponding words. Need to revisit this paper after a better understand of RNN for">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello Blog - Fresh Start">
-<meta property="og:url" content="https://RutgersHan.github.io/2015/04/13/Hello-Blog-Fresh-Start/index.html">
+<meta property="og:title" content="Notes for <Show, Attend and Tell: Neural Image Caption Generation with Visual Attention>">
+<meta property="og:url" content="https://RutgersHan.github.io/2015/04/14/Notes-for-Show-Attend-and-Tell-Neural-Image-Caption-Generation-with-Visual-Attention/index.html">
 <meta property="og:site_name" content="Be a geek">
-<meta property="og:description" content="Fresh Start. 
-some links is helpful for building this blog
-
-如何搭建一个独立博客
-Markdown语法
-Markdown 在线编辑器">
+<meta property="og:description" content="Short Summary:Use CNN feature and LSTM to learn to fix attention to a particular part of image while generating the corresponding words. Need to revisit this paper after a better understand of RNN for">
+<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-14 at 4.50.19 PM.png">
+<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-14 at 4.50.53 PM.png">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello Blog - Fresh Start">
-<meta name="twitter:description" content="Fresh Start. 
-some links is helpful for building this blog
-
-如何搭建一个独立博客
-Markdown语法
-Markdown 在线编辑器">
+<meta name="twitter:title" content="Notes for <Show, Attend and Tell: Neural Image Caption Generation with Visual Attention>">
+<meta name="twitter:description" content="Short Summary:Use CNN feature and LSTM to learn to fix attention to a particular part of image while generating the corresponding words. Need to revisit this paper after a better understand of RNN for">
 
     
     <link rel="alternative" href="/atom.xml" title="Be a geek" type="application/atom+xml">
@@ -93,14 +80,14 @@ Markdown 在线编辑器">
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/04/13/Hello-Blog-Fresh-Start/" title="Hello Blog - Fresh Start" itemprop="url">Hello Blog - Fresh Start</a>
+      <a href="/2015/04/14/Notes-for-Show-Attend-and-Tell-Neural-Image-Caption-Generation-with-Visual-Attention/" title="Notes for &lt;Show, Attend and Tell: Neural Image Caption Generation with Visual Attention&gt;" itemprop="url">Notes for &lt;Show, Attend and Tell: Neural Image Caption Generation with Visual Attention&gt;</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
 		
   <p class="article-time">
-    <time datetime="2015-04-13T20:36:12.000Z" itemprop="datePublished"> 发表于 2015-04-13</time>
+    <time datetime="2015-04-14T19:57:10.000Z" itemprop="datePublished"> 发表于 2015-04-14</time>
     
   </p>
 </header>
@@ -109,17 +96,25 @@ Markdown 在线编辑器">
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Model_Details"><span class="toc-number">1.</span> <span class="toc-text">Model Details</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Stochastic_“Hard”_vs_Deterministic_“Soft”"><span class="toc-number">2.</span> <span class="toc-text">Stochastic “Hard” vs Deterministic “Soft”</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Training_Procedure"><span class="toc-number">3.</span> <span class="toc-text">Training Procedure</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Visualization"><span class="toc-number">4.</span> <span class="toc-text">Visualization</span></a></li></ol>
 		
 		</div>
 		
-		<p>Fresh Start. </p>
-<p>some links is helpful for building this blog</p>
-<ul>
-<li><a href="http://cnfeat.com/2014/05/10/2014-05-11-how-to-build-a-blog/" target="_blank" rel="external">如何搭建一个独立博客</a></li>
-<li><a href="http://www.jianshu.com/p/q81RER" target="_blank" rel="external">Markdown语法</a></li>
-<li><a href="https://www.zybuluo.com/mdeditor" target="_blank" rel="external">Markdown 在线编辑器</a></li>
+		<p>Short Summary:<br>Use CNN feature and LSTM to learn to fix attention to a particular part of image while generating the corresponding words. Need to revisit this paper after a better understand of RNN for image caption analysis.<br><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-14 at 4.50.19 PM.png" alt="Overview"><br><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-14 at 4.50.53 PM.png" alt="Interesting Results"><br><a id="more"></a></p>
+<h4 id="Model_Details">Model Details</h4><ul>
+<li>Encoder: lower convolutional layer(the fourth layer),since it only focus on certain parts of the image</li>
+<li>Decoder: LSTM(context vector, the previous hidden state and the previously generated words.) <a href="http://arxiv.org/pdf/1409.2329v5.pdf" target="_blank" rel="external">LSTM</a></li>
 </ul>
+<h4 id="Stochastic_“Hard”_vs_Deterministic_“Soft”">Stochastic “Hard” vs Deterministic “Soft”</h4><p>The way to get context vector is important, which separates these two methods.</p>
+<ul>
+<li>For the Stochastic Hard one, we assume for each word, the context is only a particular attention region. The attention location is a intermediate latent variable. Then sampling method is used for the inference in the optimization problem. </li>
+<li>For Deterministic “Soft” one, the context is soft combination of all the features in different locations. In that way, we can learn the contribution of each location in the specific given word. </li>
+</ul>
+<h4 id="Training_Procedure">Training Procedure</h4><ol>
+<li>Use Oxford net pre-trained on ImageNet without fine tuning.  Using the fourth layer</li>
+<li>Regularization: Dropout and early stopping on BLEU score.   </li>
+</ol>
+<h4 id="Visualization">Visualization</h4><p>The original image is $ 224 * 224 $, the output convolution layer is $14 * 14$(224/14=16), so we upsample the weights(the soft combination weights) by a factor of 16 and apply Gaussian fileter as the output image. </p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -127,9 +122,14 @@ Markdown 在线编辑器">
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Engineering/">Engineering</a>
+  <a class="article-category-link" href="/categories/Research/">Research</a>
 </div>
 
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Deep-Learning/">Deep Learning</a><a href="/tags/Image-Caption-Generation/">Image Caption Generation</a>
+  </div>
 
 </div>
 
@@ -137,7 +137,7 @@ Markdown 在线编辑器">
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://RutgersHan.github.io/2015/04/13/Hello-Blog-Fresh-Start/" data-title="Hello Blog - Fresh Start | Be a geek" data-tsina="null" class="share clearfix">
+	  <div data-url="https://RutgersHan.github.io/2015/04/14/Notes-for-Show-Attend-and-Tell-Neural-Image-Caption-Generation-with-Visual-Attention/" data-title="Notes for &lt;Show, Attend and Tell: Neural Image Caption Generation with Visual Attention&gt; | Be a geek" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -150,14 +150,14 @@ Markdown 在线编辑器">
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/04/13/How-to-use-Git-and-GitHub/" title="How to use Git and GitHub">
-  <strong>上一篇：</strong><br/>
-  <span>
-  How to use Git and GitHub</span>
+
+<div class="next">
+<a href="/2015/04/14/Notes-for-Rich-feature-hierarchies-for-accurate-object-detection-and-semantic-segmentation-R-CNN/"  title="Notes for &lt;Rich feature hierarchies for accurate object detection and semantic segmentation(R-CNN)&gt;">
+ <strong>下一篇：</strong><br/> 
+ <span>Notes for &lt;Rich feature hierarchies for accurate object detection and semantic segmentation(R-CNN)&gt;
+</span>
 </a>
 </div>
-
 
 </nav>
 
@@ -169,7 +169,7 @@ Markdown 在线编辑器">
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Model_Details"><span class="toc-number">1.</span> <span class="toc-text">Model Details</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Stochastic_“Hard”_vs_Deterministic_“Soft”"><span class="toc-number">2.</span> <span class="toc-text">Stochastic “Hard” vs Deterministic “Soft”</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Training_Procedure"><span class="toc-number">3.</span> <span class="toc-text">Training Procedure</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Visualization"><span class="toc-number">4.</span> <span class="toc-text">Visualization</span></a></li></ol>
  
   </div>
 
