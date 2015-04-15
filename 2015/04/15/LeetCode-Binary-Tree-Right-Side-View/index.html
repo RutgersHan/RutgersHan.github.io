@@ -4,23 +4,22 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Notes for &lt;Rich feature hierarchies for accurate object detection and semantic segmentation(R-CNN)&gt; | Be a geek</title>
+    <title>[LeetCode]Binary Tree Right Side View | Be a geek</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Han Zhang">
     
 
     
-    <meta name="description" content="The resourcesCodeSlidesPaper论文笔记1">
+    <meta name="description" content="Given a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Notes for <Rich feature hierarchies for accurate object detection and semantic segmentation(R-CNN)>">
-<meta property="og:url" content="https://RutgersHan.github.io/2015/04/14/Notes-for-Rich-feature-hierarchies-for-accurate-object-detection-and-semantic-segmentation-R-CNN/index.html">
+<meta property="og:title" content="[LeetCode]Binary Tree Right Side View">
+<meta property="og:url" content="https://RutgersHan.github.io/2015/04/15/LeetCode-Binary-Tree-Right-Side-View/index.html">
 <meta property="og:site_name" content="Be a geek">
-<meta property="og:description" content="The resourcesCodeSlidesPaper论文笔记1">
-<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/owzgVal.png">
+<meta property="og:description" content="Given a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Notes for <Rich feature hierarchies for accurate object detection and semantic segmentation(R-CNN)>">
-<meta name="twitter:description" content="The resourcesCodeSlidesPaper论文笔记1">
+<meta name="twitter:title" content="[LeetCode]Binary Tree Right Side View">
+<meta name="twitter:description" content="Given a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.">
 
     
     <link rel="alternative" href="/atom.xml" title="Be a geek" type="application/atom+xml">
@@ -79,14 +78,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/04/14/Notes-for-Rich-feature-hierarchies-for-accurate-object-detection-and-semantic-segmentation-R-CNN/" title="Notes for &lt;Rich feature hierarchies for accurate object detection and semantic segmentation(R-CNN)&gt;" itemprop="url">Notes for &lt;Rich feature hierarchies for accurate object detection and semantic segmentation(R-CNN)&gt;</a>
+      <a href="/2015/04/15/LeetCode-Binary-Tree-Right-Side-View/" title="[LeetCode]Binary Tree Right Side View" itemprop="url">[LeetCode]Binary Tree Right Side View</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
 		
   <p class="article-time">
-    <time datetime="2015-04-14T15:36:49.000Z" itemprop="datePublished"> 发表于 2015-04-14</time>
+    <time datetime="2015-04-15T04:49:25.000Z" itemprop="datePublished"> 发表于 2015-04-15</time>
     
   </p>
 </header>
@@ -95,50 +94,21 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#The_resources"><span class="toc-number">1.</span> <span class="toc-text">The resources</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#核心框架："><span class="toc-number">2.</span> <span class="toc-text">核心框架：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Feature_Extraction"><span class="toc-number">3.</span> <span class="toc-text">Feature Extraction</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Training"><span class="toc-number">4.</span> <span class="toc-text">Training</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Visualzation,_ablation,_and_modes_of_error"><span class="toc-number">5.</span> <span class="toc-text">Visualzation, ablation, and modes of error</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Network_architectures,_Detection_error_analysis,_Bounding-box_regression"><span class="toc-number">6.</span> <span class="toc-text">Network architectures, Detection error analysis, Bounding-box regression</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Semantic_segmentation"><span class="toc-number">6.1.</span> <span class="toc-text">Semantic segmentation</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Appendix"><span class="toc-number">7.</span> <span class="toc-text">Appendix</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Positive_vs-_Negative_examples_and_softmax"><span class="toc-number">7.1.</span> <span class="toc-text">Positive vs. Negative examples and softmax</span></a></li></ol></li></ol>
+			
 		
 		</div>
 		
-		<h3 id="The_resources">The resources</h3><p><a href="https://github.com/rbgirshick/rcnn" target="_blank" rel="external">Code</a><br><a href="http://www.cs.berkeley.edu/~rbg/slides/rcnn-cvpr14-slides.pdf" target="_blank" rel="external">Slides</a><br><a href="http://arxiv.org/abs/1311.2524" target="_blank" rel="external">Paper</a><br><a href="http://zhangliliang.com/2014/07/23/paper-note-rcnn/" target="_blank" rel="external">论文笔记1</a></p>
-<p><img src="http://7xikhz.com1.z0.glb.clouddn.com/owzgVal.png" alt="system overview"></p>
-<a id="more"></a>
-<h3 id="核心框架：">核心框架：</h3><ul>
-<li>selective search(region proposal) to replace sliding window， 2K region proposal</li>
-<li>For each region, warp the using the fc7(Alex Net, caffe implementation) as the feature</li>
-<li>Warp the bounding box and some image context, to fixed $227 * 227$ (match Alex Net)</li>
-<li>Use the fc7 feature to train K one-verse-all linear SVM for each class, and then using non-maxmum suppression for each region</li>
-<li>add bounding-box regression to better locate the objects</li>
-</ul>
-<h3 id="Feature_Extraction">Feature Extraction</h3><p>也就是使用CNN，具体来说是AlexNet来提取特征，摘掉了最后一层softmax，利用前面5个卷积层和2个全连接层来提取特征，得到一个4096维的特征。一个值得注意的细节是如何将region缩放到CNN需要的 [227,227]  ,作者是直接忽略aspect ratio之间缩放到 [227*227]  (含一个16宽度的边框), 这样的好处是稍微扩大region，将背景也包括进来来提供先验信息.</p>
-<h3 id="Training">Training</h3><ul>
-<li>Supervised pre-training:  Imagenet 120w classification data (No bounding box, since each image itself only contains one object)</li>
-<li>Domain-specific fine-tuning: 将上面训练出来的模型用到new task(dection)和new domain(warped region proposals)上，作者将最后一个softmax从1000路输出替换成了N+1路输出（N个类别+1背景）。然后将IoU大于50%的region当成正样本，否则是负样本。将fine-tuning学习率设置成pre-train模型中的1/10（目的是为了既能学到新东西但是不会完全否定旧的东西）。batch为128，其中正负样本比例是1:3,因为正样本本来就少</li>
-<li>Object category classifiers: 选择SVM对每一类都做一个二分类，在选择样本的时候，区分正负样本的IoU取多少很重要，取IoU=0.5时候，mAP下降5%，取IoU=0，mAP下降4%，作者最后取了0.3. 用hard negative mining得到负样本</li>
-</ul>
-<h3 id="Visualzation,_ablation,_and_modes_of_error">Visualzation, ablation, and modes of error</h3><ul>
-<li><p>Visualzing learned feature: 核心思想是在pool5中一个神经元对应回去原图的[227,227]中的[195, 195]个像素<br>可视化的方法是将10M的region在训练好的网络中FP，然后看某个pool5中特定的神经元的激活程度并且给一个rank</p>
+		<p>Given a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.<br><a id="more"></a></p>
+<p>For example:<br>Given the following binary tree<br><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   <span class="number">1</span>            &lt;-<span class="comment">--</span></span><br><span class="line"> /   \</span><br><span class="line"><span class="number">2</span>     <span class="number">3</span>         &lt;-<span class="comment">--</span></span><br><span class="line"> \     \</span><br><span class="line">  <span class="number">5</span>     <span class="number">4</span>       &lt;-<span class="comment">--</span></span><br></pre></td></tr></table></figure></p>
+<p>You should return [1, 3, 4].</p>
+<p>Solutions</p>
+<ol>
+<li><p>Based on level order traversal and then print the last element in each level(iterative)</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * Definition for binary tree</span><br><span class="line"> * struct TreeNode &#123;</span><br><span class="line"> *     int val;</span><br><span class="line"> *     TreeNode *left;</span><br><span class="line"> *     TreeNode *right;</span><br><span class="line"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span><br><span class="line"> * &#125;;</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rightSideView(TreeNode *root) &#123;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;result;</span><br><span class="line">        <span class="keyword">if</span>(root==NULL)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">queue</span>&lt;TreeNode*&gt; Que_Nodes;</span><br><span class="line">        Que_Nodes.push(root);</span><br><span class="line">        Que_Nodes.push(NULL);</span><br><span class="line">        <span class="keyword">while</span>(!Que_Nodes.empty())</span><br><span class="line">        &#123;</span><br><span class="line">            TreeNode* Current = Que_Nodes.front();</span><br><span class="line">            Que_Nodes.pop();</span><br><span class="line">            TreeNode* Next = Que_Nodes.front();</span><br><span class="line">            <span class="keyword">if</span>(Current-&gt;left!=NULL)</span><br><span class="line">            &#123;</span><br><span class="line">                Que_Nodes.push(Current-&gt;left);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(Current-&gt;right!=NULL)</span><br><span class="line">            &#123;</span><br><span class="line">                Que_Nodes.push(Current-&gt;right);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(Next==NULL &amp;&amp; Que_Nodes.size()!=<span class="number">1</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                result.push_back(Current-&gt;val);</span><br><span class="line">                Que_Nodes.push(NULL);</span><br><span class="line">                Que_Nodes.pop();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(Next==NULL &amp;&amp; Que_Nodes.size()==<span class="number">1</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                result.push_back(Current-&gt;val);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>Performance layer-by-layer, without fine tuning: pool5，fc6，fc7的特征做SVM分类， 出来的效果都差不多。 作者得到的结论是： CNN的特征表达能力大部分是在卷积层</p>
-</li>
-<li>Performance lyaer-by-layer, with fine tuning: pool5经过finetuning之后，mAP的提高不明显，所以卷积层提取出来的特征是具有普遍性的，而fc7经过finetuning后得到很大的提升，说明finetuning的效果主要是在全连接层上。</li>
-<li>Comparision to recent feature learning methods: 这里主要说明CNN的特征学习能力比其他方法要好</li>
-</ul>
-<h3 id="Network_architectures,_Detection_error_analysis,_Bounding-box_regression">Network architectures, Detection error analysis, Bounding-box regression</h3><ul>
-<li>Network architectures: Other achitectures, like OxfordNet can boost the recognition rate, but take more time to train</li>
-<li>Bounding-box Regression: To reduce localization errors, train a linear regression model to predict a new detection window given the pool5 features for a selective search region proposal</li>
-<li>Detection error analysis: 用了一个工具来分析错误</li>
-</ul>
-<h4 id="Semantic_segmentation">Semantic segmentation</h4><ul>
-<li>worked within O2P(leading semantic segmentation system) to  compare</li>
-<li>CNN features for segmentions: </li>
-<li>three strategies:<ul>
-<li>bouding box</li>
-<li>foregound, backgound is mean(which would 0 after normilizaiton)</li>
-<li>bounding box &amp; foreground.</li>
-</ul>
-</li>
-</ul>
-<h3 id="Appendix">Appendix</h3><h4 id="Positive_vs-_Negative_examples_and_softmax">Positive vs. Negative examples and softmax</h4><p><strong>Why having differernt definition for CNN and SVM?</strong><br>Fine tune data is limited, so by define different, we can have more fine tune data.<br><strong>Why not using softmax, but a extra SVM?</strong><br>The location for fine tune data is not very accurate. </p>
+<li><p>Recursive Method, the size of the vector is a indicator of the max level now, if the current level is bigger than the max level, then the node should be put in the vector</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">* Definition for binary tree</span><br><span class="line">* struct TreeNode &#123;</span><br><span class="line">*     int val;</span><br><span class="line">*     TreeNode *left;</span><br><span class="line">*     TreeNode *right;</span><br><span class="line">*     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span><br><span class="line">* &#125;;</span><br><span class="line">*/</span></span><br><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rightSideView(TreeNode *root) &#123;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; right_side;</span><br><span class="line">        rightSide(root, right_side, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> right_side;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">rightSide</span><span class="params">(TreeNode *r, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;a, <span class="keyword">int</span> i)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (r == NULL)<span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">if</span> (i == a.size())</span><br><span class="line">            a.push_back(r-&gt;val);</span><br><span class="line">        rightSide(r-&gt;right, a, i + <span class="number">1</span>);</span><br><span class="line">        rightSide(r-&gt;left, a, i + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+</ol>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -146,14 +116,9 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Research/">Research</a>
+  <a class="article-category-link" href="/categories/LeetCode/">LeetCode</a>
 </div>
 
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Deep-Learning/">Deep Learning</a><a href="/tags/Notes/">Notes</a><a href="/tags/Object-Detection/">Object Detection</a>
-  </div>
 
 </div>
 
@@ -161,7 +126,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://RutgersHan.github.io/2015/04/14/Notes-for-Rich-feature-hierarchies-for-accurate-object-detection-and-semantic-segmentation-R-CNN/" data-title="Notes for &lt;Rich feature hierarchies for accurate object detection and semantic segmentation(R-CNN)&gt; | Be a geek" data-tsina="null" class="share clearfix">
+	  <div data-url="https://RutgersHan.github.io/2015/04/15/LeetCode-Binary-Tree-Right-Side-View/" data-title="[LeetCode]Binary Tree Right Side View | Be a geek" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -174,19 +139,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/04/14/Notes-for-Show-Attend-and-Tell-Neural-Image-Caption-Generation-with-Visual-Attention/" title="Notes for &lt;Show, Attend and Tell: Neural Image Caption Generation with Visual Attention&gt;">
-  <strong>上一篇：</strong><br/>
-  <span>
-  Notes for &lt;Show, Attend and Tell: Neural Image Caption Generation with Visual Attention&gt;</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/04/14/坚持100天计划/"  title="坚持100天计划">
+<a href="/2015/04/14/Notes-for-Show-Attend-and-Tell-Neural-Image-Caption-Generation-with-Visual-Attention/"  title="Notes for &lt;Show, Attend and Tell: Neural Image Caption Generation with Visual Attention&gt;">
  <strong>下一篇：</strong><br/> 
- <span>坚持100天计划
+ <span>Notes for &lt;Show, Attend and Tell: Neural Image Caption Generation with Visual Attention&gt;
 </span>
 </a>
 </div>
@@ -195,7 +152,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/04/14/Notes-for-Rich-feature-hierarchies-for-accurate-object-detection-and-semantic-segmentation-R-CNN/" data-title="Notes for <Rich feature hierarchies for accurate object detection and semantic segmentation(R-CNN)>" data-url="https://RutgersHan.github.io/2015/04/14/Notes-for-Rich-feature-hierarchies-for-accurate-object-detection-and-semantic-segmentation-R-CNN/"></div>
+	<div class="ds-thread" data-thread-key="2015/04/15/LeetCode-Binary-Tree-Right-Side-View/" data-title="[LeetCode]Binary Tree Right Side View" data-url="https://RutgersHan.github.io/2015/04/15/LeetCode-Binary-Tree-Right-Side-View/"></div>
 </section>
 
 
@@ -211,7 +168,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#The_resources"><span class="toc-number">1.</span> <span class="toc-text">The resources</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#核心框架："><span class="toc-number">2.</span> <span class="toc-text">核心框架：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Feature_Extraction"><span class="toc-number">3.</span> <span class="toc-text">Feature Extraction</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Training"><span class="toc-number">4.</span> <span class="toc-text">Training</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Visualzation,_ablation,_and_modes_of_error"><span class="toc-number">5.</span> <span class="toc-text">Visualzation, ablation, and modes of error</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Network_architectures,_Detection_error_analysis,_Bounding-box_regression"><span class="toc-number">6.</span> <span class="toc-text">Network architectures, Detection error analysis, Bounding-box regression</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Semantic_segmentation"><span class="toc-number">6.1.</span> <span class="toc-text">Semantic segmentation</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Appendix"><span class="toc-number">7.</span> <span class="toc-text">Appendix</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Positive_vs-_Negative_examples_and_softmax"><span class="toc-number">7.1.</span> <span class="toc-text">Positive vs. Negative examples and softmax</span></a></li></ol></li></ol>
+ 
  
   </div>
 
