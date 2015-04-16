@@ -1,0 +1,635 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Python Refreshment | Be a geek</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Han Zhang">
+    
+
+    
+    <meta name="description" content="Have not using Python for months. It is annoying to check the details every time when start picking up python. Therefore, I decide to write down some remiders (Most are just copied from the following">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python Refreshment">
+<meta property="og:url" content="https://RutgersHan.github.io/2015/04/15/Python-Refreshment/index.html">
+<meta property="og:site_name" content="Be a geek">
+<meta property="og:description" content="Have not using Python for months. It is annoying to check the details every time when start picking up python. Therefore, I decide to write down some remiders (Most are just copied from the following">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python Refreshment">
+<meta name="twitter:description" content="Have not using Python for months. It is annoying to check the details every time when start picking up python. Therefore, I decide to write down some remiders (Most are just copied from the following">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Be a geek" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/victor.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/victor.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Be a geek" title="Be a geek"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Be a geek">Be a geek</a></h1>
+				<h2 class="blog-motto">Smiling to the Challenge</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:RutgersHan.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/04/15/Python-Refreshment/" title="Python Refreshment" itemprop="url">Python Refreshment</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
+		
+  <p class="article-time">
+    <time datetime="2015-04-15T16:35:02.000Z" itemprop="datePublished"> 发表于 2015-04-15</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Basic_Python"><span class="toc-number">1.</span> <span class="toc-text">Basic Python</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Numpy"><span class="toc-number">2.</span> <span class="toc-text">Numpy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Scipy"><span class="toc-number">3.</span> <span class="toc-text">Scipy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Maplotlib"><span class="toc-number">4.</span> <span class="toc-text">Maplotlib</span></a></li></ol>
+		
+		</div>
+		
+		<p>Have not using Python for months. It is annoying to check the details every time when start picking up python. Therefore, I decide to write down some remiders (Most are just copied from the following tutorials). </p>
+<a id="more"></a>
+<ul>
+<li><a href="http://cs231n.github.io/python-numpy-tutorial/" target="_blank" rel="external">Python tutorial</a></li>
+<li><a href="http://wiki.scipy.org/NumPy_for_Matlab_Users" target="_blank" rel="external">Numpy for MATLAB User</a></li>
+</ul>
+<h3 id="Basic_Python">Basic Python</h3><ol>
+<li><p>Python implements all of the usual operators for Boolean logic, but uses English words rather than symbols (&amp;&amp;, ||, etc.):</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">t = <span class="keyword">True</span></span><br><span class="line">f = <span class="keyword">False</span></span><br><span class="line"><span class="keyword">print</span> type(t) <span class="comment"># Prints "&lt;type 'bool'&gt;"</span></span><br><span class="line"><span class="keyword">print</span> t <span class="keyword">and</span> f <span class="comment"># Logical AND; prints "False"</span></span><br><span class="line"><span class="keyword">print</span> t <span class="keyword">or</span> f  <span class="comment"># Logical OR; prints "True"</span></span><br><span class="line"><span class="keyword">print</span> <span class="keyword">not</span> t   <span class="comment"># Logical NOT; prints "False"</span></span><br><span class="line"><span class="keyword">print</span> t != f  <span class="comment"># Logical XOR; prints "True"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>String</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">hello = <span class="string">'hello'</span>   <span class="comment"># String literals can use single quotes</span></span><br><span class="line">world = <span class="string">"world"</span>   <span class="comment"># or double quotes; it does not matter.</span></span><br><span class="line"><span class="keyword">print</span> hello       <span class="comment"># Prints "hello"</span></span><br><span class="line"><span class="keyword">print</span> len(hello)  <span class="comment"># String length; prints "5"</span></span><br><span class="line">hw = hello + <span class="string">' '</span> + world  <span class="comment"># String concatenation</span></span><br><span class="line"><span class="keyword">print</span> hw  <span class="comment"># prints "hello world"</span></span><br><span class="line">hw12 = <span class="string">'%s %s %d'</span> % (hello, world, <span class="number">12</span>)  <span class="comment"># sprintf style string formatting</span></span><br><span class="line"><span class="keyword">print</span> hw12  <span class="comment"># prints "hello world 12"</span></span><br><span class="line">s = <span class="string">"hello"</span></span><br><span class="line"><span class="keyword">print</span> s.capitalize()  <span class="comment"># Capitalize a string; prints "Hello"</span></span><br><span class="line"><span class="keyword">print</span> s.upper()       <span class="comment"># Convert a string to uppercase; prints "HELLO"</span></span><br><span class="line"><span class="keyword">print</span> s.rjust(<span class="number">7</span>)      <span class="comment"># Right-justify a string, padding with spaces; prints "  hello"</span></span><br><span class="line"><span class="keyword">print</span> s.center(<span class="number">7</span>)     <span class="comment"># Center a string, padding with spaces; prints " hello "</span></span><br><span class="line"><span class="keyword">print</span> s.replace(<span class="string">'l'</span>, <span class="string">'(ell)'</span>)  <span class="comment"># Replace all instances of one substring with another;</span></span><br><span class="line">                               <span class="comment"># prints "he(ell)(ell)o"</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">'  world '</span>.strip()  <span class="comment"># Strip leading and trailing whitespace; prints "world"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>List: A list is the Python equivalent of an array, but is resizeable and can contain elements of different types. Index start from 0:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">xs = [<span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>]   <span class="comment"># Create a list</span></span><br><span class="line"><span class="keyword">print</span> xs, xs[<span class="number">2</span>]  <span class="comment"># Prints "[3, 1, 2] 2"</span></span><br><span class="line"><span class="keyword">print</span> xs[-<span class="number">1</span>]     <span class="comment"># Negative indices count from the end of the list; prints "2"</span></span><br><span class="line">xs[<span class="number">2</span>] = <span class="string">'foo'</span>    <span class="comment"># Lists can contain elements of different types</span></span><br><span class="line"><span class="keyword">print</span> xs         <span class="comment"># Prints "[3, 1, 'foo']"</span></span><br><span class="line">xs.append(<span class="string">'bar'</span>) <span class="comment"># Add a new element to the end of the list</span></span><br><span class="line"><span class="keyword">print</span> xs         <span class="comment"># Prints </span></span><br><span class="line">x = xs.pop()     <span class="comment"># Remove and return the last element of the list</span></span><br><span class="line"><span class="keyword">print</span> x, xs      <span class="comment"># Prints "bar [3, 1, 'foo']"</span></span><br><span class="line">a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">a.extend([<span class="number">9</span>,<span class="number">8</span>,<span class="number">7</span>]) <span class="comment"># a = [1,2,3,9,8,7]</span></span><br><span class="line">a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">a.append([<span class="number">9</span>,<span class="number">8</span>,<span class="number">7</span>])  $ a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, [<span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>]]</span><br><span class="line">a.index(<span class="number">8</span>)     <span class="comment">#index of first occurrence</span></span><br><span class="line">a.count(<span class="number">8</span>)     <span class="comment">#number of occurrences</span></span><br><span class="line">a.reverse()    <span class="comment"># reverse</span></span><br><span class="line">a.sort()       <span class="comment"># sort</span></span><br><span class="line">a.sort(some_function)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>For mutable objects(lists,np.array, dictionaries, user-fined objects,sets), “=” is just the reference </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">b = a</span><br><span class="line">a.append(<span class="number">4</span>)</span><br><span class="line"><span class="keyword">print</span> a  <span class="comment">#[1, 2, 3, 4]</span></span><br><span class="line"><span class="keyword">print</span> b  <span class="comment">#[1, 2, 3, 4]</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Indexing / Sclicing: We will see slicing again in the context of numpy arrays.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">nums = range(<span class="number">5</span>)    <span class="comment"># range is a built-in function that creates a list of integers</span></span><br><span class="line"><span class="keyword">print</span> nums         <span class="comment"># Prints "[0, 1, 2, 3, 4]"</span></span><br><span class="line"><span class="keyword">print</span> nums[<span class="number">2</span>:<span class="number">4</span>]    <span class="comment"># Get a slice from index 2 to 4 (exclusive); prints "[2, 3]"</span></span><br><span class="line"><span class="keyword">print</span> nums[<span class="number">2</span>:]     <span class="comment"># Get a slice from index 2 to the end; prints "[2, 3, 4]"</span></span><br><span class="line"><span class="keyword">print</span> nums[:<span class="number">2</span>]     <span class="comment"># Get a slice from the start to index 2 (exclusive); prints "[0, 1]"</span></span><br><span class="line"><span class="keyword">print</span> nums[:]      <span class="comment"># Get a slice of the whole list; prints ["0, 1, 2, 3, 4]"</span></span><br><span class="line"><span class="keyword">print</span> nums[:-<span class="number">1</span>]    <span class="comment"># Slice indices can be negative; prints ["0, 1, 2, 3]"</span></span><br><span class="line">nums[<span class="number">2</span>:<span class="number">4</span>] = [<span class="number">8</span>, <span class="number">9</span>] <span class="comment"># Assign a new sublist to a slice</span></span><br><span class="line"><span class="keyword">print</span> nums         <span class="comment"># Prints "[0, 1, 8, 8, 4]"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Loops: You can loop over the elements of a list like this(<strong>Remember the colon</strong>):</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">animals = [<span class="string">'cat'</span>, <span class="string">'dog'</span>, <span class="string">'monkey'</span>]</span><br><span class="line"><span class="keyword">for</span> animal <span class="keyword">in</span> animals:</span><br><span class="line">    <span class="keyword">print</span> animal</span><br><span class="line"><span class="comment"># Prints "cat", "dog", "monkey", each on its own line.</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>If you want access to the index of each element within the body of a loop, use the built-in enumerate function:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">animals = [<span class="string">'cat'</span>, <span class="string">'dog'</span>, <span class="string">'monkey'</span>]</span><br><span class="line"><span class="keyword">for</span> idx, animal <span class="keyword">in</span> enumerate(animals):</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'#%d: %s'</span> % (idx + <span class="number">1</span>, animal)</span><br><span class="line"><span class="comment"># Prints "#1: cat", "#2: dog", "#3: monkey", each on its own line</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>List comprehensions: When programming, frequently we want to transform one type of data into another.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nums = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">new_nums = nums * <span class="number">2</span>    <span class="comment">#new_nums = [1,2,3,1,2,3]</span></span><br><span class="line">t_nums = [x * <span class="number">2</span> <span class="keyword">for</span> x <span class="keyword">in</span> nums] <span class="comment"># t_nums = [2,4,6]</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>List comprehensions can also contain conditions:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nums = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">even_squares = [x ** <span class="number">2</span> <span class="keyword">for</span> x <span class="keyword">in</span> nums <span class="keyword">if</span> x % <span class="number">2</span> == <span class="number">0</span>]</span><br><span class="line"><span class="keyword">print</span> even_squares  <span class="comment"># Prints "[0, 4, 16]"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Tuples: A tuple is an (immutable)(不能改变value) ordered list of values. A tuple is in many ways similar to a list; one of the most important differences is that tuples can be used as keys in dictionaries and as elements of sets, while lists cannot. Here is a trivial example:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">d = &#123;(x, x + <span class="number">1</span>): x <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">10</span>)&#125;  <span class="comment"># Create a dictionary with tuple keys</span></span><br><span class="line">t = (<span class="number">5</span>, <span class="number">6</span>)       <span class="comment"># Create a tuple</span></span><br><span class="line"><span class="keyword">print</span> type(t)    <span class="comment"># Prints "&lt;type 'tuple'&gt;"</span></span><br><span class="line"><span class="keyword">print</span> d[t]       <span class="comment"># Prints "5"</span></span><br><span class="line"><span class="keyword">print</span> d[(<span class="number">1</span>, <span class="number">2</span>)]  <span class="comment"># Prints "1"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Dictionaries: A dictionary stores (key, value) pairs, similar to a Map in Java or an object in Javascript. You can use it like this</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">d = &#123;<span class="string">'cat'</span>: <span class="string">'cute'</span>, <span class="string">'dog'</span>: <span class="string">'furry'</span>&#125;  <span class="comment"># Create a new dictionary with some data</span></span><br><span class="line"><span class="keyword">print</span> d[<span class="string">'cat'</span>]       <span class="comment"># Get an entry from a dictionary; prints "cute"</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">'cat'</span> <span class="keyword">in</span> d     <span class="comment"># Check if a dictionary has a given key; prints "True"</span></span><br><span class="line">d[<span class="string">'fish'</span>] = <span class="string">'wet'</span>    <span class="comment"># Set an entry in a dictionary</span></span><br><span class="line"><span class="keyword">print</span> d[<span class="string">'fish'</span>]      <span class="comment"># Prints "wet"</span></span><br><span class="line"><span class="comment"># print d['monkey']  # KeyError: 'monkey' not a key of d</span></span><br><span class="line"><span class="keyword">print</span> d.get(<span class="string">'monkey'</span>, <span class="string">'N/A'</span>)  <span class="comment"># Get an element with a default; prints "N/A"</span></span><br><span class="line"><span class="keyword">print</span> d.get(<span class="string">'fish'</span>, <span class="string">'N/A'</span>)    <span class="comment"># Get an element with a default; prints "wet"</span></span><br><span class="line"><span class="keyword">del</span> d[<span class="string">'fish'</span>]        <span class="comment"># Remove an element from a dictionary</span></span><br><span class="line"><span class="keyword">print</span> d.get(<span class="string">'fish'</span>, <span class="string">'N/A'</span>) <span class="comment"># "fish" is no longer a key; prints "N/A"</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>It is easy to iterate over the keys in a dictionary: </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">d = &#123;<span class="string">'person'</span>: <span class="number">2</span>, <span class="string">'cat'</span>: <span class="number">4</span>, <span class="string">'spider'</span>: <span class="number">8</span>&#125;</span><br><span class="line"><span class="keyword">for</span> animal <span class="keyword">in</span> d:</span><br><span class="line">    legs = d[animal]</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'A %s has %d legs'</span> % (animal, legs)</span><br><span class="line"><span class="comment"># Prints "A person has 2 legs", "A spider has 8 legs", "A cat has 4 legs"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>If you want access to keys and their corresponding values, use the iteritems method:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">d = &#123;<span class="string">'person'</span>: <span class="number">2</span>, <span class="string">'cat'</span>: <span class="number">4</span>, <span class="string">'spider'</span>: <span class="number">8</span>&#125;</span><br><span class="line"><span class="keyword">for</span> animal, legs <span class="keyword">in</span> d.iteritems():</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'A %s has %d legs'</span> % (animal, legs)</span><br><span class="line"><span class="comment"># Prints "A person has 2 legs", "A spider has 8 legs", "A cat has 4 legs"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Dictionary comprehensions:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nums = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">even_num_to_square = &#123;x: x ** <span class="number">2</span> <span class="keyword">for</span> x <span class="keyword">in</span> nums <span class="keyword">if</span> x % <span class="number">2</span> == <span class="number">0</span>&#125;</span><br><span class="line"><span class="keyword">print</span> even_num_to_square  <span class="comment"># Prints "&#123;0: 0, 2: 4, 4: 16&#125;"</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>Sets: A set is an unordered collection of distinct elements. As a simple example, consider the following:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">animals = &#123;<span class="string">'cat'</span>, <span class="string">'dog'</span>&#125;</span><br><span class="line"><span class="keyword">print</span> <span class="string">'cat'</span> <span class="keyword">in</span> animals   <span class="comment"># Check if an element is in a set; prints "True"</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">'fish'</span> <span class="keyword">in</span> animals  <span class="comment"># prints "False"</span></span><br><span class="line">animals.add(<span class="string">'fish'</span>)      <span class="comment"># Add an element to a set</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">'fish'</span> <span class="keyword">in</span> animals  <span class="comment"># Prints "True"</span></span><br><span class="line"><span class="keyword">print</span> len(animals)       <span class="comment"># Number of elements in a set; prints "3"</span></span><br><span class="line">animals.add(<span class="string">'cat'</span>)       <span class="comment"># Adding an element that is already in the set does nothing</span></span><br><span class="line"><span class="keyword">print</span> len(animals)       <span class="comment"># Prints "3"</span></span><br><span class="line">animals.remove(<span class="string">'cat'</span>)    <span class="comment"># Remove an element from a set</span></span><br><span class="line"><span class="keyword">print</span> len(animals)       <span class="comment"># Prints "2"</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Loops: Iterating over a set has the same syntax as iterating over a list; however since sets are unordered, you cannot make assumptions about the order in which you visit the elements of the set:<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">animals = &#123;<span class="string">'cat'</span>, <span class="string">'dog'</span>, <span class="string">'fish'</span>&#125;</span><br><span class="line"><span class="keyword">for</span> idx, animal <span class="keyword">in</span> enumerate(animals):</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'#%d: %s'</span> % (idx + <span class="number">1</span>, animal)</span><br><span class="line"><span class="comment"># Prints "#1: fish", "#2: dog", "#3: cat"</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>Functions: Using def keyword, no return value type and input type:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">(name, loud=False)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> loud:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'HELLO, %s'</span> % name.upper()</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'Hello, %s!'</span> % name</span><br><span class="line"></span><br><span class="line">hello(<span class="string">'Bob'</span>) <span class="comment"># Prints "Hello, Bob"</span></span><br><span class="line">hello(<span class="string">'Fred'</span>, loud=<span class="keyword">True</span>)  <span class="comment"># Prints "HELLO, FRED!"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Classes(usually need to to write the constructor function<strong>init</strong>)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Greeter</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Constructor</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name)</span>:</span></span><br><span class="line">        self.name = name  <span class="comment"># Create an instance variable</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Instance method</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">greet</span><span class="params">(self, loud=False)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> loud:</span><br><span class="line">            <span class="keyword">print</span> <span class="string">'HELLO, %s!'</span> % self.name.upper()</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">print</span> <span class="string">'Hello, %s'</span> % self.name</span><br><span class="line"></span><br><span class="line">g = Greeter(<span class="string">'Fred'</span>)  <span class="comment"># Construct an instance of the Greeter class</span></span><br><span class="line">g.greet()            <span class="comment"># Call an instance method; prints "Hello, Fred"</span></span><br><span class="line">g.greet(loud=<span class="keyword">True</span>)   <span class="comment"># Call an instance method; prints "HELLO, FRED!"</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="Numpy">Numpy</h3><ol>
+<li><p>Arrays</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">a = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])  <span class="comment"># Create a rank 1 array</span></span><br><span class="line"><span class="keyword">print</span> type(a)            <span class="comment"># Prints "&lt;type 'numpy.ndarray'&gt;"</span></span><br><span class="line"><span class="keyword">print</span> a.shape            <span class="comment"># Prints "(3,)"</span></span><br><span class="line"><span class="keyword">print</span> a[<span class="number">0</span>], a[<span class="number">1</span>], a[<span class="number">2</span>]   <span class="comment"># Prints "1 2 3"</span></span><br><span class="line">a[<span class="number">0</span>] = <span class="number">5</span>                 <span class="comment"># Change an element of the array</span></span><br><span class="line"><span class="keyword">print</span> a                  <span class="comment"># Prints "[5, 2, 3]"</span></span><br><span class="line"></span><br><span class="line">b = np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],[<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]])   <span class="comment"># Create a rank 2 array</span></span><br><span class="line"><span class="keyword">print</span> b.shape                     <span class="comment"># Prints "(2, 3)"</span></span><br><span class="line"><span class="keyword">print</span> b[<span class="number">0</span>, <span class="number">0</span>], b[<span class="number">0</span>, <span class="number">1</span>], b[<span class="number">1</span>, <span class="number">0</span>]   <span class="comment"># Prints "1 2 4"</span></span><br><span class="line"><span class="keyword">print</span> b[<span class="number">0</span>]                        <span class="comment">#[1 2 3] which is different from Matlab</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Numpy also provides many functions to create arrays:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">a = np.zeros((<span class="number">2</span>,<span class="number">2</span>))  <span class="comment"># Create an array of all zeros</span></span><br><span class="line"><span class="keyword">print</span> a              <span class="comment"># Prints "[[ 0.  0.]</span></span><br><span class="line">                     <span class="comment">#          [ 0.  0.]]"</span></span><br><span class="line"></span><br><span class="line">b = np.ones((<span class="number">1</span>,<span class="number">2</span>))   <span class="comment"># Create an array of all ones</span></span><br><span class="line"><span class="keyword">print</span> b              <span class="comment"># Prints "[[ 1.  1.]]"</span></span><br><span class="line"></span><br><span class="line">c = np.full((<span class="number">2</span>,<span class="number">2</span>), <span class="number">7</span>) <span class="comment"># Create a constant array</span></span><br><span class="line"><span class="keyword">print</span> c               <span class="comment"># Prints "[[ 7.  7.]</span></span><br><span class="line">                      <span class="comment">#          [ 7.  7.]]"</span></span><br><span class="line"></span><br><span class="line">d = np.eye(<span class="number">2</span>)        <span class="comment"># Create a 2x2 identity matrix</span></span><br><span class="line"><span class="keyword">print</span> d              <span class="comment"># Prints "[[ 1.  0.]</span></span><br><span class="line">                     <span class="comment">#          [ 0.  1.]]"</span></span><br><span class="line"></span><br><span class="line">e = np.random.random((<span class="number">2</span>,<span class="number">2</span>)) <span class="comment"># Create an array filled with random values</span></span><br><span class="line"><span class="keyword">print</span> e                     <span class="comment"># Might print "[[ 0.91940167  0.08143941]</span></span><br><span class="line">                            <span class="comment">#               [ 0.68744134  0.87236687]]"</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>indexing</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># Create the following rank 2 array with shape (3, 4)</span></span><br><span class="line"><span class="comment"># [[ 1  2  3  4]</span></span><br><span class="line"><span class="comment">#  [ 5  6  7  8]</span></span><br><span class="line"><span class="comment">#  [ 9 10 11 12]]</span></span><br><span class="line">a = np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>], [<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>], [<span class="number">9</span>,<span class="number">10</span>,<span class="number">11</span>,<span class="number">12</span>]])</span><br><span class="line"></span><br><span class="line"><span class="comment"># Use slicing to pull out the subarray consisting of the first 2 rows</span></span><br><span class="line"><span class="comment"># and columns 1 and 2; b is the following array of shape (2, 2):</span></span><br><span class="line"><span class="comment"># [[2 3]</span></span><br><span class="line"><span class="comment">#  [6 7]]</span></span><br><span class="line">b = a[:<span class="number">2</span>, <span class="number">1</span>:<span class="number">3</span>] <span class="comment">#This is just reference, if you want to copy, use np.copy(a[:2, 1:3])</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># A slice of an array is a view into the same data, so modifying it</span></span><br><span class="line"><span class="comment"># will modify the original array.</span></span><br><span class="line"><span class="keyword">print</span> a[<span class="number">0</span>, <span class="number">1</span>]   <span class="comment"># Prints "2"</span></span><br><span class="line">b[<span class="number">0</span>, <span class="number">0</span>] = <span class="number">77</span>    <span class="comment"># b[0, 0] is the same piece of data as a[0, 1]</span></span><br><span class="line"><span class="keyword">print</span> a[<span class="number">0</span>, <span class="number">1</span>]   <span class="comment"># Prints "77"</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Boolean array indexing lets you pick out arbitrary elements of an array. Frequently this type of indexing is used to select the elements of an array that satisfy some condition.<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">a = np.array([[<span class="number">1</span>,<span class="number">2</span>], [<span class="number">3</span>, <span class="number">4</span>], [<span class="number">5</span>, <span class="number">6</span>]])</span><br><span class="line"></span><br><span class="line">bool_idx = (a &gt; <span class="number">2</span>)  <span class="comment"># Find the elements of a that are bigger than 2;</span></span><br><span class="line">                    <span class="comment"># this returns a numpy array of Booleans of the same</span></span><br><span class="line">                    <span class="comment"># shape as a, where each slot of bool_idx tells</span></span><br><span class="line">                    <span class="comment"># whether that element of a is &gt; 2.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> bool_idx      <span class="comment"># Prints "[[False False]</span></span><br><span class="line">                    <span class="comment">#          [ True  True]</span></span><br><span class="line">                    <span class="comment">#          [ True  True]]"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># We use boolean array indexing to construct a rank 1 array</span></span><br><span class="line"><span class="comment"># consisting of the elements of a corresponding to the True values</span></span><br><span class="line"><span class="comment"># of bool_idx</span></span><br><span class="line"><span class="keyword">print</span> a[bool_idx]  <span class="comment"># Prints "[3 4 5 6]"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># We can do all of the above in a single concise statement:</span></span><br><span class="line"><span class="keyword">print</span> a[a &gt; <span class="number">2</span>]     <span class="comment"># Prints "[3 4 5 6]"</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>Datatypes: </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">x = np.array([<span class="number">1</span>, <span class="number">2</span>])  <span class="comment"># Let numpy choose the datatype</span></span><br><span class="line"><span class="keyword">print</span> x.dtype         <span class="comment"># Prints "int64"</span></span><br><span class="line">x = np.array([<span class="number">1.0</span>, <span class="number">2.0</span>])  <span class="comment"># Let numpy choose the datatype</span></span><br><span class="line"><span class="keyword">print</span> x.dtype             <span class="comment"># Prints "float64"</span></span><br><span class="line">x = np.array([<span class="number">1</span>, <span class="number">2</span>], dtype=np.int64)  <span class="comment"># Force a particular datatype</span></span><br><span class="line"><span class="keyword">print</span> x.dtype                         <span class="comment"># Prints "int64</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Array math (remember the difference between ‘*’ and np.dot())</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">x = np.array([[<span class="number">1</span>,<span class="number">2</span>],[<span class="number">3</span>,<span class="number">4</span>]], dtype=np.float64)</span><br><span class="line">y = np.array([[<span class="number">5</span>,<span class="number">6</span>],[<span class="number">7</span>,<span class="number">8</span>]], dtype=np.float64)</span><br><span class="line">x+y  <span class="comment"># same as np.add(x,y)</span></span><br><span class="line"></span><br><span class="line">x-y  <span class="comment"># same as np.substract(x,y)</span></span><br><span class="line"></span><br><span class="line">x * y <span class="comment"># same as np.multiply(x,y), Elementwise product</span></span><br><span class="line"></span><br><span class="line">x.dot(y)  <span class="comment"># same as np.dot(x,y), matrix multiplication</span></span><br><span class="line"></span><br><span class="line">x/y   <span class="comment"># same as np.divide(x,y),</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>Sum</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">	<span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">x = np.array([[<span class="number">1</span>,<span class="number">2</span>],[<span class="number">3</span>,<span class="number">4</span>]])</span><br><span class="line"><span class="keyword">print</span> np.sum(x)  <span class="comment"># Compute sum of all elements; prints "10"</span></span><br><span class="line"><span class="keyword">print</span> np.sum(x, axis=<span class="number">0</span>)  <span class="comment"># Compute sum of each column; prints "[4 6]"</span></span><br><span class="line"><span class="keyword">print</span> np.sum(x, axis=<span class="number">1</span>)  <span class="comment"># Compute sum of each row; prints "[3 7]"</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Transpose<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">x = np.array([[<span class="number">1</span>,<span class="number">2</span>], [<span class="number">3</span>,<span class="number">4</span>]])</span><br><span class="line"><span class="keyword">print</span> x    <span class="comment"># Prints "[[1 2]</span></span><br><span class="line">           <span class="comment">#          [3 4]]"</span></span><br><span class="line"><span class="keyword">print</span> x.T  <span class="comment"># Prints "[[1 3]</span></span><br><span class="line">           <span class="comment">#          [2 4]]"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Note that taking the transpose of a rank 1 array does nothing:</span></span><br><span class="line">v = np.array([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br><span class="line"><span class="keyword">print</span> v    <span class="comment"># Prints "[1 2 3]"</span></span><br><span class="line"><span class="keyword">print</span> v.T  <span class="comment"># Prints "[1 2 3]"</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Broadcasting is a powerful mechanism that allows numpy to work with arrays of different shapes when performing arithmetic operations. Frequently we have a smaller array and a larger array, and we want to use the smaller array multiple times to perform some operation on the larger array.<br>One easiest way, we can do this </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># We will add the vector v to each row of the matrix x,</span></span><br><span class="line"><span class="comment"># storing the result in the matrix y</span></span><br><span class="line">x = np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>], [<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>], [<span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>]])</span><br><span class="line">v = np.array([<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>])</span><br><span class="line">vv = np.tile(v, (<span class="number">4</span>, <span class="number">1</span>))  <span class="comment"># Stack 4 copies of v on top of each other</span></span><br><span class="line"><span class="keyword">print</span> vv                 <span class="comment"># Prints "[[1 0 1]</span></span><br><span class="line">                         <span class="comment">#          [1 0 1]</span></span><br><span class="line">                         <span class="comment">#          [1 0 1]</span></span><br><span class="line">                         <span class="comment">#          [1 0 1]]"</span></span><br><span class="line">y = x + vv  <span class="comment"># Add x and vv elementwise</span></span><br><span class="line"><span class="keyword">print</span> y  <span class="comment"># Prints "[[ 2  2  4</span></span><br><span class="line">         <span class="comment">#          [ 5  5  7]</span></span><br><span class="line">         <span class="comment">#          [ 8  8 10]</span></span><br><span class="line">         <span class="comment">#          [11 11 13]]</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>But with broadcasting, we can do this:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># We will add the vector v to each row of the matrix x,</span></span><br><span class="line"><span class="comment"># storing the result in the matrix y</span></span><br><span class="line">x = np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>], [<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>], [<span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>]])</span><br><span class="line">v = np.array([<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>])</span><br><span class="line">y = x + v  <span class="comment"># Add v to each row of x using broadcasting</span></span><br><span class="line"><span class="keyword">print</span> y  <span class="comment"># Prints "[[ 2  2  4]</span></span><br><span class="line">         <span class="comment">#          [ 5  5  7]</span></span><br><span class="line">         <span class="comment">#          [ 8  8 10]</span></span><br><span class="line">         <span class="comment">#          [11 11 13]]"</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="Scipy">Scipy</h3><ol>
+<li><p>Image Operation</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scipy.misc <span class="keyword">import</span> imread, imsave, imresize</span><br><span class="line"><span class="comment"># Read an JPEG image into a numpy array</span></span><br><span class="line">img = imread(<span class="string">'assets/cat.jpg'</span>)</span><br><span class="line"><span class="keyword">print</span> img.dtype, img.shape  <span class="comment"># Prints "uint8 (400, 248, 3)"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># We can tint the image by scaling each of the color channels</span></span><br><span class="line"><span class="comment"># by a different scalar constant. The image has shape (400, 248, 3);</span></span><br><span class="line"><span class="comment"># we multiply it by the array [1, 0.95, 0.9] of shape (3,);</span></span><br><span class="line"><span class="comment"># numpy broadcasting means that this leaves the red channel unchanged,</span></span><br><span class="line"><span class="comment"># and multiplies the green and blue channels by 0.95 and 0.9</span></span><br><span class="line"><span class="comment"># respectively.</span></span><br><span class="line">img_tinted = img * [<span class="number">1</span>, <span class="number">0.95</span>, <span class="number">0.9</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># Resize the tinted image to be 300 by 300 pixels.</span></span><br><span class="line">img_tinted = imresize(img_tinted, (<span class="number">300</span>, <span class="number">300</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># Write the tinted image back to disk</span></span><br><span class="line">imsave(<span class="string">'assets/cat_tinted.jpg'</span>, img_tinted)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Matlab Files: The functions scipy.io.loadmat and scipy.io.savemat allow you to read and write MATLAB files.</p>
+</li>
+<li>Distance between points: The function scipy.spatial.distance.pdist computes the distance between all pairs of points in a given set:<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> scipy.spatial.distance <span class="keyword">import</span> pdist, squareform</span><br><span class="line"><span class="comment"># Create the following array where each row is a point in 2D space:</span></span><br><span class="line"><span class="comment"># [[0 1]</span></span><br><span class="line"><span class="comment">#  [1 0]</span></span><br><span class="line"><span class="comment">#  [2 0]]</span></span><br><span class="line">x = np.array([[<span class="number">0</span>, <span class="number">1</span>], [<span class="number">1</span>, <span class="number">0</span>], [<span class="number">2</span>, <span class="number">0</span>]])</span><br><span class="line"><span class="keyword">print</span> x</span><br><span class="line"></span><br><span class="line"><span class="comment"># Compute the Euclidean distance between all rows of x.</span></span><br><span class="line"><span class="comment"># d[i, j] is the Euclidean distance between x[i, :] and x[j, :],</span></span><br><span class="line"><span class="comment"># and d is the following array:</span></span><br><span class="line"><span class="comment"># [[ 0.          1.41421356  2.23606798]</span></span><br><span class="line"><span class="comment">#  [ 1.41421356  0.          1.        ]</span></span><br><span class="line"><span class="comment">#  [ 2.23606798  1.          0.        ]]</span></span><br><span class="line">d = squareform(pdist(x, <span class="string">'euclidean'</span>))</span><br><span class="line"><span class="keyword">print</span> d</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="Maplotlib">Maplotlib</h3><ul>
+<li><p>Plotting</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="comment"># Compute the x and y coordinates for points on sine and cosine curves</span></span><br><span class="line">x = np.arange(<span class="number">0</span>, <span class="number">3</span> * np.pi, <span class="number">0.1</span>)</span><br><span class="line">y_sin = np.sin(x)</span><br><span class="line">y_cos = np.cos(x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Plot the points using matplotlib</span></span><br><span class="line">plt.plot(x, y_sin)</span><br><span class="line">plt.plot(x, y_cos)</span><br><span class="line">plt.xlabel(<span class="string">'x axis label'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'y axis label'</span>)</span><br><span class="line">plt.title(<span class="string">'Sine and Cosine'</span>)</span><br><span class="line">plt.legend([<span class="string">'Sine'</span>, <span class="string">'Cosine'</span>])</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Subplots</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="comment"># Compute the x and y coordinates for points on sine and cosine curves</span></span><br><span class="line">x = np.arange(<span class="number">0</span>, <span class="number">3</span> * np.pi, <span class="number">0.1</span>)</span><br><span class="line">y_sin = np.sin(x)</span><br><span class="line">y_cos = np.cos(x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Set up a subplot grid that has height 2 and width 1,</span></span><br><span class="line"><span class="comment"># and set the first such subplot as active.</span></span><br><span class="line">plt.subplot(<span class="number">2</span>, <span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Make the first plot</span></span><br><span class="line">plt.plot(x, y_sin)</span><br><span class="line">plt.title(<span class="string">'Sine'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Set the second subplot as active, and make the second plot.</span></span><br><span class="line">plt.subplot(<span class="number">2</span>, <span class="number">1</span>, <span class="number">2</span>)</span><br><span class="line">plt.plot(x, y_cos)</span><br><span class="line">plt.title(<span class="string">'Cosine'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Show the figure.</span></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Engineering/">Engineering</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://RutgersHan.github.io/2015/04/15/Python-Refreshment/" data-title="Python Refreshment | Be a geek" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/04/16/Notes-for-ImageNet-Classification-with-Deep-Convolutional-Neural- Networks/" title="Notes for &lt;ImageNet Classification with Deep Convolutional Neural Networks&gt;">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Notes for &lt;ImageNet Classification with Deep Convolutional Neural Networks&gt;</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/04/15/Convolutional-Neural-Networks-for-Visual-Recognition-lecture1/"  title="Convolutional Neural Networks for Visual Recognition[lecture1]">
+ <strong>下一篇：</strong><br/> 
+ <span>Convolutional Neural Networks for Visual Recognition[lecture1]
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/04/15/Python-Refreshment/" data-title="Python Refreshment" data-url="https://RutgersHan.github.io/2015/04/15/Python-Refreshment/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Basic_Python"><span class="toc-number">1.</span> <span class="toc-text">Basic Python</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Numpy"><span class="toc-number">2.</span> <span class="toc-text">Numpy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Scipy"><span class="toc-number">3.</span> <span class="toc-text">Scipy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Maplotlib"><span class="toc-number">4.</span> <span class="toc-text">Maplotlib</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Engineering/" title="Engineering">Engineering<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/LeetCode/" title="LeetCode">LeetCode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Open-Course/" title="Open Course">Open Course<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Research/" title="Research">Research<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计划/" title="计划">计划<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Deep-Learning/" title="Deep Learning">Deep Learning<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/时间管理/" title="时间管理">时间管理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Notes/" title="Notes">Notes<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Object-Detection/" title="Object Detection">Object Detection<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Image-Caption-Generation/" title="Image Caption Generation">Image Caption Generation<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Han at Rutgers. <br/>
+			Wanna be a geek, let&#39;s learn together</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="https://RutgersHan.github.io/about" target="_blank" title="Han Zhang">Han Zhang</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zhanghan"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'zhanghan';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
