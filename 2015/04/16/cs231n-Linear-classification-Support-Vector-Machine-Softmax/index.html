@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Be a geek</title>
+    <title>[cs231n]Linear classification: Support Vector Machine, Softmax | Be a geek</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Han Zhang">
@@ -12,13 +12,13 @@
 
     
     <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Be a geek">
-<meta property="og:url" content="https://RutgersHan.github.io/page/2/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[cs231n]Linear classification: Support Vector Machine, Softmax">
+<meta property="og:url" content="https://RutgersHan.github.io/2015/04/16/cs231n-Linear-classification-Support-Vector-Machine-Softmax/index.html">
 <meta property="og:site_name" content="Be a geek">
 <meta property="og:description">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Be a geek">
+<meta name="twitter:title" content="[cs231n]Linear classification: Support Vector Machine, Softmax">
 <meta name="twitter:description">
 
     
@@ -72,213 +72,89 @@
 </div>
     </header>
     <div id="container">
-      <div id="main">
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/04/13/Notes-for-Part-based-R-CNNs-for-Fine-grained-Category-Detection/" title="Notes for &lt;Part-based R-CNNs for Fine-grained Category Detection&gt;" itemprop="url">Notes for &lt;Part-based R-CNNs for Fine-grained Category Detection&gt;</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
-		
-  <p class="article-time">
-    <time datetime="2015-04-14T02:11:56.000Z" itemprop="datePublished"> 发表于 2015-04-13</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p><a href="http://www.cs.berkeley.edu/~nzhang/papers/eccv14_part.pdf">paper</a><br><a href="http://zhangliliang.com/2014/11/10/paper-note-part-rcnn/">论文笔记</a></p>
-<h3 id="Overview:">Overview:</h3><p>This paper is a nextention to R-CNN and it is mostly for Fine-grained Category Detection. It learns both object and part detectors and it also enforces learned geometric constraints between them.</p>
-<ul>
-<li>Region Proposals: selective search(same as R-CNN)</li>
-<li>find the bounding box for both the objects and parts, add the geometic constraints to them</li>
-</ul>
-<p><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-14 at 8.27.18 PM.png" alt="System Overview"><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2015/04/13/Notes-for-Part-based-R-CNNs-for-Fine-grained-Category-Detection/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Research/">Research</a>
-</div>
-
-
-  <div class="article-tags">
+      <div id="main" class="post" itemscope itemprop="blogPost">
   
-  <span></span> <a href="/tags/Deep-Learning/">Deep Learning</a><a href="/tags/Notes/">Notes</a><a href="/tags/Object-Detection/">Object Detection</a>
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/04/16/cs231n-Linear-classification-Support-Vector-Machine-Softmax/" title="[cs231n]Linear classification: Support Vector Machine, Softmax" itemprop="url">[cs231n]Linear classification: Support Vector Machine, Softmax</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
+		
+  <p class="article-time">
+    <time datetime="2015-04-16T16:46:32.000Z" itemprop="datePublished"> 发表于 2015-04-16</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://RutgersHan.github.io/2015/04/16/cs231n-Linear-classification-Support-Vector-Machine-Softmax/" data-title="[cs231n]Linear classification: Support Vector Machine, Softmax | Be a geek" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2015/04/16/CS231n-Image-Classification-Data-driven-Approach-k-Nearest-Neighbor-train-val-test-splits/"  title="[CS231n]Image Classification: Data-driven Approach, k-Nearest Neighbor, train/val/test splits">
+ <strong>下一篇：</strong><br/> 
+ <span>[CS231n]Image Classification: Data-driven Approach, k-Nearest Neighbor, train/val/test splits
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/04/16/cs231n-Linear-classification-Support-Vector-Machine-Softmax/" data-title="[cs231n]Linear classification: Support Vector Machine, Softmax" data-url="https://RutgersHan.github.io/2015/04/16/cs231n-Linear-classification-Support-Vector-Machine-Softmax/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
   </div>
+</section>
 
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/04/13/Notes-for-Part-based-R-CNNs-for-Fine-grained-Category-Detection/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/04/13/Notes-for-Part-based-R-CNNs-for-Fine-grained-Category-Detection/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/04/13/How-to-use-Git-and-GitHub/" title="How to use Git and GitHub" itemprop="url">How to use Git and GitHub</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
-		
-  <p class="article-time">
-    <time datetime="2015-04-13T20:55:26.000Z" itemprop="datePublished"> 发表于 2015-04-13</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="Learning_Material">Learning Material</h2><ul>
-<li>Best thing to start is this tutorial: <a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000">廖雪峰的Git教程</a></li>
-<li>Git cheat sheet: <a href="https://training.github.com/kit/downloads/github-git-cheat-sheet.pdf">Git Cheat Sheet</a></li>
-<li>Git commands: <a href="http://wuchong.me/blog/2015/03/30/git-useful-skills/">jark’s blog about Git</a></li>
-</ul>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2015/04/13/How-to-use-Git-and-GitHub/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Engineering/">Engineering</a>
-</div>
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/04/13/How-to-use-Git-and-GitHub/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/04/13/How-to-use-Git-and-GitHub/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/04/13/Hello-Blog-Fresh-Start/" title="Hello Blog - Fresh Start" itemprop="url">Hello Blog - Fresh Start</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
-		
-  <p class="article-time">
-    <time datetime="2015-04-13T20:36:12.000Z" itemprop="datePublished"> 发表于 2015-04-13</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>Fresh Start. </p>
-<p>some links is helpful for building this blog</p>
-<ul>
-<li><a href="http://cnfeat.com/2014/05/10/2014-05-11-how-to-build-a-blog/" target="_blank" rel="external">如何搭建一个独立博客</a></li>
-<li><a href="http://www.jianshu.com/p/q81RER" target="_blank" rel="external">Markdown语法</a></li>
-<li><a href="https://www.zybuluo.com/mdeditor" target="_blank" rel="external">Markdown 在线编辑器</a></li>
-</ul>
-<p>hexo d -g: start putting the pages in GitHub :)</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Engineering/">Engineering</a>
-</div>
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/04/13/Hello-Blog-Fresh-Start/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/04/13/Hello-Blog-Fresh-Start/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-
-  <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
-  </nav>
-
-</div>
+</div>  
       <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
 
 <div id="asidepart">
 <div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
@@ -443,12 +319,69 @@ $(document).ready(function(){
       m.removeClass('moveMain');
       a.css('display', 'block').removeClass('fadeOut');
       o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
         
     }
   });
 });
 </script>
 
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
 
 
 
@@ -489,6 +422,27 @@ var disqus_shortname = 'zhanghan';
 
 
 
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
 
 
 
@@ -549,4 +503,4 @@ var disqus_shortname = 'zhanghan';
 <!-- Tiny_search End -->
 
   </body>
- </html>
+</html>
