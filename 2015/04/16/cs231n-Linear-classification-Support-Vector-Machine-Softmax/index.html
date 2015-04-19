@@ -11,15 +11,23 @@
     
 
     
-    <meta name="description">
+    <meta name="description" content="lecture webpapgeKey Words: parameteric approach, bias trick, hinge loss, cross-entropy loss, L2 regularization">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[cs231n]Linear classification: Support Vector Machine, Softmax">
 <meta property="og:url" content="https://RutgersHan.github.io/2015/04/16/cs231n-Linear-classification-Support-Vector-Machine-Softmax/index.html">
 <meta property="og:site_name" content="Be a geek">
-<meta property="og:description">
+<meta property="og:description" content="lecture webpapgeKey Words: parameteric approach, bias trick, hinge loss, cross-entropy loss, L2 regularization">
+<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-16 at 7.07.44 PM.png">
+<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-16 at 7.23.04 PM.png">
+<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-17 at 12.10.10 AM.png">
+<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-17 at 12.17.26 AM.png">
+<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-17 at 10.52.14 AM.png">
+<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-19 at 12.12.21 AM.png">
+<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-19 at 12.22.20 AM.png">
+<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-19 at 12.25.59 AM.png">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[cs231n]Linear classification: Support Vector Machine, Softmax">
-<meta name="twitter:description">
+<meta name="twitter:description" content="lecture webpapgeKey Words: parameteric approach, bias trick, hinge loss, cross-entropy loss, L2 regularization">
 
     
     <link rel="alternative" href="/atom.xml" title="Be a geek" type="application/atom+xml">
@@ -94,14 +102,39 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linear_Classification"><span class="toc-number">1.</span> <span class="toc-text">Linear Classification</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linear_classifier"><span class="toc-number">2.</span> <span class="toc-text">Linear classifier</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Interpretation_of_linear_classifiers_as_template_matching"><span class="toc-number">2.1.</span> <span class="toc-text">Interpretation of linear classifiers as template matching</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Bias_Trick"><span class="toc-number">2.2.</span> <span class="toc-text">Bias Trick</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Data_Preprocessing(centering)"><span class="toc-number">2.3.</span> <span class="toc-text">Data Preprocessing(centering)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Loss_Function"><span class="toc-number">3.</span> <span class="toc-text">Loss Function</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Practical_Considerations"><span class="toc-number">3.1.</span> <span class="toc-text">Practical Considerations</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Logistic_Regression"><span class="toc-number">4.</span> <span class="toc-text">Logistic Regression</span></a></li></ol>
 		
 		</div>
 		
-		  
+		<p><a href="http://cs231n.github.io/linear-classify/" target="_blank" rel="external">lecture webpapge</a><br>Key Words: parameteric approach, bias trick, hinge loss, cross-entropy loss, L2 regularization</p>
+<a id="more"></a>
+<p>Again, the tutorial itself is very good and everyone should read it. It clears my confusions about some concepts. Here I just write the materials which seems inspiring to myself. </p>
+<h3 id="Linear_Classification"><strong>Linear Classification</strong></h3><p><strong>score function:</strong> maps the raw data to class scores $f(x_i) = W x_i +b$<br><strong>loss function:</strong> quantifies the agreement between the predicted scores and the ground truth labels(e.g. hinge loss used in SVM, $max(0, 1 - y_i f(x_i)))$</p>
+<h3 id="Linear_classifier"><strong>Linear classifier</strong></h3><p>Here first introduce the terminology used in this blog:<br>$$f(x_i) = W x_i +b$$<br>where image $x_i$ a single column vector of shape [D x 1], The matrix W (of size [K x D]), and the vector b (of size [K x 1]) are the parameters of the function. K is equal to the number of classes.E.g.  In CIFAR-10(10 digit classification), $x_i$ contains all pixels in the i-th image flattened into a single [3072 x 1] column, $W$ is [10 x 3072] and b is [10 x 1]</p>
+<h4 id="Interpretation_of_linear_classifiers_as_template_matching"><strong>Interpretation of linear classifiers as template matching</strong></h4><p>interpretation for the weights W is that each row of W corresponds to a template (or sometimes also called a prototype) for one of the classes. The score of each class for an image is then obtained by comparing each template with the image using an inner product (or dot product) one by one to find the one that “fits” best.Another way to think of it is that we are still effectively doing Nearest Neighbor, but instead of having thousands of training images we are only using a single image per class (although we will learn it, and it does not necessarily have to be one of the images in the training set), and we use the (negative) inner product as the distance instead of the L1 or L2 distance.<br><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-16 at 7.07.44 PM.png" alt=""></p>
+<h4 id="Bias_Trick"><strong>Bias Trick</strong></h4><p>First, we should have the bias term(<em>I forget this some time</em>), otherwise $x_i=0$ would always give score of zero regardless of the weights.<br>Instead of keep bias term explicitly, a trick is to let x=[x,1], W = [W,b]. (combine the two sets of parameters into a single matrix that holds both of them by extending the vector xi with one additional dimension that always holds the constant 1 - a default bias dimension)<br>$$f(x_i) = W x_i +b =&gt; f(x_i) = W x_i$$<br>With our CIFAR-10 example, $x_i$ is now [3073 x 1] instead of [3072 x 1] - (with the extra dimension holding the constant 1), and W is now [10 x 3073] instead of [10 x 3072]. The extra column that W now corresponds to the bias b. An illustration might help clarify:<br><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-16 at 7.23.04 PM.png" alt=""></p>
+<h4 id="Data_Preprocessing(centering)"><strong>Data Preprocessing(centering)</strong></h4><p>we used the raw pixel values (which range from [0…255]) as features. In Machine Learning, it is a very common practice to always perform normalization (mean 0, std 1)of your input features (in the case of images, every pixel is thought of as a feature)</p>
+<ol>
+<li>Computing a mean image across the training images and subtracting it from every image(zero mean centering is arguably more important but we will have to wait for its justification until we understand the dynamics of gradient descent ?)</li>
+<li>common preprocessing is to scale each input feature so that its values range from [-1, 1]. (For images, it seems that we do not do this)</li>
+</ol>
+<h3 id="Loss_Function"><strong>Loss Function</strong></h3><p><strong>Multiclass Support Vector Machine Loss</strong>(exend the traditional svm from 2 classes to multiclass): The SVM loss is set up so that the SVM “wants” the correct class for each image to a have a score higher than the incorrect classes by some fixed margin $\Delta$<br>Recall that for the i-th example we are given the pixels xi and the label yi that specifies the index of the correct class. The score function takes the pixels and computes the vector $f(x_i,W)$ of class scores. For example, the score for the j-th class is the j-th element: $f(x_i,W)_j$. The Multiclass SVM loss for the i-th example is then formalized as follows(the most popular one, others like one-verse-all,all-vs-all are not good compare to this one):</p>
+<p>$$L_i = \sum_{j\neq y_i} (0, f(x_i,W)_j - f(x_i,W)_{y_i} + \Delta)$$<br>Example:<br>Suppose that we have three classes that receive the scores $f(x_i,W)=[13,−7,11]$, and that the first class is the true class (i.e. $y_i=0$). Also assume that Δ (a hyperparameter we will go into more detail about soon) is 10. The expression above sums over all incorrect classes $(j \neq y_i)$, so we get two terms:<br>$$L_i = max(0, -7-13+10) + max(0,11-13+10)$$<br>The second term computes [11 - 13 + 10] which gives 8. That is, even though the correct class had a higher score than the incorrect class (13 &gt; 11), it was not greater by the desired margin of 10. The difference was only 2, which is why the loss comes out to 8 (i.e. how much higher the difference would have to be to meet the margin). In summary, the SVM loss function wants the score of the correct class yi to be larger than the incorrect class scores by at least by $\Delta$(delta).<br>$max(0,-)$ is called <strong>hinge loss</strong>, $max(0,-)^2$ is called squared hinge loss<br>The unsquared version is more standard, but in some datasets the squared hinge loss can work better. This can be determined during cross-validation.<br><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-17 at 12.10.10 AM.png" alt=""><br><strong>Regularization</strong>： Better Generalization ability.<br><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-17 at 12.17.26 AM.png" alt=""><br>Note that biases do not have the same effect since, unlike the weights, they do not control the strength of influence of an input dimension. Therefore, <strong>it is common to only regularize the weights W but not the biases b</strong>. However, in practice this often turns out to have a negligible effect.<br>Code for Loss function(fully vectorized version)<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">L</span><span class="params">(X, y, W)</span>:</span></span><br><span class="line">  <span class="string">""" </span><br><span class="line">  fully-vectorized implementation :</span><br><span class="line">  - X holds all the training examples as columns (e.g. 3073 x 50,000 in CIFAR-10)</span><br><span class="line">  - y is array of integers specifying correct class (e.g. 50,000-D array)</span><br><span class="line">  - W are weights (e.g. 10 x 3073)</span><br><span class="line">  """</span></span><br><span class="line">  <span class="comment"># evaluate loss over all examples in X without using any for loops</span></span><br><span class="line">  <span class="comment"># left as exercise to reader in the assignment</span></span><br><span class="line">	delta = <span class="number">1.0</span></span><br><span class="line">	scores = W.dot(X)</span><br><span class="line">	num = scores.shape[<span class="number">1</span>]</span><br><span class="line">	<span class="comment"># remember interger indexing in python, very important(different from MATLAB)</span></span><br><span class="line">	margins = np.maximum(<span class="number">0</span>, scores - scores[y,np.arange(num)] + delta); </span><br><span class="line">	margins[y,np.arange(num)] = <span class="number">0</span></span><br><span class="line">	loss_i = np.sum(margins)</span><br><span class="line">	<span class="keyword">return</span> loss_i</span><br></pre></td></tr></table></figure></p>
+<h4 id="Practical_Considerations">Practical Considerations</h4><p>The hyperparameters $\Delta$ and $\lambda$ seem like two different hyperparameters, but in fact they both control the same tradeoff: The tradeoff between the data loss and the regularization loss in the objective. Therefore, we can  safely be set to $\Delta=1.0$ in all cases and just regularize W (changing $\lambda$). So we only have one hyperparameter in the above case. </p>
+<h3 id="Logistic_Regression"><strong>Logistic Regression</strong></h3><p>It turns out that the SVM is one of two commonly seen classifiers. The other popular choice is the Softmax classifier, which has a different loss function. If you’ve heard of the binary Logistic Regression classifier before, the Softmax classifier is its generalization to multiple classes.  In the Softmax classifier, the function mapping $f(x_i;W) = W x_i$stays unchanged, but we now interpret these scores as the unnormalized log probabilities for each class and replace the hinge loss with a cross-entropy loss that has the form:<br><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-17 at 10.52.14 AM.png" alt=""><br>$f_j(z) = \frac{e^{z_j}}{\sum_k{e^{z_k}}}$ is called the softmax function: It takes a vector of arbitrary real-valued scores (in z) and squashes it to a vector of values between zero and one that sum to one<br><strong>Information theory view</strong>:<br>The cross-entropy between a “true” distribution p and an estimated distribution q is defined as(#Similiar as KL-divergence, cross-entropy can be viewed as the difference of two distributions. In this case, since the true distribution is fixed, cross-entropy is the same as KL divergence):<br><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-19 at 12.12.21 AM.png" alt=""><br>The Softmax classifier is hence minimizing the cross-entropy between the estimated class probabilities,and the “true” distribution, which in this interpretation is the distribution where all probability mass is on the correct class (i.e. p=[0,…1,…,0] contains a single 1 at the yi -th position.).<br><strong>Probabilistic interpretation</strong>:<br><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-19 at 12.22.20 AM.png" alt=""><br>can be interpreted as the (normalized) probability assigned to the correct label yi given the image xi and parameterized by W. In the probabilistic interpretation, we are therefore minimizing the negative log likelihood of the correct class, which can be interpreted as performing Maximum Likelihood Estimation (MLE). The regularization term R(W) in the full loss function as coming from a Gaussian prior over the weight matrix W, where instead of MLE we are performing the Maximum a posteriori (MAP) estimation<br><strong>Practical issues: Numeric stability(#f 都减去一个最大值)</strong><br><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-19 at 12.25.59 AM.png" alt=""></p>
+<p>When you’re writing code for computing the Softmax function in pratice, the intermediate terms $e^{f_{y_i}}$ and<br>$\sum_j{e^{f_j}}$may be very large due to the exponentials. Dividing large numbers can be numerically unstable, so it is important to use a normalization trick. Notice that if we multiply the top and bottom of the fraction by a constant C and push it into the sum, we get the following (mathematically equivalent) expression:</p>
+<p>We are free to choose the value of C. This will not change any of the results, but we can use this value to improve the numerical stability of the computation. A common choice for C is to set $log C = -max_j f_j$. This simply states that we should shift the values inside the vector f so that the highest value is zero. In code:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">f = np.array([<span class="number">123</span>, <span class="number">456</span>, <span class="number">789</span>]) <span class="comment"># example with 3 classes and each having large scores</span></span><br><span class="line">p = np.exp(f) / np.sum(np.exp(f)) <span class="comment"># Bad: Numeric problem, potential blowup</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># instead: first shift the values of f so that the highest number is 0:</span></span><br><span class="line">f -= np.max(f) <span class="comment"># f becomes [-666, -333, 0]</span></span><br><span class="line">p = np.exp(f) / np.sum(np.exp(f)) <span class="comment"># safe to do, gives the correct answer</span></span><br></pre></td></tr></table></figure>
+<p><strong> Softmax VS SVM </strong><br>Softmax classifier provides “probabilities” for each class, but it is also fake. See original tutorial for details. In summary, both the scores come from SVM and softmax, he ordering of the scores is interpretable, but the absolute numbers (or their differences) technically are not.</p>
+  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Open-Course/">Open Course</a>
+</div>
 
 
 </div>
@@ -123,6 +156,14 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2015/04/19/cs231n-Optimization-Stochastic-Gradient-Descent/" title="[cs231n]Optimization: Stochastic Gradient Descent">
+  <strong>上一篇：</strong><br/>
+  <span>
+  [cs231n]Optimization: Stochastic Gradient Descent</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2015/04/16/CS231n-Image-Classification-Data-driven-Approach-k-Nearest-Neighbor-train-val-test-splits/"  title="[CS231n]Image Classification: Data-driven Approach, k-Nearest Neighbor, train/val/test splits">
@@ -152,7 +193,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linear_Classification"><span class="toc-number">1.</span> <span class="toc-text">Linear Classification</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Linear_classifier"><span class="toc-number">2.</span> <span class="toc-text">Linear classifier</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Interpretation_of_linear_classifiers_as_template_matching"><span class="toc-number">2.1.</span> <span class="toc-text">Interpretation of linear classifiers as template matching</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Bias_Trick"><span class="toc-number">2.2.</span> <span class="toc-text">Bias Trick</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Data_Preprocessing(centering)"><span class="toc-number">2.3.</span> <span class="toc-text">Data Preprocessing(centering)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Loss_Function"><span class="toc-number">3.</span> <span class="toc-text">Loss Function</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Practical_Considerations"><span class="toc-number">3.1.</span> <span class="toc-text">Practical Considerations</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Logistic_Regression"><span class="toc-number">4.</span> <span class="toc-text">Logistic Regression</span></a></li></ol>
  
   </div>
 
@@ -174,7 +215,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Open-Course/" title="Open Course">Open Course<sup>2</sup></a></li>
+			<li><a href="/categories/Open-Course/" title="Open Course">Open Course<sup>5</sup></a></li>
 		  
 		
 		  
@@ -502,5 +543,35 @@ $(document).ready(function(){
 
 <!-- Tiny_search End -->
 
-  </body>
+  <!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</body>
 </html>

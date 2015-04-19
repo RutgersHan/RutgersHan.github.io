@@ -4,24 +4,22 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Notes for &lt;Show, Attend and Tell: Neural Image Caption Generation with Visual Attention&gt; | Be a geek</title>
+    <title>[cs231n]Optimization: Stochastic Gradient Descent | Be a geek</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Han Zhang">
     
 
     
-    <meta name="description" content="Short Summary:Use CNN feature and LSTM to learn to fix attention to a particular part of image while generating the corresponding words. Need to revisit this paper after a better understand of RNN for">
+    <meta name="description" content="lecture noteNot too much in this lecture if you know the basic knowledge about optimization. From my perspective, the most important thing is about(Gradient check).">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Notes for <Show, Attend and Tell: Neural Image Caption Generation with Visual Attention>">
-<meta property="og:url" content="https://RutgersHan.github.io/2015/04/14/Notes-for-Show-Attend-and-Tell-Neural-Image-Caption-Generation-with-Visual-Attention/index.html">
+<meta property="og:title" content="[cs231n]Optimization: Stochastic Gradient Descent">
+<meta property="og:url" content="https://RutgersHan.github.io/2015/04/19/cs231n-Optimization-Stochastic-Gradient-Descent/index.html">
 <meta property="og:site_name" content="Be a geek">
-<meta property="og:description" content="Short Summary:Use CNN feature and LSTM to learn to fix attention to a particular part of image while generating the corresponding words. Need to revisit this paper after a better understand of RNN for">
-<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-14 at 4.50.19 PM.png">
-<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-14 at 4.50.53 PM.png">
+<meta property="og:description" content="lecture noteNot too much in this lecture if you know the basic knowledge about optimization. From my perspective, the most important thing is about(Gradient check).">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Notes for <Show, Attend and Tell: Neural Image Caption Generation with Visual Attention>">
-<meta name="twitter:description" content="Short Summary:Use CNN feature and LSTM to learn to fix attention to a particular part of image while generating the corresponding words. Need to revisit this paper after a better understand of RNN for">
+<meta name="twitter:title" content="[cs231n]Optimization: Stochastic Gradient Descent">
+<meta name="twitter:description" content="lecture noteNot too much in this lecture if you know the basic knowledge about optimization. From my perspective, the most important thing is about(Gradient check).">
 
     
     <link rel="alternative" href="/atom.xml" title="Be a geek" type="application/atom+xml">
@@ -80,14 +78,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/04/14/Notes-for-Show-Attend-and-Tell-Neural-Image-Caption-Generation-with-Visual-Attention/" title="Notes for &lt;Show, Attend and Tell: Neural Image Caption Generation with Visual Attention&gt;" itemprop="url">Notes for &lt;Show, Attend and Tell: Neural Image Caption Generation with Visual Attention&gt;</a>
+      <a href="/2015/04/19/cs231n-Optimization-Stochastic-Gradient-Descent/" title="[cs231n]Optimization: Stochastic Gradient Descent" itemprop="url">[cs231n]Optimization: Stochastic Gradient Descent</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
 		
   <p class="article-time">
-    <time datetime="2015-04-14T19:57:10.000Z" itemprop="datePublished"> 发表于 2015-04-14</time>
+    <time datetime="2015-04-19T04:52:19.000Z" itemprop="datePublished"> 发表于 2015-04-19</time>
     
   </p>
 </header>
@@ -96,25 +94,13 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Model_Details"><span class="toc-number">1.</span> <span class="toc-text">Model Details</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Stochastic_“Hard”_vs_Deterministic_“Soft”"><span class="toc-number">2.</span> <span class="toc-text">Stochastic “Hard” vs Deterministic “Soft”</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Training_Procedure"><span class="toc-number">3.</span> <span class="toc-text">Training Procedure</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Visualization"><span class="toc-number">4.</span> <span class="toc-text">Visualization</span></a></li></ol>
+			
 		
 		</div>
 		
-		<p>Short Summary:<br>Use CNN feature and LSTM to learn to fix attention to a particular part of image while generating the corresponding words. Need to revisit this paper after a better understand of RNN for image caption analysis.<br><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-14 at 4.50.19 PM.png" alt="Overview"><br><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-14 at 4.50.53 PM.png" alt="Interesting Results"><br><a id="more"></a></p>
-<h4 id="Model_Details">Model Details</h4><ul>
-<li>Encoder: lower convolutional layer(the fourth layer),since it only focus on certain parts of the image</li>
-<li>Decoder: LSTM(context vector, the previous hidden state and the previously generated words.) <a href="http://arxiv.org/pdf/1409.2329v5.pdf" target="_blank" rel="external">LSTM</a></li>
-</ul>
-<h4 id="Stochastic_“Hard”_vs_Deterministic_“Soft”">Stochastic “Hard” vs Deterministic “Soft”</h4><p>The way to get context vector is important, which separates these two methods.</p>
-<ul>
-<li>For the Stochastic Hard one, we assume for each word, the context is only a particular attention region. The attention location is a intermediate latent variable. Then sampling method is used for the inference in the optimization problem. </li>
-<li>For Deterministic “Soft” one, the context is soft combination of all the features in different locations. In that way, we can learn the contribution of each location in the specific given word. </li>
-</ul>
-<h4 id="Training_Procedure">Training Procedure</h4><ol>
-<li>Use Oxford net pre-trained on ImageNet without fine tuning.  Using the fourth layer</li>
-<li>Regularization: Dropout and early stopping on BLEU score.   </li>
-</ol>
-<h4 id="Visualization">Visualization</h4><p>The original image is $ 224 * 224 $, the output convolution layer is $14 * 14$(224/14=16), so we upsample the weights(the soft combination weights) by a factor of 16 and apply Gaussian fileter as the output image. </p>
+		<p><a href="http://cs231n.github.io/optimization-1/" target="_blank" rel="external">lecture note</a><br>Not too much in this lecture if you know the basic knowledge about optimization. From my perspective, the most important thing is about(Gradient check).<br><a id="more"></a><br>In the Open Course UFLDL, it also introduces gradient check, you can learn from <a href="http://ufldl.stanford.edu/wiki/index.php/Gradient_checking_and_advanced_optimization" target="_blank" rel="external">here</a></p>
+<p>Gradient check: numerically checking the derivatives computed by your code to make sure that your implementation is correct. Code in python<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">eval_numerical_gradient</span><span class="params">(f, x)</span>:</span></span><br><span class="line">  <span class="string">""" </span><br><span class="line">  a naive implementation of numerical gradient of f at x </span><br><span class="line">  - f should be a function that takes a single argument</span><br><span class="line">  - x is the point (numpy array) to evaluate the gradient at</span><br><span class="line">  """</span> </span><br><span class="line"></span><br><span class="line">  fx = f(x) <span class="comment"># evaluate function value at original point</span></span><br><span class="line">  grad = np.zeros(x.shape)</span><br><span class="line">  h = <span class="number">0.00001</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># iterate over all indexes in x</span></span><br><span class="line">  it = np.nditer(x, flags=[<span class="string">'multi_index'</span>], op_flags=[<span class="string">'readwrite'</span>])</span><br><span class="line">  <span class="keyword">while</span> <span class="keyword">not</span> it.finished:</span><br><span class="line"></span><br><span class="line">    <span class="comment"># evaluate function at x+h</span></span><br><span class="line">    ix = it.multi_index</span><br><span class="line">    old_value = x[ix]</span><br><span class="line">    x[ix] = old_value + h <span class="comment"># increment by h</span></span><br><span class="line">    fxh = f(x) <span class="comment"># evalute f(x + h)</span></span><br><span class="line">    x[ix] = old_value <span class="comment"># restore to previous value (very important!)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># compute the partial derivative</span></span><br><span class="line">    grad[ix] = (fxh - fx) / h <span class="comment"># the slope</span></span><br><span class="line">    it.iternext() <span class="comment"># step to next dimension</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> grad</span><br></pre></td></tr></table></figure></p>
+<p>  <strong>Mini-batch gradient descent</strong><br>  <strong>Stochastic Gradient Descent (SGD)</strong>: usually for update the weight one sample a time. But now some people also use it to describe Mini-batch gradient descent</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -122,14 +108,9 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Research/">Research</a>
+  <a class="article-category-link" href="/categories/Open-Course/">Open Course</a>
 </div>
 
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Deep-Learning/">Deep Learning</a><a href="/tags/Image-Caption-Generation/">Image Caption Generation</a>
-  </div>
 
 </div>
 
@@ -137,7 +118,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://RutgersHan.github.io/2015/04/14/Notes-for-Show-Attend-and-Tell-Neural-Image-Caption-Generation-with-Visual-Attention/" data-title="Notes for &lt;Show, Attend and Tell: Neural Image Caption Generation with Visual Attention&gt; | Be a geek" data-tsina="null" class="share clearfix">
+	  <div data-url="https://RutgersHan.github.io/2015/04/19/cs231n-Optimization-Stochastic-Gradient-Descent/" data-title="[cs231n]Optimization: Stochastic Gradient Descent | Be a geek" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -151,18 +132,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/04/15/LeetCode-Binary-Tree-Right-Side-View/" title="[LeetCode]Binary Tree Right Side View">
+ <a href="/2015/04/19/cs231n-Backpropagation-Intuitions/" title="[cs231n]Backpropagation, Intuitions">
   <strong>上一篇：</strong><br/>
   <span>
-  [LeetCode]Binary Tree Right Side View</span>
+  [cs231n]Backpropagation, Intuitions</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2015/04/14/Notes-for-Rich-feature-hierarchies-for-accurate-object-detection-and-semantic-segmentation-R-CNN/"  title="Notes for &lt;Rich feature hierarchies for accurate object detection and semantic segmentation(R-CNN)&gt;">
+<a href="/2015/04/16/cs231n-Linear-classification-Support-Vector-Machine-Softmax/"  title="[cs231n]Linear classification: Support Vector Machine, Softmax">
  <strong>下一篇：</strong><br/> 
- <span>Notes for &lt;Rich feature hierarchies for accurate object detection and semantic segmentation(R-CNN)&gt;
+ <span>[cs231n]Linear classification: Support Vector Machine, Softmax
 </span>
 </a>
 </div>
@@ -171,7 +152,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/04/14/Notes-for-Show-Attend-and-Tell-Neural-Image-Caption-Generation-with-Visual-Attention/" data-title="Notes for <Show, Attend and Tell: Neural Image Caption Generation with Visual Attention>" data-url="https://RutgersHan.github.io/2015/04/14/Notes-for-Show-Attend-and-Tell-Neural-Image-Caption-Generation-with-Visual-Attention/"></div>
+	<div class="ds-thread" data-thread-key="2015/04/19/cs231n-Optimization-Stochastic-Gradient-Descent/" data-title="[cs231n]Optimization: Stochastic Gradient Descent" data-url="https://RutgersHan.github.io/2015/04/19/cs231n-Optimization-Stochastic-Gradient-Descent/"></div>
 </section>
 
 
@@ -187,7 +168,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Model_Details"><span class="toc-number">1.</span> <span class="toc-text">Model Details</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Stochastic_“Hard”_vs_Deterministic_“Soft”"><span class="toc-number">2.</span> <span class="toc-text">Stochastic “Hard” vs Deterministic “Soft”</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Training_Procedure"><span class="toc-number">3.</span> <span class="toc-text">Training Procedure</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Visualization"><span class="toc-number">4.</span> <span class="toc-text">Visualization</span></a></li></ol>
+ 
  
   </div>
 

@@ -18,7 +18,7 @@ some links is helpful for building this blog
 Markdown语法
 Markdown 在线编辑器
 
-hexo d -g: start putting the pages in GitHub :)">
+hexo d -g: start putting the pages in GitHub :)Some times the ““(underscore) in the equation does not">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hello Blog - Fresh Start">
 <meta property="og:url" content="https://RutgersHan.github.io/2015/04/13/Hello-Blog-Fresh-Start/index.html">
@@ -30,7 +30,7 @@ some links is helpful for building this blog
 Markdown语法
 Markdown 在线编辑器
 
-hexo d -g: start putting the pages in GitHub :)">
+hexo d -g: start putting the pages in GitHub :)Some times the ““(underscore) in the equation does not">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hello Blog - Fresh Start">
 <meta name="twitter:description" content="Fresh Start. 
@@ -40,7 +40,7 @@ some links is helpful for building this blog
 Markdown语法
 Markdown 在线编辑器
 
-hexo d -g: start putting the pages in GitHub :)">
+hexo d -g: start putting the pages in GitHub :)Some times the ““(underscore) in the equation does not">
 
     
     <link rel="alternative" href="/atom.xml" title="Be a geek" type="application/atom+xml">
@@ -126,7 +126,7 @@ hexo d -g: start putting the pages in GitHub :)">
 <li><a href="http://www.jianshu.com/p/q81RER" target="_blank" rel="external">Markdown语法</a></li>
 <li><a href="https://www.zybuluo.com/mdeditor" target="_blank" rel="external">Markdown 在线编辑器</a></li>
 </ul>
-<p>hexo d -g: start putting the pages in GitHub :)</p>
+<p>hexo d -g: start putting the pages in GitHub :)<br>Some times the “<em>“(underscore) in the equation does not work just change ‘</em>‘ to ‘_‘ for all equations. </p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -208,7 +208,7 @@ hexo d -g: start putting the pages in GitHub :)">
 		  
 		
 		  
-			<li><a href="/categories/Open-Course/" title="Open Course">Open Course<sup>2</sup></a></li>
+			<li><a href="/categories/Open-Course/" title="Open Course">Open Course<sup>5</sup></a></li>
 		  
 		
 		  
@@ -536,5 +536,35 @@ $(document).ready(function(){
 
 <!-- Tiny_search End -->
 
-  </body>
+  <!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</body>
 </html>
