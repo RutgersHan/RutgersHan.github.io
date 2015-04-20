@@ -4,22 +4,22 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Be a geek</title>
+    <title>[CS231n]Assignment #1: Image Classification, kNN, SVM, Softmax | Be a geek</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Han Zhang">
     
 
     
-    <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Be a geek">
-<meta property="og:url" content="https://RutgersHan.github.io/index.html">
+    <meta name="description" content="Compute distance without loops123456789101112131415161718192021222324252627282930def compute_distances_no_loops(self, X):    &quot;&quot;&quot;    Compute the distance between each test point in X and each training">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[CS231n]Assignment #1: Image Classification, kNN, SVM, Softmax">
+<meta property="og:url" content="https://RutgersHan.github.io/2015/04/19/CS231n-Assignment-1-Image-Classification-kNN-SVM-Softmax/index.html">
 <meta property="og:site_name" content="Be a geek">
-<meta property="og:description">
+<meta property="og:description" content="Compute distance without loops123456789101112131415161718192021222324252627282930def compute_distances_no_loops(self, X):    &quot;&quot;&quot;    Compute the distance between each test point in X and each training">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Be a geek">
-<meta name="twitter:description">
+<meta name="twitter:title" content="[CS231n]Assignment #1: Image Classification, kNN, SVM, Softmax">
+<meta name="twitter:description" content="Compute distance without loops123456789101112131415161718192021222324252627282930def compute_distances_no_loops(self, X):    &quot;&quot;&quot;    Compute the distance between each test point in X and each training">
 
     
     <link rel="alternative" href="/atom.xml" title="Be a geek" type="application/atom+xml">
@@ -72,12 +72,10 @@
 </div>
     </header>
     <div id="container">
-      <div id="main">
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
   <h1 itemprop="name">
     
       <a href="/2015/04/19/CS231n-Assignment-1-Image-Classification-kNN-SVM-Softmax/" title="[CS231n]Assignment #1: Image Classification, kNN, SVM, Softmax" itemprop="url">[CS231n]Assignment #1: Image Classification, kNN, SVM, Softmax</a>
@@ -91,589 +89,25 @@
     
   </p>
 </header>
-    <div class="article-content">
-        
-        <h3 id="Compute_distance_without_loops">Compute distance without loops</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">compute_distances_no_loops</span><span class="params">(self, X)</span>:</span></span><br><span class="line">    <span class="string">"""</span><br><span class="line">    Compute the distance between each test point in X and each training point</span><br><span class="line">    in self.X_train using no explicit loops.</span><br><span class="line"></span><br><span class="line">    Input / Output: Same as compute_distances_two_loops</span><br><span class="line">    """</span></span><br><span class="line">    num_test = X.shape[<span class="number">0</span>]</span><br><span class="line">    num_train = self.X_train.shape[<span class="number">0</span>]</span><br><span class="line">    dists = np.zeros((num_test, num_train)) </span><br><span class="line">    <span class="comment">#########################################################################</span></span><br><span class="line">    <span class="comment"># TODO:                                                                 #</span></span><br><span class="line">    <span class="comment"># Compute the l2 distance between all test points and all training      #</span></span><br><span class="line">    <span class="comment"># points without using any explicit loops, and store the result in      #</span></span><br><span class="line">    <span class="comment"># dists.                                                                #</span></span><br><span class="line">    <span class="comment"># HINT: Try to formulate the l2 distance using matrix multiplication    #</span></span><br><span class="line">    <span class="comment">#       and two broadcast sums.                                         #</span></span><br><span class="line">    <span class="comment">#########################################################################</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line">    cross_product = X.dot(self.X_train.T);</span><br><span class="line">    test_squared = np.sum(X**<span class="number">2</span>, axis=<span class="number">1</span>)</span><br><span class="line">    train_squared = np.sum(self.X_train**<span class="number">2</span>, axis=<span class="number">1</span>)</span><br><span class="line">    temp = -<span class="number">2</span> * cross_product + train_squared.reshape((<span class="number">1</span>, num_train))</span><br><span class="line">    temp = temp + test_squared.reshape((num_test,<span class="number">1</span>));</span><br><span class="line">    dists = np.sqrt(temp)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#########################################################################</span></span><br><span class="line">    <span class="comment">#                         END OF YOUR CODE                              #</span></span><br><span class="line">    <span class="comment">#########################################################################</span></span><br><span class="line">    <span class="keyword">return</span> dists</span><br></pre></td></tr></table></figure>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Compute_distance_without_loops"><span class="toc-number">1.</span> <span class="toc-text">Compute distance without loops</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cross_Validation"><span class="toc-number">2.</span> <span class="toc-text">Cross Validation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Plot_the_result_for_cross_validation"><span class="toc-number">3.</span> <span class="toc-text">Plot the result for cross validation</span></a></li></ol>
+		
+		</div>
+		
+		<h3 id="Compute_distance_without_loops">Compute distance without loops</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">compute_distances_no_loops</span><span class="params">(self, X)</span>:</span></span><br><span class="line">    <span class="string">"""</span><br><span class="line">    Compute the distance between each test point in X and each training point</span><br><span class="line">    in self.X_train using no explicit loops.</span><br><span class="line"></span><br><span class="line">    Input / Output: Same as compute_distances_two_loops</span><br><span class="line">    """</span></span><br><span class="line">    num_test = X.shape[<span class="number">0</span>]</span><br><span class="line">    num_train = self.X_train.shape[<span class="number">0</span>]</span><br><span class="line">    dists = np.zeros((num_test, num_train)) </span><br><span class="line">    <span class="comment">#########################################################################</span></span><br><span class="line">    <span class="comment"># TODO:                                                                 #</span></span><br><span class="line">    <span class="comment"># Compute the l2 distance between all test points and all training      #</span></span><br><span class="line">    <span class="comment"># points without using any explicit loops, and store the result in      #</span></span><br><span class="line">    <span class="comment"># dists.                                                                #</span></span><br><span class="line">    <span class="comment"># HINT: Try to formulate the l2 distance using matrix multiplication    #</span></span><br><span class="line">    <span class="comment">#       and two broadcast sums.                                         #</span></span><br><span class="line">    <span class="comment">#########################################################################</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line">    cross_product = X.dot(self.X_train.T);</span><br><span class="line">    test_squared = np.sum(X**<span class="number">2</span>, axis=<span class="number">1</span>)</span><br><span class="line">    train_squared = np.sum(self.X_train**<span class="number">2</span>, axis=<span class="number">1</span>)</span><br><span class="line">    temp = -<span class="number">2</span> * cross_product + train_squared.reshape((<span class="number">1</span>, num_train))</span><br><span class="line">    temp = temp + test_squared.reshape((num_test,<span class="number">1</span>));</span><br><span class="line">    dists = np.sqrt(temp)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#########################################################################</span></span><br><span class="line">    <span class="comment">#                         END OF YOUR CODE                              #</span></span><br><span class="line">    <span class="comment">#########################################################################</span></span><br><span class="line">    <span class="keyword">return</span> dists</span><br></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Let's compare how fast the implementations are</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">time_function</span><span class="params">(f, *args)</span>:</span></span><br><span class="line">  <span class="string">"""</span><br><span class="line">  Call a function f with args and return the time (in seconds) that it took to execute.</span><br><span class="line">  """</span></span><br><span class="line">  <span class="keyword">import</span> time</span><br><span class="line">  tic = time.time()</span><br><span class="line">  f(*args)</span><br><span class="line">  toc = time.time()</span><br><span class="line">  <span class="keyword">return</span> toc - tic</span><br><span class="line"></span><br><span class="line">two_loop_time = time_function(classifier.compute_distances_two_loops, X_test)</span><br><span class="line"><span class="keyword">print</span> <span class="string">'Two loop version took %f seconds'</span> % two_loop_time</span><br><span class="line"></span><br><span class="line">one_loop_time = time_function(classifier.compute_distances_one_loop, X_test)</span><br><span class="line"><span class="keyword">print</span> <span class="string">'One loop version took %f seconds'</span> % one_loop_time</span><br><span class="line"></span><br><span class="line">no_loop_time = time_function(classifier.compute_distances_no_loops, X_test)</span><br><span class="line"><span class="keyword">print</span> <span class="string">'No loop version took %f seconds'</span> % no_loop_time</span><br><span class="line"></span><br><span class="line"><span class="comment"># you should see significantly faster performance with the fully vectorized implementation</span></span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>Two loop version took 70.987422 seconds<br>One loop version took 50.101490 seconds<br>No loop version took 0.824264 seconds</p>
 </blockquote>
 <h3 id="Cross_Validation">Cross Validation</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">num_folds = <span class="number">5</span></span><br><span class="line">k_choices = [<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">10</span>, <span class="number">12</span>, <span class="number">15</span>, <span class="number">20</span>, <span class="number">50</span>, <span class="number">100</span>]</span><br><span class="line"></span><br><span class="line">X_train_folds = []</span><br><span class="line">y_train_folds = []</span><br><span class="line"><span class="comment">################################################################################</span></span><br><span class="line"><span class="comment"># TODO:                                                                        #</span></span><br><span class="line"><span class="comment"># Split up the training data into folds. After splitting, X_train_folds and    #</span></span><br><span class="line"><span class="comment"># y_train_folds should each be lists of length num_folds, where                #</span></span><br><span class="line"><span class="comment"># y_train_folds[i] is the label vector for the points in X_train_folds[i].     #</span></span><br><span class="line"><span class="comment"># Hint: Look up the numpy array_split function.                                #</span></span><br><span class="line"><span class="comment">################################################################################</span></span><br><span class="line"><span class="keyword">pass</span></span><br><span class="line">nums_train = X_train.shape[<span class="number">0</span>]</span><br><span class="line">orders = np.random.permutation(nums_train)</span><br><span class="line">X_train_folds = np.array_split(X_train[orders],num_folds,axis=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">y_train_orders  = y_train[orders];</span><br><span class="line">y_train_orders = y_train_orders.reshape((nums_train,<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">y_train_folds = np.array_split(y_train_orders,num_folds,axis=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">################################################################################</span></span><br><span class="line"><span class="comment">#                                 END OF YOUR CODE                             #</span></span><br><span class="line"><span class="comment">################################################################################</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># A dictionary holding the accuracies for different values of k that we find</span></span><br><span class="line"><span class="comment"># when running cross-validation. After running cross-validation,</span></span><br><span class="line"><span class="comment"># k_to_accuracies[k] should be a list of length num_folds giving the different</span></span><br><span class="line"><span class="comment"># accuracy values that we found when using that value of k.</span></span><br><span class="line">k_to_accuracies = &#123;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">################################################################################</span></span><br><span class="line"><span class="comment"># TODO:                                                                        #</span></span><br><span class="line"><span class="comment"># Perform k-fold cross validation to find the best value of k. For each        #</span></span><br><span class="line"><span class="comment"># possible value of k, run the k-nearest-neighbor algorithm num_folds times,   #</span></span><br><span class="line"><span class="comment"># where in each case you use all but one of the folds as training data and the #</span></span><br><span class="line"><span class="comment"># last fold as a validation set. Store the accuracies for all fold and all     #</span></span><br><span class="line"><span class="comment"># values of k in the k_to_accuracies dictionary.                               #</span></span><br><span class="line"><span class="comment">################################################################################</span></span><br><span class="line"><span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(num_folds):</span><br><span class="line">    t_indexs = range(num_folds);</span><br><span class="line">    t_indexs.remove(i)</span><br><span class="line">    c_X_train = np.vstack([X_train_folds[j] <span class="keyword">for</span> j <span class="keyword">in</span> t_indexs])</span><br><span class="line">    c_y_train = np.vstack([y_train_folds[j] <span class="keyword">for</span> j <span class="keyword">in</span> t_indexs])</span><br><span class="line">    </span><br><span class="line">    c_X_test = X_train_folds[i]</span><br><span class="line">    c_y_test = y_train_folds[i]</span><br><span class="line">    num_test = c_y_test.shape[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> k_choices:</span><br><span class="line">        <span class="keyword">if</span> k <span class="keyword">not</span> <span class="keyword">in</span> k_to_accuracies:</span><br><span class="line">            k_to_accuracies[k] = []</span><br><span class="line">        classifier = KNearestNeighbor()</span><br><span class="line">        classifier.train(c_X_train, c_y_train)</span><br><span class="line">        dists = classifier.compute_distances_no_loops(c_X_test)</span><br><span class="line">        y_test_pred = classifier.predict_labels(dists, k)</span><br><span class="line">        y_test_pred = y_test_pred.reshape((num_test,<span class="number">1</span>))</span><br><span class="line">        num_correct = np.sum(y_test_pred == c_y_test)</span><br><span class="line">        accuracy = float(num_correct) / num_test</span><br><span class="line">        k_to_accuracies[k].append(accuracy)</span><br><span class="line">        </span><br><span class="line"><span class="comment">################################################################################</span></span><br><span class="line"><span class="comment">#                                 END OF YOUR CODE                             #</span></span><br><span class="line"><span class="comment">################################################################################</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Print out the computed accuracies</span></span><br><span class="line"><span class="keyword">for</span> k <span class="keyword">in</span> sorted(k_to_accuracies):</span><br><span class="line">    <span class="keyword">for</span> accuracy <span class="keyword">in</span> k_to_accuracies[k]:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'k = %d, accuracy = %f'</span> % (k, accuracy)</span><br></pre></td></tr></table></figure>
 <h3 id="Plot_the_result_for_cross_validation">Plot the result for cross validation</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># plot the raw observations</span></span><br><span class="line"><span class="keyword">for</span> k <span class="keyword">in</span> k_choices:</span><br><span class="line">  accuracies = k_to_accuracies[k]</span><br><span class="line">  plt.scatter([k] * len(accuracies), accuracies)</span><br><span class="line"></span><br><span class="line"><span class="comment"># plot the trend line with error bars that correspond to standard deviation</span></span><br><span class="line">accuracies_mean = np.array([np.mean(v) <span class="keyword">for</span> k,v <span class="keyword">in</span> sorted(k_to_accuracies.items())])</span><br><span class="line">accuracies_std = np.array([np.std(v) <span class="keyword">for</span> k,v <span class="keyword">in</span> sorted(k_to_accuracies.items())])</span><br><span class="line">plt.errorbar(k_choices, accuracies_mean, yerr=accuracies_std)</span><br><span class="line">plt.title(<span class="string">'Cross-validation on k'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'k'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'Cross-validation accuracy'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Open-Course/">Open Course</a>
-</div>
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/04/19/CS231n-Assignment-1-Image-Classification-kNN-SVM-Softmax/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/04/19/CS231n-Assignment-1-Image-Classification-kNN-SVM-Softmax/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/04/19/Some-common-functions-in-Numpy-and-Scipy/" title="Some common functions in Numpy and Scipy " itemprop="url">Some common functions in Numpy and Scipy </a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
-		
-  <p class="article-time">
-    <time datetime="2015-04-19T17:22:50.000Z" itemprop="datePublished"> 发表于 2015-04-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>import numpy as np<br>import scipy as scp</p>
-<ul>
-<li><p><strong>np.flatnonzero</strong>  # return indices that are non-zero in the flattened version of a.<br>This is equivalent to a.ravel().nonzero()[0].</p>
-<blockquote>
-<p>see also<br>nonzero<br>Return the indices of the non-zero elements of the input array.<br>ravel<br>Return a 1-D array containing the elements of the input array.</p>
-</blockquote>
-</li>
-<li><p>**numpy.random.choice(a, size=None, replace=True, p=None)  #Generates a random sample from a given 1-D array</p>
-<blockquote>
-<p>a   1-D array-like or int<br>If an ndarray, a random sample is generated from its elements. If an int, the random sample is generated as if a was np.arange(n)</p>
-</blockquote>
-</li>
-<li><p>** numpy.argsort(a, axis=-1, kind=’quicksort’, order=None)[source]<br>Returns the indices that would sort an array.</p>
-</li>
-<li><strong>np.random.permutation</strong></li>
-<li><strong>np.array_split</strong></li>
-<li><strong>np.vstack</strong></li>
-</ul>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Engineering/">Engineering</a>
-</div>
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/04/19/Some-common-functions-in-Numpy-and-Scipy/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/04/19/Some-common-functions-in-Numpy-and-Scipy/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/04/19/Ipython-short-tutorial/" title="Ipython Notebook short tutorial" itemprop="url">Ipython Notebook short tutorial</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
-		
-  <p class="article-time">
-    <time datetime="2015-04-19T16:57:23.000Z" itemprop="datePublished"> 发表于 2015-04-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <ul>
-<li><p>Start Ipython notebook<br>Ipython notebook.</p>
-</li>
-<li><p>Use markdown cell, code cell, raw text cell for editing</p>
-</li>
-<li><p>short cuts:<br>Shift-Enter: run cell<br>Ctrl-Enter: run cell in-place<br>Alt-Enter: run cell, insert below</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2015/04/19/Ipython-short-tutorial/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Engineering/">Engineering</a>
-</div>
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/04/19/Ipython-short-tutorial/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/04/19/Ipython-short-tutorial/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/04/19/cs231n-Backpropagation-Intuitions/" title="[cs231n]Backpropagation, Intuitions" itemprop="url">[cs231n]Backpropagation, Intuitions</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
-		
-  <p class="article-time">
-    <time datetime="2015-04-19T05:15:04.000Z" itemprop="datePublished"> 发表于 2015-04-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p><a href="http://cs231n.github.io/optimization-2/">Lecture Note</a><br>This lecture is very inspiring, actually it clears a haunting questions about the backpropogation.<br>I think this lecture is nice and concise. If you forget something, go back directly to the orinal lecture. Here just adding some images to remember.<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2015/04/19/cs231n-Backpropagation-Intuitions/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Open-Course/">Open Course</a>
-</div>
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/04/19/cs231n-Backpropagation-Intuitions/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/04/19/cs231n-Backpropagation-Intuitions/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/04/19/cs231n-Optimization-Stochastic-Gradient-Descent/" title="[cs231n]Optimization: Stochastic Gradient Descent" itemprop="url">[cs231n]Optimization: Stochastic Gradient Descent</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
-		
-  <p class="article-time">
-    <time datetime="2015-04-19T04:52:19.000Z" itemprop="datePublished"> 发表于 2015-04-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p><a href="http://cs231n.github.io/optimization-1/">lecture note</a><br>Not too much in this lecture if you know the basic knowledge about optimization. From my perspective, the most important thing is about(Gradient check).<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2015/04/19/cs231n-Optimization-Stochastic-Gradient-Descent/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Open-Course/">Open Course</a>
-</div>
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/04/19/cs231n-Optimization-Stochastic-Gradient-Descent/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/04/19/cs231n-Optimization-Stochastic-Gradient-Descent/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/04/16/cs231n-Linear-classification-Support-Vector-Machine-Softmax/" title="[cs231n]Linear classification: Support Vector Machine, Softmax" itemprop="url">[cs231n]Linear classification: Support Vector Machine, Softmax</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
-		
-  <p class="article-time">
-    <time datetime="2015-04-16T16:46:32.000Z" itemprop="datePublished"> 发表于 2015-04-16</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p><a href="http://cs231n.github.io/linear-classify/">lecture webpapge</a><br>Key Words: parameteric approach, bias trick, hinge loss, cross-entropy loss, L2 regularization</p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2015/04/16/cs231n-Linear-classification-Support-Vector-Machine-Softmax/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Open-Course/">Open Course</a>
-</div>
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/04/16/cs231n-Linear-classification-Support-Vector-Machine-Softmax/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/04/16/cs231n-Linear-classification-Support-Vector-Machine-Softmax/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/04/16/CS231n-Image-Classification-Data-driven-Approach-k-Nearest-Neighbor-train-val-test-splits/" title="[CS231n]Image Classification: Data-driven Approach, k-Nearest Neighbor, train/val/test splits" itemprop="url">[CS231n]Image Classification: Data-driven Approach, k-Nearest Neighbor, train/val/test splits</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
-		
-  <p class="article-time">
-    <time datetime="2015-04-16T15:53:51.000Z" itemprop="datePublished"> 发表于 2015-04-16</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p><a href="http://cs231n.github.io/classification/">Lecture Website</a><br>Key words: L1/L2 distances, hyperparameter search, cross-validation, Nearest Neighbour<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2015/04/16/CS231n-Image-Classification-Data-driven-Approach-k-Nearest-Neighbor-train-val-test-splits/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Open-Course/">Open Course</a>
-</div>
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/04/16/CS231n-Image-Classification-Data-driven-Approach-k-Nearest-Neighbor-train-val-test-splits/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/04/16/CS231n-Image-Classification-Data-driven-Approach-k-Nearest-Neighbor-train-val-test-splits/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/04/16/Notes-for-ImageNet-Classification-with-Deep-Convolutional-Neural- Networks/" title="Notes for &lt;ImageNet Classification with Deep Convolutional Neural Networks&gt;" itemprop="url">Notes for &lt;ImageNet Classification with Deep Convolutional Neural Networks&gt;</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
-		
-  <p class="article-time">
-    <time datetime="2015-04-16T05:59:43.000Z" itemprop="datePublished"> 发表于 2015-04-16</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>To be filled</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Research/">Research</a>
-</div>
-
-
-  <div class="article-tags">
   
-  <span></span> <a href="/tags/Deep-Learning/">Deep Learning</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/04/16/Notes-for-ImageNet-Classification-with-Deep-Convolutional-Neural- Networks/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/04/16/Notes-for-ImageNet-Classification-with-Deep-Convolutional-Neural- Networks/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/04/15/Python-Refreshment/" title="Python Refreshment" itemprop="url">Python Refreshment</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
-		
-  <p class="article-time">
-    <time datetime="2015-04-15T16:35:02.000Z" itemprop="datePublished"> 发表于 2015-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>Have not using Python for months. It is annoying to check the details every time when start picking up python. Therefore, I decide to write down some remiders (Most are just copied from the following tutorials). </p>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2015/04/15/Python-Refreshment/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Engineering/">Engineering</a>
-</div>
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/04/15/Python-Refreshment/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/04/15/Python-Refreshment/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/04/15/CS231n-Convolutional-Neural-Networks-for-Visual-Recognition/" title="[CS231n] Overview and Resources" itemprop="url">[CS231n] Overview and Resources</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
-		
-  <p class="article-time">
-    <time datetime="2015-04-15T15:52:36.000Z" itemprop="datePublished"> 发表于 2015-04-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h4 id="Fresh_Start:">Fresh Start:</h4><p>Recently, I found this course and the material is interesting but elemental. Even though it does not contain video lectures, the slides and assignments are very well organized. Therefore, I decide to start following this course and get hands-on experience about Convolutional Neural Networks instead of just reading papers. </p>
-<h4 id="Goal:">Goal:</h4><ul>
-<li>Get hands-on experience of building CNN.</li>
-<li>Get familiar(read the analyze) with the code of caffe. </li>
-</ul>
-<h4 id="Resources">Resources</h4><ul>
-<li><a href="http://cs231n.stanford.edu/index.html">Course Website</a> </li>
-<li><a href="http://cs231n.github.io/">Course Notes</a></li>
-<li><a href="http://cs231n.stanford.edu/syllabus.html">Syllabus and Slides</a></li>
-<li><a href="http://www.reddit.com/r/cs231n/">reddit discussion group</a></li>
-</ul>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2015/04/15/CS231n-Convolutional-Neural-Networks-for-Visual-Recognition/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
+	</div>
+		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
 <div class="article-categories">
@@ -682,40 +116,57 @@
 </div>
 
 
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Deep-Learning/">Deep Learning</a>
-  </div>
-
 </div>
 
 
 
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://RutgersHan.github.io/2015/04/19/CS231n-Assignment-1-Image-Classification-kNN-SVM-Softmax/" data-title="[CS231n]Assignment #1: Image Classification, kNN, SVM, Softmax | Be a geek" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
 
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/04/15/CS231n-Convolutional-Neural-Networks-for-Visual-Recognition/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/04/15/CS231n-Convolutional-Neural-Networks-for-Visual-Recognition/" data-count-type="comments">&nbsp;</a>
-	
-</div>
 
 </footer>
 
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
 
-    </article>
-
-
-
-
-
-
-
-  <nav id="page-nav" class="clearfix">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
-  </nav>
-
+<div class="next">
+<a href="/2015/04/19/Some-common-functions-in-Numpy-and-Scipy/"  title="Some common functions in Numpy and Scipy ">
+ <strong>下一篇：</strong><br/> 
+ <span>Some common functions in Numpy and Scipy 
+</span>
+</a>
 </div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/04/19/CS231n-Assignment-1-Image-Classification-kNN-SVM-Softmax/" data-title="[CS231n]Assignment #1: Image Classification, kNN, SVM, Softmax" data-url="https://RutgersHan.github.io/2015/04/19/CS231n-Assignment-1-Image-Classification-kNN-SVM-Softmax/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
       <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Compute_distance_without_loops"><span class="toc-number">1.</span> <span class="toc-text">Compute distance without loops</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cross_Validation"><span class="toc-number">2.</span> <span class="toc-text">Cross Validation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Plot_the_result_for_cross_validation"><span class="toc-number">3.</span> <span class="toc-text">Plot the result for cross validation</span></a></li></ol>
+ 
+  </div>
 
 <div id="asidepart">
 <div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
@@ -880,12 +331,69 @@ $(document).ready(function(){
       m.removeClass('moveMain');
       a.css('display', 'block').removeClass('fadeOut');
       o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
         
     }
   });
 });
 </script>
 
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
 
 
 
@@ -926,6 +434,27 @@ var disqus_shortname = 'zhanghan';
 
 
 
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
 
 
 
@@ -1016,4 +545,4 @@ var disqus_shortname = 'zhanghan';
 <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 </body>
- </html>
+</html>

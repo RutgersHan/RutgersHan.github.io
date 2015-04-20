@@ -114,8 +114,8 @@
 <h3 id="Two_important_things:">Two important things:</h3><p><strong>Cache forward pass variables</strong>. To compute the backward pass it is very helpful to have some of the variables that were used in the forward pass. In practice you want to structure your code so that you cache these variables, and so that they are available during backpropagation. If this is too difficult, it is possible (but wasteful) to recompute them.</p>
 <p><strong>Gradients add up at forks</strong>. The forward expression involves the variables x,y multiple times, so when we perform backpropagation we must be careful to use += instead of = to accumulate the gradient on these variables (otherwise we would overwrite it). This follows the multivariable chain rule in Calculus, which states that if a variable branches out to different parts of the circuit, then the gradients that flow back to it will add.</p>
 <p><strong>Unintuitive effects and their consequences</strong>:  Go to the original lecture if you could not remember(not very important)</p>
-<h3 id="Gradients_for_vectorized_operations(different_scaling_problem)">Gradients for vectorized operations(different scaling problem)</h3><p>Matrix-Matrix multiply gradient. Possibly the most tricky operation is the matrix-matrix multiplication (which generalizes all matrix-vector and vector-vector) multiply operations:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># forward pass</span></span><br><span class="line">W = np.random.randn(<span class="number">5</span>, <span class="number">10</span>)</span><br><span class="line">X = np.random.randn(<span class="number">10</span>, <span class="number">3</span>)</span><br><span class="line">D = W.dot(X)</span><br><span class="line"></span><br><span class="line"><span class="comment"># now suppose we had the gradient on D from above in the circuit</span></span><br><span class="line">dD = np.random.randn(*D.shape) <span class="comment"># same shape as D</span></span><br><span class="line">dW = dD.dot(X.T) <span class="comment">#.T gives the transpose of the matrix</span></span><br><span class="line">dX = W.T.dot(dD)</span><br></pre></td></tr></table></figure></p>
-<p>Tip: use dimension analysis! Note that you do not need to remember the expressions for dW and dX because they are easy to re-derive based on dimensions. For instance, we know that the gradient on the weights dW must be of the same size as W after it is computed, and that it must depend on matrix multiplication of X and dD (as is the case when both X,W are single numbers and not matrices). There is always exactly one way of achieving this so that the dimensions work out. For example, X is of size [10 x 3] and dD of size [5 x 3], so if we want dW and W has shape [5 x 10], then the only way of achieving this is with dD.dot(X.T), as shown above.</p>
+<h3 id="Gradients_for_vectorized_operations(different_scaling_problem)">Gradients for vectorized operations(different scaling problem)</h3><p><strong>Matrix-Matrix multiply gradient</strong>. Possibly the most tricky operation is the matrix-matrix multiplication (which generalizes all matrix-vector and vector-vector) multiply operations:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># forward pass</span></span><br><span class="line">W = np.random.randn(<span class="number">5</span>, <span class="number">10</span>)</span><br><span class="line">X = np.random.randn(<span class="number">10</span>, <span class="number">3</span>)</span><br><span class="line">D = W.dot(X)</span><br><span class="line"></span><br><span class="line"><span class="comment"># now suppose we had the gradient on D from above in the circuit</span></span><br><span class="line">dD = np.random.randn(*D.shape) <span class="comment"># same shape as D</span></span><br><span class="line">dW = dD.dot(X.T) <span class="comment">#.T gives the transpose of the matrix</span></span><br><span class="line">dX = W.T.dot(dD)</span><br></pre></td></tr></table></figure></p>
+<p><strong>Tip</strong>: use dimension analysis! Note that you do not need to remember the expressions for dW and dX because they are easy to re-derive based on dimensions. For instance, we know that the gradient on the weights dW must be of the same size as W after it is computed, and that it must depend on matrix multiplication of X and dD (as is the case when both X,W are single numbers and not matrices). There is always exactly one way of achieving this so that the dimensions work out. For example, X is of size [10 x 3] and dD of size [5 x 3], so if we want dW and W has shape [5 x 10], then the only way of achieving this is with dD.dot(X.T), as shown above.</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -146,6 +146,14 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2015/04/19/Ipython-short-tutorial/" title="Ipython Notebook short tutorial">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Ipython Notebook short tutorial</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2015/04/19/cs231n-Optimization-Stochastic-Gradient-Descent/"  title="[cs231n]Optimization: Stochastic Gradient Descent">
@@ -189,7 +197,7 @@
 		<ul>
 		
 		  
-			<li><a href="/categories/Engineering/" title="Engineering">Engineering<sup>3</sup></a></li>
+			<li><a href="/categories/Engineering/" title="Engineering">Engineering<sup>5</sup></a></li>
 		  
 		
 		  
@@ -197,7 +205,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Open-Course/" title="Open Course">Open Course<sup>5</sup></a></li>
+			<li><a href="/categories/Open-Course/" title="Open Course">Open Course<sup>6</sup></a></li>
 		  
 		
 		  
