@@ -4,34 +4,22 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Ipython Notebook short tutorial | Be a geek</title>
+    <title>[cs231n]Neural Networks Part 3: Learning and Evaluation | Be a geek</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Han Zhang">
     
 
     
-    <meta name="description" content="Start Ipython notebookIpython notebook.
-
-Use markdown cell, code cell, raw text cell for editing
-
-short cuts:Shift-Enter: run cellCtrl-Enter: run cell in-placeAlt-Enter: run cell, insert below">
+    <meta name="description" content="Gradient CheckUse the centered formula:$$\frac{df(x)}{dx} = \frac{f(x + h) - f(x)}{h} \hspace{0.1in} \text{(bad, do not use)}$$$$\frac{df(x)}{dx} = \frac{f(x + h) - f(x - h)}{2h} \hspace{0.1in} \text{">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Ipython Notebook short tutorial">
-<meta property="og:url" content="https://RutgersHan.github.io/2015/04/19/Ipython-short-tutorial/index.html">
+<meta property="og:title" content="[cs231n]Neural Networks Part 3: Learning and Evaluation">
+<meta property="og:url" content="https://RutgersHan.github.io/2015/04/22/cs231n-Neural-Networks-Part-3-Learning-and-Evaluation/index.html">
 <meta property="og:site_name" content="Be a geek">
-<meta property="og:description" content="Start Ipython notebookIpython notebook.
-
-Use markdown cell, code cell, raw text cell for editing
-
-short cuts:Shift-Enter: run cellCtrl-Enter: run cell in-placeAlt-Enter: run cell, insert below">
+<meta property="og:description" content="Gradient CheckUse the centered formula:$$\frac{df(x)}{dx} = \frac{f(x + h) - f(x)}{h} \hspace{0.1in} \text{(bad, do not use)}$$$$\frac{df(x)}{dx} = \frac{f(x + h) - f(x - h)}{2h} \hspace{0.1in} \text{">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Ipython Notebook short tutorial">
-<meta name="twitter:description" content="Start Ipython notebookIpython notebook.
-
-Use markdown cell, code cell, raw text cell for editing
-
-short cuts:Shift-Enter: run cellCtrl-Enter: run cell in-placeAlt-Enter: run cell, insert below">
+<meta name="twitter:title" content="[cs231n]Neural Networks Part 3: Learning and Evaluation">
+<meta name="twitter:description" content="Gradient CheckUse the centered formula:$$\frac{df(x)}{dx} = \frac{f(x + h) - f(x)}{h} \hspace{0.1in} \text{(bad, do not use)}$$$$\frac{df(x)}{dx} = \frac{f(x + h) - f(x - h)}{2h} \hspace{0.1in} \text{">
 
     
     <link rel="alternative" href="/atom.xml" title="Be a geek" type="application/atom+xml">
@@ -90,14 +78,14 @@ short cuts:Shift-Enter: run cellCtrl-Enter: run cell in-placeAlt-Enter: run cell
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/04/19/Ipython-short-tutorial/" title="Ipython Notebook short tutorial" itemprop="url">Ipython Notebook short tutorial</a>
+      <a href="/2015/04/22/cs231n-Neural-Networks-Part-3-Learning-and-Evaluation/" title="[cs231n]Neural Networks Part 3: Learning and Evaluation" itemprop="url">[cs231n]Neural Networks Part 3: Learning and Evaluation</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
 		
   <p class="article-time">
-    <time datetime="2015-04-19T16:57:23.000Z" itemprop="datePublished"> 发表于 2015-04-19</time>
+    <time datetime="2015-04-22T20:55:56.000Z" itemprop="datePublished"> 发表于 2015-04-22</time>
     
   </p>
 </header>
@@ -106,20 +94,11 @@ short cuts:Shift-Enter: run cellCtrl-Enter: run cell in-placeAlt-Enter: run cell
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Gradient_Check"><span class="toc-number">1.</span> <span class="toc-text">Gradient Check</span></a></li></ol>
 		
 		</div>
 		
-		<ul>
-<li><p>Start Ipython notebook<br>Ipython notebook.</p>
-</li>
-<li><p>Use markdown cell, code cell, raw text cell for editing</p>
-</li>
-<li><p>short cuts:<br>Shift-Enter: run cell<br>Ctrl-Enter: run cell in-place<br>Alt-Enter: run cell, insert below</p>
-<a id="more"></a>
-</li>
-</ul>
-<p>*Plotting<br>The document says it needs to run %matplotlib before running matplotlib, but it seems now that we don’t need that.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="comment"># Compute the x and y coordinates for points on sine and cosine curves</span></span><br><span class="line">x = np.arange(<span class="number">0</span>, <span class="number">3</span> * np.pi, <span class="number">0.1</span>)</span><br><span class="line">y_sin = np.sin(x)</span><br><span class="line">y_cos = np.cos(x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Plot the points using matplotlib</span></span><br><span class="line">plt.plot(x, y_sin)</span><br><span class="line">plt.plot(x, y_cos)</span><br><span class="line">plt.xlabel(<span class="string">'x axis label'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'y axis label'</span>)</span><br><span class="line">plt.title(<span class="string">'Sine and Cosine'</span>)</span><br><span class="line">plt.legend([<span class="string">'Sine'</span>, <span class="string">'Cosine'</span>])</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure></p>
+		<h2 id="Gradient_Check">Gradient Check</h2><p>Use the centered formula:<br>$$<br>\frac{df(x)}{dx} = \frac{f(x + h) - f(x)}{h} \hspace{0.1in} \text{(bad, do not use)}<br>$$<br>$$<br>\frac{df(x)}{dx} = \frac{f(x + h) - f(x - h)}{2h} \hspace{0.1in} \text{(use instead)}<br>$$</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -127,7 +106,7 @@ short cuts:Shift-Enter: run cellCtrl-Enter: run cell in-placeAlt-Enter: run cell
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Engineering/">Engineering</a>
+  <a class="article-category-link" href="/categories/Open-Course/">Open Course</a>
 </div>
 
 
@@ -137,7 +116,7 @@ short cuts:Shift-Enter: run cellCtrl-Enter: run cell in-placeAlt-Enter: run cell
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://RutgersHan.github.io/2015/04/19/Ipython-short-tutorial/" data-title="Ipython Notebook short tutorial | Be a geek" data-tsina="null" class="share clearfix">
+	  <div data-url="https://RutgersHan.github.io/2015/04/22/cs231n-Neural-Networks-Part-3-Learning-and-Evaluation/" data-title="[cs231n]Neural Networks Part 3: Learning and Evaluation | Be a geek" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -150,19 +129,11 @@ short cuts:Shift-Enter: run cellCtrl-Enter: run cell in-placeAlt-Enter: run cell
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/04/19/Some-common-functions-in-Numpy-and-Scipy/" title="Some common functions in Numpy and Scipy ">
-  <strong>上一篇：</strong><br/>
-  <span>
-  Some common functions in Numpy and Scipy </span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/04/19/cs231n-Backpropagation-Intuitions/"  title="[cs231n]Backpropagation, Intuitions">
+<a href="/2015/04/21/cs231n-Neural-Networks-Part-2-Setting-up-the-Data-and-the-Loss/"  title="[cs231n]Neural Networks Part 2: Setting up the Data and the Loss">
  <strong>下一篇：</strong><br/> 
- <span>[cs231n]Backpropagation, Intuitions
+ <span>[cs231n]Neural Networks Part 2: Setting up the Data and the Loss
 </span>
 </a>
 </div>
@@ -171,7 +142,7 @@ short cuts:Shift-Enter: run cellCtrl-Enter: run cell in-placeAlt-Enter: run cell
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/04/19/Ipython-short-tutorial/" data-title="Ipython Notebook short tutorial" data-url="https://RutgersHan.github.io/2015/04/19/Ipython-short-tutorial/"></div>
+	<div class="ds-thread" data-thread-key="2015/04/22/cs231n-Neural-Networks-Part-3-Learning-and-Evaluation/" data-title="[cs231n]Neural Networks Part 3: Learning and Evaluation" data-url="https://RutgersHan.github.io/2015/04/22/cs231n-Neural-Networks-Part-3-Learning-and-Evaluation/"></div>
 </section>
 
 
@@ -187,7 +158,7 @@ short cuts:Shift-Enter: run cellCtrl-Enter: run cell in-placeAlt-Enter: run cell
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Gradient_Check"><span class="toc-number">1.</span> <span class="toc-text">Gradient Check</span></a></li></ol>
  
   </div>
 
