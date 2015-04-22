@@ -1,0 +1,591 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>[cs231n]Neural Networks Part 2: Setting up the Data and the Loss | Be a geek</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Han Zhang">
+    
+
+    
+    <meta name="description" content="Data Preprocessing, Weight Initialization, Regularization (L2/L1/Maxnorm/Dropout), Loss functionsLecture NotesSome references:Should read:Elastic net regularizationDropout: A Simple Way to Prevent Neu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[cs231n]Neural Networks Part 2: Setting up the Data and the Loss">
+<meta property="og:url" content="https://RutgersHan.github.io/2015/04/21/cs231n-Neural-Networks-Part-2-Setting-up-the-Data-and-the-Loss/index.html">
+<meta property="og:site_name" content="Be a geek">
+<meta property="og:description" content="Data Preprocessing, Weight Initialization, Regularization (L2/L1/Maxnorm/Dropout), Loss functionsLecture NotesSome references:Should read:Elastic net regularizationDropout: A Simple Way to Prevent Neu">
+<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-21 at 10.48.21 PM.png">
+<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-21 at 10.48.05 PM.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[cs231n]Neural Networks Part 2: Setting up the Data and the Loss">
+<meta name="twitter:description" content="Data Preprocessing, Weight Initialization, Regularization (L2/L1/Maxnorm/Dropout), Loss functionsLecture NotesSome references:Should read:Elastic net regularizationDropout: A Simple Way to Prevent Neu">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Be a geek" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/victor.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/victor.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Be a geek" title="Be a geek"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Be a geek">Be a geek</a></h1>
+				<h2 class="blog-motto">Smiling to the Challenge</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:RutgersHan.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/04/21/cs231n-Neural-Networks-Part-2-Setting-up-the-Data-and-the-Loss/" title="[cs231n]Neural Networks Part 2: Setting up the Data and the Loss" itemprop="url">[cs231n]Neural Networks Part 2: Setting up the Data and the Loss</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
+		
+  <p class="article-time">
+    <time datetime="2015-04-22T02:17:26.000Z" itemprop="datePublished"> 发表于 2015-04-21</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Data_Preprocessing"><span class="toc-number">1.</span> <span class="toc-text">Data Preprocessing</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Weight_Initialization"><span class="toc-number">2.</span> <span class="toc-text">Weight Initialization</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Regularization"><span class="toc-number">3.</span> <span class="toc-text">Regularization</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Loss_functions"><span class="toc-number">4.</span> <span class="toc-text">Loss functions</span></a></li></ol>
+		
+		</div>
+		
+		<p>Data Preprocessing, Weight Initialization, Regularization (L2/L1/Maxnorm/Dropout), Loss functions<br><a href="http://cs231n.github.io/neural-networks-2/" target="_blank" rel="external">Lecture Notes</a><br>Some references:<br>Should read:<br><a href="http://web.stanford.edu/~hastie/Papers/B67.2%20%282005%29%20301-320%20Zou%20&amp;%20Hastie.pdf" target="_blank" rel="external">Elastic net regularization</a><br><a href="http://www.cs.toronto.edu/~rsalakhu/papers/srivastava14a.pdf" target="_blank" rel="external">Dropout: A Simple Way to Prevent Neural Networks from Overfitting</a><br><a href="http://papers.nips.cc/paper/4882-dropout-training-as-adaptive-regularization.pdf" target="_blank" rel="external">Dropout Training as Adaptive Regularization</a><br><a href="http://cs.nyu.edu/~wanli/dropc/" target="_blank" rel="external">DropConnect</a></p>
+<p>others:<br><a href="http://jmlr.org/proceedings/papers/v9/glorot10a/glorot10a.pdf" target="_blank" rel="external">Understanding the difficulty of training deep feedforward neural networks</a><br><a href="http://arxiv.org/abs/1502.01852" target="_blank" rel="external">Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification</a><br><a href="http://arxiv.org/pdf/1310.4546.pdf" target="_blank" rel="external">Hierarchical Softmax</a></p>
+<a id="more"></a>
+<h2 id="Data_Preprocessing">Data Preprocessing</h2><p><em>Take home message</em>: We mention PCA/Whitening in these notes for completeness, but these transformations are not used with Convolutional Networks. However, it is very important to zero-center the data, and it is common to see normalization of every pixel as well.<br><em>Common pitfall</em>: An important point to make about the preprocessing is that any preprocessing statistics (e.g. the data mean) must only be computed on the training data, and then applied to the validation / test data. E.g. computing the mean and subtracting it from every image across the entire dataset and then splitting the data into train/val/test splits would be a mistake. Instead, the mean must be computed only over the training data and then subtracted equally from all splits (train/val/test).</p>
+<p>First we assume the data matrix <code>X</code> is of size <code>[N x D]</code>(N is the number of data, D is their dimensionality).</p>
+<p><strong>Mean subtraction</strong>: subtracting the mean across every individual feature in the data, and has the geometric interpretation of centering the cloud of data around the origin along every dimension. For images, it just subtract the mean images of dataset. <code>X -= np.mean(X, axis = 0)</code>. With images specifically, for convenience it can be common to subtract a single value from all pixels <code>(e.g. X -= np.mean(X))</code>, or to do so separately across the three color channels.</p>
+<p><strong>Normalization</strong>: normalizing the data dimensions so that they are of approximately the same scale. Two common ways to do this</p>
+<ul>
+<li>Divide each dimension by its standard deviation, once it has been zero-centered: (X /= np.std(X, axis = 0)). Therefore, the variance for each dimension is just 1. </li>
+<li>Another form of this preprocessing normalizes each dimension so that the min and max along the dimension is -1 and 1 respectively. It only makes sense to apply this preprocessing if you have a reason to believe that different input features have different scales (or units), but they should be of approximately equal importance to the learning algorithm. In case of images, the relative scales of pixels are already approximately equal (and in range from 0 to 255), so it is not strictly necessary to perform this additional preprocessing step.<br><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-21 at 10.48.21 PM.png" alt=""><br><strong>PCA and Whitening</strong>: Another form of preprocessing.  In this process, the data is first centered as described above. Then, we can compute the covariance matrix that tells us about the correlation structure in the data<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Assume input data matrix X of size [N x D]</span></span><br><span class="line">X -= np.mean(X, axis = <span class="number">0</span>) <span class="comment"># zero-center the data (important)</span></span><br><span class="line">cov = np.dot(X.T, X) / X.shape[<span class="number">0</span>] <span class="comment"># get the data covariance matrix</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>We can get the eigenvectors of the covariance matrix either by SVD of X or eigen decomposition of covariance matrix. <code>U,S,V = np.linalg.svd(cov)</code>. Once we get the eigenvectors, the rotated data (PCA is just the rotation, since the eigenvectors are orthogonal and norm is 1)can be get by<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Xrot = np.dot(X, U) <span class="comment"># decorrelate the data</span></span><br></pre></td></tr></table></figure></p>
+<p>Sometimes, if the variance of some projected dimensions  are so small, we can omit these dimensions and do dimension reduction. A nice property of <code>np.linalg.svd</code> is that in its returned value U, the eigenvector columns are sorted by their eigenvalues.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Xrot_reduced = np.dot(X, U[:,:<span class="number">100</span>]) <span class="comment"># Xrot_reduced becomes [N x 100]</span></span><br></pre></td></tr></table></figure></p>
+<p>After this operation, we would have reduced the original dataset of size [N x D] to one of size [N x 100], keeping the 100 dimensions of the data that contain the most variance.<br>After PCA, sometimes we will do whitening(e.g. in GB-RBM assumption, every variable is independent and follow the standard Guassian distribution) whitening operation takes the data in the eigenbasis and divides every dimension by the eigenvalue to normalize the scale. The whitened data will be a gaussian with zero mean and identity covariance matrix. This step would take the form:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># whiten the data:</span></span><br><span class="line"><span class="comment"># divide by the eigenvalues (which are square roots of the singular values)</span></span><br><span class="line">Xwhite = Xrot / np.sqrt(S + <span class="number">1e-5</span>)</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-21 at 10.48.05 PM.png" alt=""></p>
+<h2 id="Weight_Initialization">Weight Initialization</h2><p>With proper data normalization it is reasonable to assume that approximately half of the weights will be positive and half of them will be negative. A reasonable-sounding idea then might be to set all the initial weights to zero.<br><strong>Pitfall</strong>: all zero initialization: Since in this way, the network is symmetric , w would all be the same. Bad!<br><strong>Small random numbers</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">W = <span class="number">0.001</span>* np.random.randn(D,H) <span class="comment">#randn samples from a zero mean, unit standard deviation gaussian</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>Calibrating the variances with 1/sqrt(n)</strong>: One problem with the above suggestion is that the distribution of the outputs from a randomly initialized neuron has a variance that grows with the number of inputs. It turns out that we can normalize the variance of each neuron’s output to 1 by scaling its weight vector by the square root of its fan-in (i.e. its number of inputs). That is, the recommended heuristic is to initialize each neuron’s weight vector as: <code>w = np.random.randn(n) / sqrt(n)</code>, where n is the number of its inputs. This ensures that all neurons in the network initially have approximately the same output distribution and empirically improves the rate of convergence. (please read the original lecture note to get the intuition behind this)<br><strong>Calibrating the variances with sqrt(2.0)/ n </strong><br>It has been shown in paper <a href="http://arxiv.org/abs/1502.01852" target="_blank" rel="external">Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification</a>.  Initialization specifically for <strong>ReLU</strong> neurons, reaching the conclusion that the variance of neurons in the network should be 2.0/n, is the current recommendation for use in practice.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">w = np.random.randn(n) * sqrt(<span class="number">2.0</span>/n)</span><br></pre></td></tr></table></figure></p>
+<p><strong>Sparse initialization</strong>: every neuron is randomly connected part of the neurons below it.<br><strong>Initializing the biases</strong>: it is more common to simply use 0 bias initialization</p>
+<h2 id="Regularization">Regularization</h2><p><strong>L2 Regularization</strong>: has the intuitive interpretation of heavily penalizing peaky weight vectors and preferring diffuse weight vectors(try to use every feature). <code>W += -lambda * W</code> is also viewed as weight decay. </p>
+<p><strong> L1 or Elastic net Regularization</strong>: make W sparse (for feature selection).  In practice, if you are not concerned with explicit feature selection, L2 regularization can be expected to give superior performance over L1. </p>
+<p><strong> Max norm constraints</strong>:  clamping the weight vector $|x|_2 &lt; c$  of every neuron to satisfy. Typical values of c are on orders of 3 or 4.<br><strong> Dropout</strong>: While training, dropout is implemented by only keeping a neuron active with some probability p (a hyperparameter), or setting it to zero otherwise.</p>
+<ul>
+<li>During training, Dropout can be interpreted as sampling a Neural Network within the full Neural Network, and only updating the parameters of the sampled network based on the input data. </li>
+<li>During testing there is no dropout applied, with the interpretation of evaluating an averaged prediction across the exponentially-sized ensemble of all sub-networks (more about ensembles in the next section).<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">""" Vanilla Dropout: Not recommended implementation (see notes below) """</span></span><br><span class="line"></span><br><span class="line">p = <span class="number">0.5</span> <span class="comment"># probability of keeping a unit active. higher = less dropout</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train_step</span><span class="params">(X)</span>:</span></span><br><span class="line">  <span class="string">""" X contains the data """</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># forward pass for example 3-layer neural network</span></span><br><span class="line">  H1 = np.maximum(<span class="number">0</span>, np.dot(W1, X) + b1)</span><br><span class="line">  U1 = np.random.rand(*H1.shape) &lt; p <span class="comment"># first dropout mask</span></span><br><span class="line">  H1 *= U1 <span class="comment"># drop!</span></span><br><span class="line">  H2 = np.maximum(<span class="number">0</span>, np.dot(W2, H1) + b2)</span><br><span class="line">  U2 = np.random.rand(*H2.shape) &lt; p <span class="comment"># second dropout mask</span></span><br><span class="line">  H2 *= U2 <span class="comment"># drop!</span></span><br><span class="line">  out = np.dot(W3, H2) + b3</span><br><span class="line"></span><br><span class="line">  <span class="comment"># backward pass: compute gradients... (not shown)</span></span><br><span class="line">  <span class="comment"># perform parameter update... (not shown)</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">predict</span><span class="params">(X)</span>:</span></span><br><span class="line">  <span class="comment"># ensembled forward pass</span></span><br><span class="line">  H1 = np.maximum(<span class="number">0</span>, np.dot(W1, X) + b1) * p <span class="comment"># NOTE: scale the activations</span></span><br><span class="line">  H2 = np.maximum(<span class="number">0</span>, np.dot(W2, H1) + b2) * p <span class="comment"># NOTE: scale the activations</span></span><br><span class="line">  out = np.dot(W3, H2) + b3</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>The undesirable property of the scheme presented above is that we must scale the activations by p at test time. Since test-time performance is so critical, it is always preferable to use inverted dropout, which performs the scaling at train time, leaving the forward pass at test time untouched. Additionally, this has the appealing property that the prediction code can remain untouched when you decide to tweak where you apply dropout, or if at all. Inverted dropout looks as follows:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">""" </span><br><span class="line">Inverted Dropout: Recommended implementation example.</span><br><span class="line">We drop and scale at train time and don't do anything at test time.</span><br><span class="line">"""</span></span><br><span class="line"></span><br><span class="line">p = <span class="number">0.5</span> <span class="comment"># probability of keeping a unit active. higher = less dropout</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train_step</span><span class="params">(X)</span>:</span></span><br><span class="line">  <span class="comment"># forward pass for example 3-layer neural network</span></span><br><span class="line">  H1 = np.maximum(<span class="number">0</span>, np.dot(W1, X) + b1)</span><br><span class="line">  U1 = (np.random.rand(*H1.shape) &lt; p) / p <span class="comment"># first dropout mask. Notice /p!</span></span><br><span class="line">  H1 *= U1 <span class="comment"># drop!</span></span><br><span class="line">  H2 = np.maximum(<span class="number">0</span>, np.dot(W2, H1) + b2)</span><br><span class="line">  U2 = (np.random.rand(*H2.shape) &lt; p) / p <span class="comment"># second dropout mask. Notice /p!</span></span><br><span class="line">  H2 *= U2 <span class="comment"># drop!</span></span><br><span class="line">  out = np.dot(W3, H2) + b3</span><br><span class="line"></span><br><span class="line">  <span class="comment"># backward pass: compute gradients... (not shown)</span></span><br><span class="line">  <span class="comment"># perform parameter update... (not shown)</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">predict</span><span class="params">(X)</span>:</span></span><br><span class="line">  <span class="comment"># ensembled forward pass</span></span><br><span class="line">  H1 = np.maximum(<span class="number">0</span>, np.dot(W1, X) + b1) <span class="comment"># no scaling necessary</span></span><br><span class="line">  H2 = np.maximum(<span class="number">0</span>, np.dot(W2, H1) + b2)</span><br><span class="line">  out = np.dot(W3, H2) + b3</span><br></pre></td></tr></table></figure></p>
+<p><strong>Theme of noise in forward pass</strong>: Dropout falls into a more general category of methods that introduce stochastic behavior in the forward pass of the network. During testing, the noise is marginalized over analytically (as is the case with dropout when multiplying by p), or numerically (e.g. via sampling, by performing several forward passes with different random decisions and then averaging over them). One example: <a href="http://cs.nyu.edu/~wanli/dropc/" target="_blank" rel="external">DropConnect</a><br><strong>Bias regularization</strong>: Usually we don’t regularize bias, However, in practical applications (and with proper data preprocessing) regularizing the bias rarely leads to significantly worse performance.<br><strong>In practice </strong>: It is most common to use a single, global L2 regularization strength that is cross-validated. It is also common to combine this with dropout applied after all layers. The value of p=0.5 is a reasonable default, but this can be tuned on validation data.</p>
+<h2 id="Loss_functions">Loss functions</h2><p><strong>Classification</strong>:</p>
+<ul>
+<li>Multi-SVM loss(we can also square it, squared hinge loss):<br>$$L_i = \sum_{j\neq y_i} (0, f(x_i,W)_j - f(x_i,W)_{y_i} + 1)$$</li>
+<li>Softmax loss:<br>$$L_i = -log(\frac{e^{z_j}}{\sum_k{e^{z_k}}})$$</li>
+<li><strong>Problem: Large number of classes</strong>. When the set of labels is very large (e.g. words in English dictionary, or ImageNet which contains 22,000 categories), it may be helpful to use <a href="http://arxiv.org/pdf/1310.4546.pdf" target="_blank" rel="external">Hierarchical Softmax</a> . The hierarchical softmax decomposes labels into a tree. Each label is then represented as a path along the tree, and a Softmax classifier is trained at every node of the tree to disambiguate between the left and right branch. The structure of the tree strongly impacts the performance and is generally problem-dependent.</li>
+</ul>
+<p><strong>Attribute classification</strong>: the above losses assume that there is a single correct answer y_i. But for attribute prediction, for each image, it might have many attributes. So we should deal with each attribute separately(e.g. binary classfication for each tag)</p>
+<p>A sensible approach in this case is to build a binary classifier for every single attribute independently. For example, a binary classifier for each category independently would take the form:</p>
+<p>$$<br>L_i = \sum_j \max(0, 1 - y_{ij} f_j)<br>$$</p>
+<p>An alternative to this loss would be to train a logistic regression classifier for every attribute independently. A binary logistic regression classifier has only two classes (0,1), and calculates the probability of class 1 as:</p>
+<p>$$<br>P(y = 1 \mid x; w, b) = \frac{1}{1 + e^{-(w^Tx +b)}} = \sigma (w^Tx + b)<br>$$</p>
+<p>$$<br>L_i = \sum_j y_{ij} \log(\sigma(f_j)) + (1 - y_{ij}) \log(1 - \sigma(f_j))<br>$$</p>
+<p>where the labels \(y_{ij}\) are assumed to be either 1 (positive) or 0 (negative), and \(\sigma(\cdot)\) is the sigmoid function. The expression above can look scary but the gradient on \(f\) is in fact extremely simple and intuitive: \(\partial{L_i} / \partial{f_j} = y_{ij} - \sigma(f_j)\) (as you can double check yourself by taking the derivatives).</p>
+<p><strong>Regression</strong>:  the task of predicting real-valued quantities, use L2 norm( or maybe L1 norm)<br>$$<br>L_i = \Vert f - y_i \Vert_2^2<br>$$</p>
+<p><strong>Word of caution</strong>: It is important to note that the L2 loss is much harder to optimize than a more stable loss such as Softmax. Intuitively, it requires a very fragile and specific property from the network to output exactly one correct value for each input (and its augmentations). Notice that this is not the case with Softmax, where the precise value of each score is less important: It only matters that their magnitudes are appropriate. Additionally, the L2 loss is less robust because outliers can introduce huge gradients. When faced with a regression problem, first consider if it is absolutely inadequate to quantize the output into bins. For example, if you are predicting star rating for a product, it might work much better to use 5 independent classifiers for ratings of 1-5 stars instead of a regression loss. Classification has the additional benefit that it can give you a distribution over the regression outputs, not just a single output with no indication of its confidence. If you’re certain that classification is not appropriate, use the L2 but be careful: For example, the L2 is more fragile and applying dropout in the network (especially in the layer right before the L2 loss) is not a great idea.<br><strong>Structured prediction</strong>. The structured loss refers to a case where the labels can be arbitrary structures such as graphs, trees, or other complex objects</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Open-Course/">Open Course</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://RutgersHan.github.io/2015/04/21/cs231n-Neural-Networks-Part-2-Setting-up-the-Data-and-the-Loss/" data-title="[cs231n]Neural Networks Part 2: Setting up the Data and the Loss | Be a geek" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2015/04/21/cs231n-Neural-Networks-Part-1-Setting-up-the-Architecture/"  title="[cs231n]Neural Networks Part 1: Setting up the Architecture ">
+ <strong>下一篇：</strong><br/> 
+ <span>[cs231n]Neural Networks Part 1: Setting up the Architecture 
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/04/21/cs231n-Neural-Networks-Part-2-Setting-up-the-Data-and-the-Loss/" data-title="[cs231n]Neural Networks Part 2: Setting up the Data and the Loss" data-url="https://RutgersHan.github.io/2015/04/21/cs231n-Neural-Networks-Part-2-Setting-up-the-Data-and-the-Loss/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Data_Preprocessing"><span class="toc-number">1.</span> <span class="toc-text">Data Preprocessing</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Weight_Initialization"><span class="toc-number">2.</span> <span class="toc-text">Weight Initialization</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Regularization"><span class="toc-number">3.</span> <span class="toc-text">Regularization</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Loss_functions"><span class="toc-number">4.</span> <span class="toc-text">Loss functions</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Engineering/" title="Engineering">Engineering<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/LeetCode/" title="LeetCode">LeetCode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Open-Course/" title="Open Course">Open Course<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Open-Courses/" title="Open Courses">Open Courses<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Research/" title="Research">Research<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计划/" title="计划">计划<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Deep-Learning/" title="Deep Learning">Deep Learning<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/时间管理/" title="时间管理">时间管理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Notes/" title="Notes">Notes<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Object-Detection/" title="Object Detection">Object Detection<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Image-Caption-Generation/" title="Image Caption Generation">Image Caption Generation<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Han at Rutgers. <br/>
+			Wanna be a geek, let&#39;s learn together</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="https://RutgersHan.github.io/about" target="_blank" title="Han Zhang">Han Zhang</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zhanghan"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'zhanghan';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  <!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</body>
+</html>

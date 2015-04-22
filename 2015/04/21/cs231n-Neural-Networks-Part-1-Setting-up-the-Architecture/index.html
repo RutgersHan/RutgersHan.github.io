@@ -1,0 +1,644 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>[cs231n]Neural Networks Part 1: Setting up the Architecture  | Be a geek</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Han Zhang">
+    
+
+    
+    <meta name="description" content="Lecture NotesUseful Refenrences
+
+Deep Learning book in press by Bengio
+Do Deep Nets Really Need to be Deep?
+FitNets: Hints for Thin Deep Nets
+The Loss Surfaces of Multilayer Networks
+deeplearning.net">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[cs231n]Neural Networks Part 1: Setting up the Architecture ">
+<meta property="og:url" content="https://RutgersHan.github.io/2015/04/21/cs231n-Neural-Networks-Part-1-Setting-up-the-Architecture/index.html">
+<meta property="og:site_name" content="Be a geek">
+<meta property="og:description" content="Lecture NotesUseful Refenrences
+
+Deep Learning book in press by Bengio
+Do Deep Nets Really Need to be Deep?
+FitNets: Hints for Thin Deep Nets
+The Loss Surfaces of Multilayer Networks
+deeplearning.net">
+<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-21 at 5.32.49 PM.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[cs231n]Neural Networks Part 1: Setting up the Architecture ">
+<meta name="twitter:description" content="Lecture NotesUseful Refenrences
+
+Deep Learning book in press by Bengio
+Do Deep Nets Really Need to be Deep?
+FitNets: Hints for Thin Deep Nets
+The Loss Surfaces of Multilayer Networks
+deeplearning.net">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Be a geek" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/victor.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/victor.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Be a geek" title="Be a geek"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Be a geek">Be a geek</a></h1>
+				<h2 class="blog-motto">Smiling to the Challenge</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:RutgersHan.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/04/21/cs231n-Neural-Networks-Part-1-Setting-up-the-Architecture/" title="[cs231n]Neural Networks Part 1: Setting up the Architecture " itemprop="url">[cs231n]Neural Networks Part 1: Setting up the Architecture </a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
+		
+  <p class="article-time">
+    <time datetime="2015-04-21T20:51:11.000Z" itemprop="datePublished"> 发表于 2015-04-21</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Biological_neuron_VS_compuational_neuron"><span class="toc-number">1.</span> <span class="toc-text">Biological neuron VS compuational neuron</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Different_activition_functions"><span class="toc-number">2.</span> <span class="toc-text">Different activition functions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Neural_Network_architectures"><span class="toc-number">3.</span> <span class="toc-text">Neural Network architectures</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Naming_conventions"><span class="toc-number">3.1.</span> <span class="toc-text">Naming conventions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Output_layer"><span class="toc-number">3.2.</span> <span class="toc-text">Output layer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sizing_neural_networks-"><span class="toc-number">3.3.</span> <span class="toc-text">Sizing neural networks.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Example_feed-forward_computation"><span class="toc-number">3.4.</span> <span class="toc-text">Example feed-forward computation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Representational_power"><span class="toc-number">3.5.</span> <span class="toc-text">Representational power</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Setting_number_of_layers_and_their_sizes"><span class="toc-number">3.6.</span> <span class="toc-text">Setting number of layers and their sizes</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<p><a href="http://cs231n.github.io/neural-networks-1/" target="_blank" rel="external">Lecture Notes</a><br>Useful Refenrences</p>
+<ul>
+<li><a href="http://www.iro.umontreal.ca/~bengioy/dlbook/" target="_blank" rel="external">Deep Learning book in press by Bengio</a></li>
+<li><a href="http://arxiv.org/abs/1312.6184" target="_blank" rel="external">Do Deep Nets Really Need to be Deep?</a></li>
+<li><a href="http://arxiv.org/abs/1412.6550" target="_blank" rel="external">FitNets: Hints for Thin Deep Nets</a></li>
+<li><a href="http://arxiv.org/abs/1412.0233" target="_blank" rel="external">The Loss Surfaces of Multilayer Networks</a></li>
+<li><a href="http://www.deeplearning.net/tutorial/mlp.html" target="_blank" rel="external">deeplearning.net tutorial with Theano</a></li>
+<li><a href="http://cs.stanford.edu/people/karpathy/convnetjs/" target="_blank" rel="external">ConvNetJS demos for intuitions</a></li>
+<li><a href="http://neuralnetworksanddeeplearning.com/chap1.html" target="_blank" rel="external">Michael Nielsen’s</a></li>
+</ul>
+<a id="more"></a>
+<h2 id="Biological_neuron_VS_compuational_neuron">Biological neuron VS compuational neuron</h2><ul>
+<li>Dendrites in biological neurons perform complex nonlinear computations, whereas computational neurons are linear functions of input($f = Wx$)</li>
+<li>Snapses are not just a single weight, they’re a complex non-linear dynamical system, whereas computational neurons the Snapses is just modeled a parameter($w_i$)</li>
+<li>The exact timing of the output spikes in neurons systems is known to be important, whereas computional neurons are give the activition rate(activation function)</li>
+</ul>
+<h2 id="Different_activition_functions">Different activition functions</h2><p><strong>Take Home Message about this section</strong> : </p>
+<ul>
+<li>“What neuron type should I use?” Use the ReLU non-linearity, be careful with your learning rates and possibly monitor the fraction of “dead” units in a network. If this concerns you, give Leaky ReLU or Maxout a try. Never use sigmoid. Try tanh, but expect it to work worse than ReLU/Maxout.</li>
+<li>It is very rare to mix and match different types of neurons in the same network, even though there is no fundamental problem with doing so.</li>
+</ul>
+<ol>
+<li><strong>Sigmoid</strong>(was very popular, but not now, two major drawbacks): <ul>
+<li>Sigmoids saturate and kill gradients(in the area that far away from zero)</li>
+<li>Sigmoid outputs are not zero-centered. This could introduce undesirable zig-zagging dynamics in the gradient updates for the weights.</li>
+</ul>
+</li>
+<li><strong>Tanh</strong> <ul>
+<li>Tanh saturate and kill gradients(in the area that far away from zero)</li>
+<li>The outputs is zero-centered</li>
+<li>In practice the tanh non-linearity is always preferred to the sigmoid nonlinearity.</li>
+</ul>
+</li>
+<li><strong>ReLU</strong> ($f(x) = max(0,x)$)<ul>
+<li>(+) Greatly accelerate (factor of 6 in Alex net) the convergence of stochastic gradient descent compared to the sigmoid/tanh functions. It is argued that this is due to its linear, non-saturating form.</li>
+<li>(+) Simple calculation. Compared to tanh/sigmoid neurons that involve expensive operations (exponentials, etc.), the ReLU can be implemented by simply thresholding a matrix of activations at zero.</li>
+<li>(-) ReLU can “die” during training. E.g. a large gradient flowing through a ReLU neuron could cause the weights to update in such a way that the neuron will never activate on any datapoint again. If this happens, then the gradient flowing through the unit will forever be zero from that point on. That is, the ReLU units can irreversibly die during training since they can get knocked off the data manifold. For example, you may find that as much as 40% of your network can be “dead” if the learning rate is set too high. With a proper setting of the learning rate this is less frequently an issue.</li>
+</ul>
+</li>
+<li><p><strong>Leaky ReLU</strong> Leaky ReLUs are one attempt to fix the “dying ReLU” problem. Instead of the function being zero when x &lt; 0, a leaky ReLU will instead have a small negative slope (of 0.01, or so). That is, the function computes f(x)=𝟙(x<0)(αx)+𝟙(x>=0)(x) where α is a small constant. Some people report success with this form of activation function, but the results are not always consistent.</0)(αx)+𝟙(x></p>
+</li>
+<li><p><strong>Maxout</strong> $f(x) = max(w^T_1x+b_1,w^T_2x+b_2)$: </p>
+<ul>
+<li>Do not have the functional form $f(w^Tx+b)$ where a non-linearity is applied on the dot product between the weights and the data. </li>
+<li>Both ReLU and Leaky ReLU are a special case of Maxout(for example, for ReLU we have w1,b1=0).The Maxout neuron therefore enjoys all the benefits of a ReLU unit (linear regime of operation, no saturation) and does not have its drawbacks (dying ReLU)</li>
+<li>It doubles the number of parameters for every single neuron, leading to a high total number of parameters.</li>
+</ul>
+</li>
+</ol>
+<h2 id="Neural_Network_architectures">Neural Network architectures</h2><p><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-21 at 5.32.49 PM.png" alt=""></p>
+<h3 id="Naming_conventions">Naming conventions</h3><p>Notice that when we say N-layer neural network, we do not count the input layer(But we count the output layer). Just as above image, the left is 2-layer nerual network and the right is a three layer neural network. You may also hear these “Artificial Neural Networks” (ANN) or “Multi-Layer Perceptrons” (MLP). They are just the same as “Neural Network”</p>
+<h3 id="Output_layer">Output layer</h3><p>Output layer don’t have the activation function. This is because the last output layer is usually taken to represent the class scores (e.g. in classification), which are arbitrary real-valued numbers, or some kind of real-valued target (e.g. in regression)</p>
+<h3 id="Sizing_neural_networks-">Sizing neural networks.</h3><p>The two metrics that people commonly use to measure the size of neural networks are the number of neurons, or more commonly the number of parameters. For the above example: </p>
+<ul>
+<li>The first network (left) has 4 + 2 = 6 neurons (not counting the inputs), [3 x 4] + [4 x 2] = 20 weights and 4 + 2 = 6 biases, for a total of 26 learnable parameters.</li>
+<li>The second network (right) has 4 + 4 + 1 = 9 neurons, [3 x 4] + [4 x 4] + [4 x 1] = 12 + 16 + 4 = 32 weights and 4 + 4 + 1 = 9 biases, for a total of 41 learnable parameters.</li>
+<li>Modern Convolutional Networks contain on orders of 100 million parameters and are usually made up of approximately 10-20 layers (hence deep learning). However, as we will see the number of effective connections is significantly greater due to parameter sharing.</li>
+</ul>
+<h3 id="Example_feed-forward_computation">Example feed-forward computation</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># forward-pass of a 3-layer neural network:</span></span><br><span class="line">f = <span class="keyword">lambda</span> x: <span class="number">1.0</span>/(<span class="number">1.0</span> + np.exp(-x)) <span class="comment"># activation function (use sigmoid)</span></span><br><span class="line">x = np.random.randn(<span class="number">3</span>, <span class="number">1</span>) <span class="comment"># random input vector of three numbers (3x1)</span></span><br><span class="line">h1 = f(np.dot(W1, x) + b1) <span class="comment"># calculate first hidden layer activations (4x1)</span></span><br><span class="line">h2 = f(np.dot(W2, h1) + b2) <span class="comment"># calculate second hidden layer activations (4x1)</span></span><br><span class="line">out = np.dot(W3, h2) + b3 <span class="comment"># output neuron (1x1)</span></span><br></pre></td></tr></table></figure>
+<h3 id="Representational_power">Representational power</h3><p>What is the representational power of this family of functions? In particular, are there functions that cannot be modeled with a Neural Network?</p>
+<ul>
+<li>Neural Networks with at least one hidden layer are universal approximators</li>
+<li>If one hidden layer suffices to approximate any function, why use more layers and go deeper? The answer is that the fact that a two-layer Neural Network is a universal approximator is, while mathematically cute, a relatively weak and useless statement in practice.</li>
+<li>In practice it is often the case that 3-layer neural networks will outperform 2-layer nets, but going even deeper (4,5,6-layer) rarely helps much more. In contrast, for Convolutional Networks, where depth has been found to be an extremely important component for a good recognition system(on order of 10 learnable layers. One argument for this observation is that images contain hierarchical structure (e.g. faces are made up of eyes, which are made up of edges, etc.), so several layers of processing make intuitive sense for this data domain.</li>
+</ul>
+<h3 id="Setting_number_of_layers_and_their_sizes">Setting number of layers and their sizes</h3><ul>
+<li><p>Neural Networks with more neurons can express more complicated functions. But more neurons(more parameters) can cause overfitting problems(learn the outliers/noise of the training dataset) if without enough training data. </p>
+</li>
+<li><p><strong>It seems that smaller neural networks can be preferred if the data is not complex enough to prevent overfitting. However, this is incorrect - there are many other preferred ways to prevent overfitting in Neural Networks that we will discuss later (such as L2 regularization, dropout, input noise). In practice, it is always better to use these methods to control overfitting instead of the number of neurons.</strong></p>
+</li>
+<li>The subtle reason behind this is that smaller networks are harder to train with local methods such as Gradient Descent: It’s clear that their loss functions have relatively few local minima, but it turns out that many of these minima are easier to converge to, and that they are bad (i.e. with high loss). Conversely, bigger neural networks contain significantly more local minima, but these minima turn out to be much better in terms of their actual loss. </li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Open-Courses/">Open Courses</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://RutgersHan.github.io/2015/04/21/cs231n-Neural-Networks-Part-1-Setting-up-the-Architecture/" data-title="[cs231n]Neural Networks Part 1: Setting up the Architecture  | Be a geek" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/04/21/cs231n-Neural-Networks-Part-2-Setting-up-the-Data-and-the-Loss/" title="[cs231n]Neural Networks Part 2: Setting up the Data and the Loss">
+  <strong>上一篇：</strong><br/>
+  <span>
+  [cs231n]Neural Networks Part 2: Setting up the Data and the Loss</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/04/19/CS231n-Assignment-1-Image-Classification-kNN-SVM-Softmax/"  title="[CS231n]Assignment #1: Image Classification, kNN, SVM, Softmax">
+ <strong>下一篇：</strong><br/> 
+ <span>[CS231n]Assignment #1: Image Classification, kNN, SVM, Softmax
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/04/21/cs231n-Neural-Networks-Part-1-Setting-up-the-Architecture/" data-title="[cs231n]Neural Networks Part 1: Setting up the Architecture " data-url="https://RutgersHan.github.io/2015/04/21/cs231n-Neural-Networks-Part-1-Setting-up-the-Architecture/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Biological_neuron_VS_compuational_neuron"><span class="toc-number">1.</span> <span class="toc-text">Biological neuron VS compuational neuron</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Different_activition_functions"><span class="toc-number">2.</span> <span class="toc-text">Different activition functions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Neural_Network_architectures"><span class="toc-number">3.</span> <span class="toc-text">Neural Network architectures</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Naming_conventions"><span class="toc-number">3.1.</span> <span class="toc-text">Naming conventions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Output_layer"><span class="toc-number">3.2.</span> <span class="toc-text">Output layer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sizing_neural_networks-"><span class="toc-number">3.3.</span> <span class="toc-text">Sizing neural networks.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Example_feed-forward_computation"><span class="toc-number">3.4.</span> <span class="toc-text">Example feed-forward computation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Representational_power"><span class="toc-number">3.5.</span> <span class="toc-text">Representational power</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Setting_number_of_layers_and_their_sizes"><span class="toc-number">3.6.</span> <span class="toc-text">Setting number of layers and their sizes</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Engineering/" title="Engineering">Engineering<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/LeetCode/" title="LeetCode">LeetCode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Open-Course/" title="Open Course">Open Course<sup>7</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Open-Courses/" title="Open Courses">Open Courses<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Research/" title="Research">Research<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计划/" title="计划">计划<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Deep-Learning/" title="Deep Learning">Deep Learning<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/时间管理/" title="时间管理">时间管理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Notes/" title="Notes">Notes<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Object-Detection/" title="Object Detection">Object Detection<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Image-Caption-Generation/" title="Image Caption Generation">Image Caption Generation<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Han at Rutgers. <br/>
+			Wanna be a geek, let&#39;s learn together</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="https://RutgersHan.github.io/about" target="_blank" title="Han Zhang">Han Zhang</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zhanghan"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'zhanghan';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  <!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</body>
+</html>
