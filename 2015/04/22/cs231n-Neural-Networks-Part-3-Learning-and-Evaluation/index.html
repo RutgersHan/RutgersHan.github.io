@@ -11,15 +11,30 @@
     
 
     
-    <meta name="description" content="Gradient CheckUse the centered formula:$$\frac{df(x)}{dx} = \frac{f(x + h) - f(x)}{h} \hspace{0.1in} \text{(bad, do not use)}$$$$\frac{df(x)}{dx} = \frac{f(x + h) - f(x - h)}{2h} \hspace{0.1in} \text{">
+    <meta name="description" content="Lecture NoteHinton Note on the same topicReferenceRead
+
+SGD tips and tricks from Leon Bottou
+Efficient BackProp (pdf) from Yann LeCun
+Practical Recommendations for Gradient-Based Training of Deep Arch">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[cs231n]Neural Networks Part 3: Learning and Evaluation">
 <meta property="og:url" content="https://RutgersHan.github.io/2015/04/22/cs231n-Neural-Networks-Part-3-Learning-and-Evaluation/index.html">
 <meta property="og:site_name" content="Be a geek">
-<meta property="og:description" content="Gradient CheckUse the centered formula:$$\frac{df(x)}{dx} = \frac{f(x + h) - f(x)}{h} \hspace{0.1in} \text{(bad, do not use)}$$$$\frac{df(x)}{dx} = \frac{f(x + h) - f(x - h)}{2h} \hspace{0.1in} \text{">
+<meta property="og:description" content="Lecture NoteHinton Note on the same topicReferenceRead
+
+SGD tips and tricks from Leon Bottou
+Efficient BackProp (pdf) from Yann LeCun
+Practical Recommendations for Gradient-Based Training of Deep Arch">
+<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-22 at 8.44.08 PM.png">
+<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-22 at 8.50.18 PM.png">
+<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-22 at 9.01.22 PM.png">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[cs231n]Neural Networks Part 3: Learning and Evaluation">
-<meta name="twitter:description" content="Gradient CheckUse the centered formula:$$\frac{df(x)}{dx} = \frac{f(x + h) - f(x)}{h} \hspace{0.1in} \text{(bad, do not use)}$$$$\frac{df(x)}{dx} = \frac{f(x + h) - f(x - h)}{2h} \hspace{0.1in} \text{">
+<meta name="twitter:description" content="Lecture NoteHinton Note on the same topicReferenceRead
+
+SGD tips and tricks from Leon Bottou
+Efficient BackProp (pdf) from Yann LeCun
+Practical Recommendations for Gradient-Based Training of Deep Arch">
 
     
     <link rel="alternative" href="/atom.xml" title="Be a geek" type="application/atom+xml">
@@ -94,11 +109,78 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Gradient_Check"><span class="toc-number">1.</span> <span class="toc-text">Gradient Check</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Gradient_Check"><span class="toc-number">1.</span> <span class="toc-text">Gradient Check</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Before_learning:_sanity_checks_Tips/Tricks"><span class="toc-number">2.</span> <span class="toc-text">Before learning: sanity checks Tips/Tricks</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Babysitting_the_learning_process"><span class="toc-number">3.</span> <span class="toc-text">Babysitting the learning process</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Loss_Functions"><span class="toc-number">3.1.</span> <span class="toc-text">Loss Functions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Train/Val_accuracy"><span class="toc-number">3.2.</span> <span class="toc-text">Train/Val accuracy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ratio_of_weights:updates"><span class="toc-number">3.3.</span> <span class="toc-text">Ratio of weights:updates</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Activation_/_Gradient_distributions_per_layer"><span class="toc-number">3.4.</span> <span class="toc-text">Activation / Gradient distributions per layer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#First-layer_Visualizations"><span class="toc-number">3.5.</span> <span class="toc-text">First-layer Visualizations</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Parameter_updates"><span class="toc-number">4.</span> <span class="toc-text">Parameter updates</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SGD_and_bells_and_whistles"><span class="toc-number">4.1.</span> <span class="toc-text">SGD and bells and whistles</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Annealing_the_learning_rate:Intuition_is_easy_to_get-_First_large_step_size_and_then_small-"><span class="toc-number">4.2.</span> <span class="toc-text">Annealing the learning rate:Intuition is easy to get. First large step size and then small.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Second_order_methods"><span class="toc-number">4.3.</span> <span class="toc-text">Second order methods</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Per-parameter_adaptive_learning_rates_(Adagrad,_RMSProp)"><span class="toc-number">4.4.</span> <span class="toc-text">Per-parameter adaptive learning rates (Adagrad, RMSProp)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Hyperparameter_optimization_(see_the_orginal_notes)"><span class="toc-number"></span> <span class="toc-text">Hyperparameter optimization (see the orginal notes)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Evaluation"><span class="toc-number">1.</span> <span class="toc-text">Evaluation</span></a></li></ol>
 		
 		</div>
 		
-		<h2 id="Gradient_Check">Gradient Check</h2><p>Use the centered formula:<br>$$<br>\frac{df(x)}{dx} = \frac{f(x + h) - f(x)}{h} \hspace{0.1in} \text{(bad, do not use)}<br>$$<br>$$<br>\frac{df(x)}{dx} = \frac{f(x + h) - f(x - h)}{2h} \hspace{0.1in} \text{(use instead)}<br>$$</p>
+		<p><a href="http://cs231n.github.io/neural-networks-3/" target="_blank" rel="external">Lecture Note</a><br><a href="http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf" target="_blank" rel="external">Hinton Note on the same topic</a><br>Reference<br>Read</p>
+<ul>
+<li><a href="http://research.microsoft.com/pubs/192769/tricks-2012.pdf" target="_blank" rel="external">SGD</a> tips and tricks from Leon Bottou</li>
+<li><a href="http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf" target="_blank" rel="external">Efficient BackProp</a> (pdf) from Yann LeCun</li>
+<li><a href="http://arxiv.org/pdf/1206.5533v2.pdf" target="_blank" rel="external">Practical Recommendations for Gradient-Based Training of Deep Architectures</a> from Yoshua Bengio</li>
+</ul>
+<p>About Nesterov’s Accelerated Momentum (NAG)<br><a href="http://arxiv.org/pdf/1212.0901v2.pdf" target="_blank" rel="external">Advances in optimizing Recurrent Networks</a><br><a href="http://www.cs.utoronto.ca/~ilya/pubs/ilya_sutskever_phd_thesis.pdf" target="_blank" rel="external">Ilya Sutskever’s thesis</a></p>
+<p>L-BFGS VS SGD</p>
+<ul>
+<li><a href="http://ai.stanford.edu/~ang/papers/icml11-OptimizationForDeepLearning.pdf" target="_blank" rel="external">On Optimization Methods for Deep Learning</a> from Le et al. is a paper from 2011 comparing SGD vs. L-BFGS. Some of its conclusions have since been challenged.</li>
+<li><a href="http://research.google.com/archive/large_deep_networks_nips2012.html" target="_blank" rel="external">Large Scale Distributed Deep Networks</a> is a paper from the Google Brain team, comparing L-BFGS and SGD variants in large-scale distributed optimization.</li>
+<li><a href="http://arxiv.org/abs/1311.2115" target="_blank" rel="external">SFO</a> algorithm strives to combine the advantages of SGD with advantages of L-BFGS.</li>
+</ul>
+<a id="more"></a>
+<h2 id="Gradient_Check">Gradient Check</h2><p><strong>Use the centered formula</strong>:<br>$$<br>\frac{df(x)}{dx} = \frac{f(x + h) - f(x)}{h} \hspace{0.1in} \text{(bad, do not use)}<br>$$<br>$$<br>\frac{df(x)}{dx} = \frac{f(x + h) - f(x - h)}{2h} \hspace{0.1in} \text{(use instead)}<br>$$</p>
+<p><strong>Use relative error for the comparison</strong><br>$$<br>\frac{\mid f’_a - f’_n \mid}{\mid f’_a \mid + \mid f’_n \mid}<br>$$<br>where <code>h</code> is a very small number, in practice approximately 1e-5 or so<br>Notice that normally the relative error formula only includes one of the two terms (either one), but I prefer to add both to make it symmetric and to prevent underflow in the case where one of the two is zero. However, one must explicitly keep track of the case where both are zero (this can often be the case with ReLUs for example) and pass the gradient check in that edge case. In practice:</p>
+<ul>
+<li>relative error &gt; 1e-2 usually means the gradient is probably wrong</li>
+<li>1e-2 &gt; relative error &gt; 1e-4 should make you feel uncomfortable</li>
+<li>1e-4 &gt; relative error is usually okay for objectives with kinks. But if there are no kinks (e.g. use of tanh nonlinearities and softmax), then 1e-4 is too high.</li>
+<li>1e-7 and less you should be happy.</li>
+<li>the deeper the network, the higher the relative errors will be. So if you are gradient checking the input data for a 10 layer network, a relative error of 1e-2 might be okay because the errors build up on the way.<br><strong>Kinks in the objective</strong>:<br>Kinks refer to non-differentiable parts of an objective function, introduced by functions such as ReLU (\(max(0,x)\)), or the SVM loss, Maxout neurons. It is not trivial in the large network.<br><strong>Be careful with the step size h</strong>: If it is not correct all the time, try 1e-4 or 1e-6<br><strong>Gradcheck during a “characteristic” mode of operation</strong> Check multiple points instead of just one. Sometimes it is better se a short burn-in time during which the network is allowed to learn and perform the gradient check after the loss starts to go down<br><strong>Don’t let the regularization overwhelm the data</strong> One danger to be aware of is that the regularization loss may overwhelm the data loss, in which case the gradients will be primarily coming from the regularization term.  Therefore, it is recommended to turn off regularization and check the data loss alone first, and then the regularization term second and independently<br><strong>Remember to turn off dropout/augmentations</strong>performing gradient check, remember to turn off any non-deterministic effects in the network, such as dropout, random data augmentations</li>
+</ul>
+<h2 id="Before_learning:_sanity_checks_Tips/Tricks">Before learning: sanity checks Tips/Tricks</h2><ul>
+<li><strong>Look for correct loss at chance performance</strong>: In the begining, w is small random variable. So the loss should be like a random guess. So now, calculate the loss. if it is close to random guess and you probably right. </li>
+<li><strong>Overfit a tiny subset of data</strong> before training on the full dataset try to train on a tiny portion (e.g. 20 examples) of your data and make sure you can achieve zero cost(Turn off regularization)</li>
+</ul>
+<h2 id="Babysitting_the_learning_process">Babysitting the learning process</h2><p>Monitor useful quantities during training of a neural network.<br><strong>Epochs</strong>: The x-axis of the plots below are always in units of epochs, which measure how many times every example has been seen during training in expectation (e.g. one epoch means that every example has been seen once). It is preferable to track epochs rather than iterations since the number of iterations depends on the arbitrary setting of batch size.</p>
+<h3 id="Loss_Functions">Loss Functions</h3><p>The first quantity that is useful to track during training is the loss, as it is evaluated on the individual batches during the forward pass. Below is a cartoon diagram showing the loss over time, and especially what the shape might tell you about the learning rate:<br><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-22 at 8.44.08 PM.png" alt=""></p>
+<h3 id="Train/Val_accuracy">Train/Val accuracy</h3><p>The second important quantity to track while training a classifier is the validation/training accuracy. This plot can give you valuable insights into the amount of overfitting in your model:<br><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-22 at 8.50.18 PM.png" alt=""></p>
+<h3 id="Ratio_of_weights:updates">Ratio of weights:updates</h3><p>Track is the ratio of the update magnitudes to to the value magnitudes. <em>updates, not the raw gradients (e.g. in vanilla sgd this would be the gradient multiplied by the learning rate).</em> You might want to evaluate and track this ratio for every set of parameters independently. A rough heuristic is that this ratio should be somewhere around 1e-3. If it is lower than this then the learning rate might be too low. If it is higher then the learning rate is likely too high.<br>You can track the norm or (min, max) of W. For details, see original one</p>
+<h3 id="Activation_/_Gradient_distributions_per_layer">Activation / Gradient distributions per layer</h3><p>Keep track of is <em>the variance of the activations</em> and their gradients on each layer. If the activations vanish extremely quickly in the higher layers of the network. This will in turn lead to weight gradients near zero, since during backprop they are dependent multiplicatively on the activations. By correctly normalizing the weights, the variances look much more uniform:</p>
+<h3 id="First-layer_Visualizations">First-layer Visualizations</h3><p>Lastly, when one is working with image pixels it can be helpful and satisfying to plot the first-layer features visually:<br><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-22 at 9.01.22 PM.png" alt=""></p>
+<h2 id="Parameter_updates">Parameter updates</h2><h3 id="SGD_and_bells_and_whistles">SGD and bells and whistles</h3><p><em>Vanilla update</em>: fixed learning rate<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Vanilla update</span></span><br><span class="line">x += - learning_rate * dx</span><br></pre></td></tr></table></figure></p>
+<p><strong>Momentum update</strong>: Almost always enjoys better converge rates(than vanilla update) on deep networks.Momentum simply adds a fraction m of the previous weight update to the current one. It is often necessary to reduce the global learning rate µ when using a lot of momentum (m close to 1). If you combine a high learning rate with a lot of momentum, you will rush past the minimum with huge steps!</p>
+<p>When the gradient keeps changing direction, momentum will smooth out the variations. This is particularly useful when the network is not well-conditioned. (#gradient 方向总在变，zigzag，加了momentum收敛更快)</p>
+<p><code>v</code> variable that is initialized at zero, and an additional hyperparameter <code>(mu)</code> when cross-validated, this parameter is usually set to values such as [0.5, 0.9, 0.95, 0.99]<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">v = mu * v - learning_rate * dx <span class="comment"># integrate velocity</span></span><br><span class="line">x += v <span class="comment"># integrate position</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>Nesterov Momentum</strong>： slightly better in practice than the momentum update. The idea is to update the parameter with the gradient at the predicted (peeked-ahead) parameter<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">x_ahead = x + mu * v</span><br><span class="line"><span class="comment"># evaluate dx_ahead (the gradient at x_ahead instead of at x)</span></span><br><span class="line">v = mu * v - learning_rate * dx_ahead</span><br><span class="line">x += v</span><br></pre></td></tr></table></figure></p>
+<p>In practice, people prefer to express the update to look as similar to vanilla SGD or to the previous momentum update as possible, expressing the update in terms of x_ahead instead of x.Then get<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">v_prev = v <span class="comment"># back this up</span></span><br><span class="line">v = mu * v - learning_rate * dx <span class="comment"># velocity update stays the same</span></span><br><span class="line">x += -mu * v_prev + (<span class="number">1</span> + mu) * v <span class="comment"># position update changes form</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="Annealing_the_learning_rate:Intuition_is_easy_to_get-_First_large_step_size_and_then_small-">Annealing the learning rate:Intuition is easy to get. First large step size and then small.</h3><p>Three common types of implementing the learning rate decay:</p>
+<ul>
+<li>Step decay*  Reduce the learning rate by some factor every few epochs. Typical values might be reducing the learning rate by a half every 5 epochs, or by 0.1 every 20 epochs. These numbers depend heavily on the type of problem and the model. One heuristic you may see in practice is to watch the validation error while training with a fixed learning rate, and reduce the learning rate by a constant (e.g. 0.5) whenever the validation error stops improving.</li>
+<li><strong>Exponential decay.</strong> has the mathematical form \(\alpha = \alpha_0 e^{-k t}\), where \(\alpha_0, k\) are hyperparameters and \(t\) is the iteration number (but you can also use units of epochs).</li>
+<li><strong>1/t decay</strong> has the mathematical form \(\alpha = \alpha_0 / (1 + k t )\) where \(a_0, k\) are hyperparameters and \(t\) is the iteration number.<br>In practice, we find that the step decay dropout is slightly preferable because the hyperparameters it involves (the fraction of decay and the step timings in units of epochs) are more interpretable than the hyperparameter \(k\). </li>
+</ul>
+<h3 id="Second_order_methods">Second order methods</h3><p>Newton or L-BFGS<br>In practice, it is currently not common to see L-BFGS or similar second-order methods applied to large-scale Deep Learning and Convolutional Neural Networks. Instead, SGD variants based on (Nesterov’s) momentum are more standard because they are simpler and scale more easily.</p>
+<h3 id="Per-parameter_adaptive_learning_rates_(Adagrad,_RMSProp)">Per-parameter adaptive learning rates (Adagrad, RMSProp)</h3><p>Adagrad:(see the orginal note)<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Assume the gradient dx and parameter vector x</span></span><br><span class="line">cache += dx**<span class="number">2</span></span><br><span class="line">x += - learning_rate * dx / np.sqrt(cache + <span class="number">1e-8</span>)</span><br></pre></td></tr></table></figure></p>
+<p>RMSprop:(see hinton slides)<br><figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cache = decay_rate <span class="keyword">*</span> cache + (1 - decay_rate) <span class="keyword">*</span> dx<span class="keyword">*</span><span class="keyword">*</span>2</span><br><span class="line">x += - learning_rate <span class="keyword">*</span> dx / np.sqrt(cache + 1e-8)</span><br></pre></td></tr></table></figure></p>
+<h1 id="Hyperparameter_optimization_(see_the_orginal_notes)">Hyperparameter optimization (see the orginal notes)</h1><ul>
+<li>the initial learning rate</li>
+<li>learning rate decay schedule (such as the decay constant)</li>
+<li>regularization strength (L2 penalty, dropout strength)<br>strategies: </li>
+</ul>
+<ul>
+<li>Prefer one validation fold to cross-validation.</li>
+<li><strong>Hyperparameter ranges</strong>: Search for hyperparameters on log scale. For example, a typical sampling of the learning rate would look as follows: learning_rate = 10 ** uniform(-6, 1). That is, we are generating a random random with a uniform distribution, but then raising it to the power of 10. The same strategy should be used for the regularization strength. As mentioned, for some parameters such as momentum, it is more common to search over a fixed set of values such as [0.5, 0.9, 0.95, 0.99] .</li>
+<li>Prefer random search to grid search</li>
+<li>Careful with best values on border: if the best one is in border, probably need to add more range</li>
+<li>Stage your search from coarse to fine.</li>
+<li>Bayesian Hyperparameter Optimization ?(seems not used in ConvNets)</li>
+</ul>
+<h2 id="Evaluation">Evaluation</h2><p>Model Ensembles gives better performance. </p>
+<ul>
+<li><strong>Same model, different initializations</strong></li>
+<li><strong>Top models discovered during cross-validation</strong>. </li>
+<li><strong>Different checkpoints of a single model</strong>. I</li>
+</ul>
+<p>One disadvantage of model ensembles is that they take longer to evaluate on test example. An interested reader may find the recent work from Geoff Hinton on <a href="https://www.youtube.com/watch?v=EK61htlw8hY" target="_blank" rel="external">“Dark Knowledge”</a> inspiring, where the idea is to “distill” a good ensemble back to a single model by incorporating the ensemble log likelihoods into a modified objective.</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -129,6 +211,14 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2015/04/25/cs231n-Putting-it-together-Minimal-Neural-Network-Case-Study/" title="[cs231n]Putting it together: Minimal Neural Network Case Study">
+  <strong>上一篇：</strong><br/>
+  <span>
+  [cs231n]Putting it together: Minimal Neural Network Case Study</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2015/04/21/cs231n-Neural-Networks-Part-2-Setting-up-the-Data-and-the-Loss/"  title="[cs231n]Neural Networks Part 2: Setting up the Data and the Loss">
@@ -158,7 +248,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Gradient_Check"><span class="toc-number">1.</span> <span class="toc-text">Gradient Check</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Gradient_Check"><span class="toc-number">1.</span> <span class="toc-text">Gradient Check</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Before_learning:_sanity_checks_Tips/Tricks"><span class="toc-number">2.</span> <span class="toc-text">Before learning: sanity checks Tips/Tricks</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Babysitting_the_learning_process"><span class="toc-number">3.</span> <span class="toc-text">Babysitting the learning process</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Loss_Functions"><span class="toc-number">3.1.</span> <span class="toc-text">Loss Functions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Train/Val_accuracy"><span class="toc-number">3.2.</span> <span class="toc-text">Train/Val accuracy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ratio_of_weights:updates"><span class="toc-number">3.3.</span> <span class="toc-text">Ratio of weights:updates</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Activation_/_Gradient_distributions_per_layer"><span class="toc-number">3.4.</span> <span class="toc-text">Activation / Gradient distributions per layer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#First-layer_Visualizations"><span class="toc-number">3.5.</span> <span class="toc-text">First-layer Visualizations</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Parameter_updates"><span class="toc-number">4.</span> <span class="toc-text">Parameter updates</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SGD_and_bells_and_whistles"><span class="toc-number">4.1.</span> <span class="toc-text">SGD and bells and whistles</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Annealing_the_learning_rate:Intuition_is_easy_to_get-_First_large_step_size_and_then_small-"><span class="toc-number">4.2.</span> <span class="toc-text">Annealing the learning rate:Intuition is easy to get. First large step size and then small.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Second_order_methods"><span class="toc-number">4.3.</span> <span class="toc-text">Second order methods</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Per-parameter_adaptive_learning_rates_(Adagrad,_RMSProp)"><span class="toc-number">4.4.</span> <span class="toc-text">Per-parameter adaptive learning rates (Adagrad, RMSProp)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Hyperparameter_optimization_(see_the_orginal_notes)"><span class="toc-number"></span> <span class="toc-text">Hyperparameter optimization (see the orginal notes)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Evaluation"><span class="toc-number">1.</span> <span class="toc-text">Evaluation</span></a></li></ol>
  
   </div>
 
@@ -180,11 +270,11 @@
 		  
 		
 		  
-			<li><a href="/categories/Open-Course/" title="Open Course">Open Course<sup>9</sup></a></li>
+			<li><a href="/categories/Open-Course/" title="Open Course">Open Course<sup>15</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Research/" title="Research">Research<sup>4</sup></a></li>
+			<li><a href="/categories/Research/" title="Research">Research<sup>6</sup></a></li>
 		  
 		
 		  

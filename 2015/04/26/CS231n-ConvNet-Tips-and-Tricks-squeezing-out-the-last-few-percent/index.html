@@ -4,25 +4,22 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>[CS231n]Image Classification: Data-driven Approach, k-Nearest Neighbor, train/val/test splits | Be a geek</title>
+    <title>[CS231n]ConvNet Tips and Tricks: squeezing out the last few percent | Be a geek</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Han Zhang">
     
 
     
-    <meta name="description" content="Lecture WebsiteKey words: L1/L2 distances, hyperparameter search, cross-validation, Nearest Neighbour">
+    <meta name="description" content="Lecture Noteslides">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[CS231n]Image Classification: Data-driven Approach, k-Nearest Neighbor, train/val/test splits">
-<meta property="og:url" content="https://RutgersHan.github.io/2015/04/16/CS231n-Image-Classification-Data-driven-Approach-k-Nearest-Neighbor-train-val-test-splits/index.html">
+<meta property="og:title" content="[CS231n]ConvNet Tips and Tricks: squeezing out the last few percent">
+<meta property="og:url" content="https://RutgersHan.github.io/2015/04/26/CS231n-ConvNet-Tips-and-Tricks-squeezing-out-the-last-few-percent/index.html">
 <meta property="og:site_name" content="Be a geek">
-<meta property="og:description" content="Lecture WebsiteKey words: L1/L2 distances, hyperparameter search, cross-validation, Nearest Neighbour">
-<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/pixels_embed_cifar10.jpg">
-<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-16 at 12.24.20 PM.png">
-<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-16 at 12.24.10 PM.png">
+<meta property="og:description" content="Lecture Noteslides">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="[CS231n]Image Classification: Data-driven Approach, k-Nearest Neighbor, train/val/test splits">
-<meta name="twitter:description" content="Lecture WebsiteKey words: L1/L2 distances, hyperparameter search, cross-validation, Nearest Neighbour">
+<meta name="twitter:title" content="[CS231n]ConvNet Tips and Tricks: squeezing out the last few percent">
+<meta name="twitter:description" content="Lecture Noteslides">
 
     
     <link rel="alternative" href="/atom.xml" title="Be a geek" type="application/atom+xml">
@@ -81,14 +78,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/04/16/CS231n-Image-Classification-Data-driven-Approach-k-Nearest-Neighbor-train-val-test-splits/" title="[CS231n]Image Classification: Data-driven Approach, k-Nearest Neighbor, train/val/test splits" itemprop="url">[CS231n]Image Classification: Data-driven Approach, k-Nearest Neighbor, train/val/test splits</a>
+      <a href="/2015/04/26/CS231n-ConvNet-Tips-and-Tricks-squeezing-out-the-last-few-percent/" title="[CS231n]ConvNet Tips and Tricks: squeezing out the last few percent" itemprop="url">[CS231n]ConvNet Tips and Tricks: squeezing out the last few percent</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
 		
   <p class="article-time">
-    <time datetime="2015-04-16T15:53:51.000Z" itemprop="datePublished"> 发表于 2015-04-16</time>
+    <time datetime="2015-04-26T15:30:44.000Z" itemprop="datePublished"> 发表于 2015-04-26</time>
     
   </p>
 </header>
@@ -97,31 +94,32 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Data_Augmentation"><span class="toc-number">1.</span> <span class="toc-text">Data Augmentation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GPU"><span class="toc-number">2.</span> <span class="toc-text">GPU</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FFT"><span class="toc-number">3.</span> <span class="toc-text">FFT</span></a></li></ol>
 		
 		</div>
 		
-		<p><a href="http://cs231n.github.io/classification/" target="_blank" rel="external">Lecture Website</a><br>Key words: L1/L2 distances, hyperparameter search, cross-validation, Nearest Neighbour<br><a id="more"></a></p>
-<p>This tutorial is extremely good(class notes is enough. It contains all the materials in slides), better to read the original one. Here I just wrote some points, which I was not quite famaliar with, to remember. </p>
-<ol>
-<li><p><a href="http://www.cs.toronto.edu/~kriz/cifar.html" target="_blank" rel="external">CIFAR Dataset</a>: Entry-level dataset for image classification<br>The CIFAR-10 dataset consists of 60000 32x32 colour images in 10 classes, with 6000 images per class. There are 50000 training images and 10000 test images. </p>
-</li>
-<li><p><a href="http://lvdmaaten.github.io/tsne/" target="_blank" rel="external">t-SNE</a>: popular visualization technique<br>t-SNE for CIFAR-10 images using L2 distanceL<br><img src="http://7xikhz.com1.z0.glb.clouddn.com/pixels_embed_cifar10.jpg" alt=""></p>
-</li>
-<li><p>Validation sets for Hyperparameter tuning: The idea is to split our training set in two: a slightly smaller training set, and what we call a validation set. Using CIFAR-10 as an example, we could for example use 49,000 of the training images for training, and leave 1,000 aside for validation. By the end of this procedure, we could plot a graph that shows which values of k work best. We would then stick with this value and evaluate once on the actual test set.Here is what this might look like in the case of CIFAR-10:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># assume we have Xtr_rows, Ytr, Xte_rows, Yte as before</span></span><br><span class="line"><span class="comment"># recall Xtr_rows is 50,000 x 3072 matrix</span></span><br><span class="line">Xval_rows = Xtr_rows[:<span class="number">1000</span>, :] <span class="comment"># take first 1000 for validation</span></span><br><span class="line">Yval = Ytr[:<span class="number">1000</span>]</span><br><span class="line">Xtr_rows = Xtr_rows[<span class="number">1000</span>:, :] <span class="comment"># keep last 49,000 for train</span></span><br><span class="line">Ytr = Ytr[<span class="number">1000</span>:]</span><br><span class="line"></span><br><span class="line"><span class="comment"># find hyperparameters that work best on the validation set</span></span><br><span class="line">validation_accuracies = []</span><br><span class="line"><span class="keyword">for</span> k <span class="keyword">in</span> [<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">10</span>, <span class="number">20</span>, <span class="number">50</span>, <span class="number">100</span>]:</span><br><span class="line"></span><br><span class="line">  <span class="comment"># use a particular value of k and evaluation on validation data</span></span><br><span class="line">  nn = NearestNeighbor()</span><br><span class="line">  nn.train(Xtr_rows, Ytr)</span><br><span class="line">  <span class="comment"># here we assume a modified NearestNeighbor class that can take a k as input</span></span><br><span class="line">  Yval_predict = nn.predict(Xval_rows, k = k)</span><br><span class="line">  acc = np.mean(Yval_predict == Yval)</span><br><span class="line">  <span class="keyword">print</span> <span class="string">'accuracy: %f'</span> % (acc,)</span><br><span class="line"></span><br><span class="line">  <span class="comment"># keep track of what works on the validation set</span></span><br><span class="line">  validation_accuracies.append((k, acc))</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Cross Validation: In cases where the size of your training data (and therefore also the validation data) might be small, people sometimes use a more sophisticated technique for hyperparameter tuning called cross-validation. Working with our previous example, the idea is that instead of arbitrarily picking the first 1000 datapoints to be the validation set and rest training set, you can get a better and less noisy estimate of how well a certain value of k works by iterating over different validation sets and averaging the performance across these. For example, in 5-fold cross-validation, we would split the training data into 5 equal folds, use 4 of them for training, and 1 for validation. We would then iterate over which fold is the validation fold, evaluate the performance, and finally average the performance across the different folds.<br><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-16 at 12.24.20 PM.png" alt=""><br><strong>Exactly 5 points for each K </strong><br><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-04-16 at 12.24.10 PM.png" alt=""><br><strong>In Practice: if the training data size is small, go cross validation: </strong><br>people prefer to avoid cross-validation in favor of having a single validation split, since cross-validation can be computationally expensive. The splits people tend to use is between 50%-90% of the training data for training and rest for validation. However, this depends on multiple factors: For example if the number of hyperparameters is large you may prefer to use bigger validation splits. If the number of examples in the validation set is small (perhaps only a few hundred or so), it is safer to use cross-validation. Typical number of folds you can see in practice would be 3-fold, 5-fold or 10-fold cross-validation.</p>
-<p><strong> More about validation </strong><br><em>More parameters to tune, larger validation set or more folds</em></p>
-<blockquote>
-<p>Split your training data randomly into train/val splits. As a rule of thumb, between 70-90% of your data usually goes to the train split. This setting depends on how many hyperparameters you have and how much of an influence you expect them to have. If there are many hyperparameters to estimate, you should err on the side of having larger validation set to estimate them effectively. If you are concerned about the size of your validation data, it is best to split the training data into folds and perform cross-validation. If you can afford the computational budget it is always safer to go with cross-validation (the more folds the better, but more expensive).</p>
-</blockquote>
-<p><em>Burn the validation set, not using it as the the training(e.g. 1NN don’t use validation set as reference )</em></p>
-<blockquote>
-<p>Take note of the hyperparameters that gave the best results. There is a question of whether you should use the full training set with the best hyperparameters, since the optimal hyperparameters might change if you were to fold the validation data into your training set (since the size of the data would be larger). In practice it is cleaner to not use the validation data in the final classifier and consider it to be burned on estimating the hyperparameters. Evaluate the best model on the test set. Report the test set accuracy and declare the result to be the performance of the kNN classifier on your data.</p>
-</blockquote>
-</li>
+		<p><a href="">Lecture Note</a><br><a href="http://vision.stanford.edu/teaching/cs231n/slides/lecture10.pdf" target="_blank" rel="external">slides</a><br><a id="more"></a></p>
+<h3 id="Data_Augmentation">Data Augmentation</h3><ol>
+<li>Flip horizontally</li>
+<li>Random crops/scales</li>
+<li>Random mix/combinations of: translation, rotation, stretching, shearing, lens distortions, … (go crazy)</li>
+<li>Color jittering</li>
 </ol>
+<ul>
+<li>Simple: Change contrast small amounts, jitter the color distributions, etc</li>
+<li>Fancy PCA way: 1. Compute PCA on all [R,G,B] points values in the training data; 2. sample some color offset along the principal components at each forward pass; 3. add the offset to all pixels in a training image</li>
+</ul>
+<p>Notice the more general theme: </p>
+<ul>
+<li>Introduce a form of randomness in forward pass(Dropout, functional pooling)</li>
+<li>Marginalize over the noise distribution during prediction</li>
+</ul>
+<h3 id="GPU">GPU</h3><ul>
+<li>CPU: disk bottleneck, Harddisk is slow to read from</li>
+<li>GPU: memory bottleneck,e .g. AlexNet: ~3GB needed with batch size 256(Tesla K40: 12GB &lt;- currently the max<br>Titan Black: 6GB)</li>
+<li>GPU - CPU communication is a bottleneck: CPU data prefetch thread running while GPU performs forward/backward pass</li>
+</ul>
+<h3 id="FFT">FFT</h3><p>Unfortunately, FFT Conv is slower with smaller filter sizes :(</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -139,7 +137,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://RutgersHan.github.io/2015/04/16/CS231n-Image-Classification-Data-driven-Approach-k-Nearest-Neighbor-train-val-test-splits/" data-title="[CS231n]Image Classification: Data-driven Approach, k-Nearest Neighbor, train/val/test splits | Be a geek" data-tsina="null" class="share clearfix">
+	  <div data-url="https://RutgersHan.github.io/2015/04/26/CS231n-ConvNet-Tips-and-Tricks-squeezing-out-the-last-few-percent/" data-title="[CS231n]ConvNet Tips and Tricks: squeezing out the last few percent | Be a geek" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -153,18 +151,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/04/16/cs231n-Linear-classification-Support-Vector-Machine-Softmax/" title="[cs231n]Linear classification: Support Vector Machine, Softmax">
+ <a href="/2015/04/27/cs231n-Beyond-Image-Classification/" title="[cs231n]Beyond Image Classification">
   <strong>上一篇：</strong><br/>
   <span>
-  [cs231n]Linear classification: Support Vector Machine, Softmax</span>
+  [cs231n]Beyond Image Classification</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2015/04/16/Notes-for-ImageNet-Classification-with-Deep-Convolutional-Neural- Networks/"  title="Notes for &lt;ImageNet Classification with Deep Convolutional Neural Networks&gt;">
+<a href="/2015/04/26/cs231n-Transfer-Learning-and-Fine-tuning-Convolutional-Neural-Networks/"  title="[cs231n]Transfer Learning and Fine-tuning Convolutional Neural Networks">
  <strong>下一篇：</strong><br/> 
- <span>Notes for &lt;ImageNet Classification with Deep Convolutional Neural Networks&gt;
+ <span>[cs231n]Transfer Learning and Fine-tuning Convolutional Neural Networks
 </span>
 </a>
 </div>
@@ -173,7 +171,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/04/16/CS231n-Image-Classification-Data-driven-Approach-k-Nearest-Neighbor-train-val-test-splits/" data-title="[CS231n]Image Classification: Data-driven Approach, k-Nearest Neighbor, train/val/test splits" data-url="https://RutgersHan.github.io/2015/04/16/CS231n-Image-Classification-Data-driven-Approach-k-Nearest-Neighbor-train-val-test-splits/"></div>
+	<div class="ds-thread" data-thread-key="2015/04/26/CS231n-ConvNet-Tips-and-Tricks-squeezing-out-the-last-few-percent/" data-title="[CS231n]ConvNet Tips and Tricks: squeezing out the last few percent" data-url="https://RutgersHan.github.io/2015/04/26/CS231n-ConvNet-Tips-and-Tricks-squeezing-out-the-last-few-percent/"></div>
 </section>
 
 
@@ -189,7 +187,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Data_Augmentation"><span class="toc-number">1.</span> <span class="toc-text">Data Augmentation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GPU"><span class="toc-number">2.</span> <span class="toc-text">GPU</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FFT"><span class="toc-number">3.</span> <span class="toc-text">FFT</span></a></li></ol>
  
   </div>
 
