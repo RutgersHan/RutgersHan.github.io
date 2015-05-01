@@ -11,15 +11,15 @@
     
 
     
-    <meta name="description">
+    <meta name="description" content="The main difference between this model and other state-of-the-art models is the combination ofpixel-level CRFs and DCNN-based ‘unary terms’.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Notes for <SEMANTIC IMAGE SEGMENTATION WITH DEEP CONVOLUTIONAL NETS AND FULLY CONNECTED CRFS>">
 <meta property="og:url" content="https://RutgersHan.github.io/2015/04/30/Notes-for-SEMANTIC IMAGE SEGMENTATION WITH DEEP CONVOLUTIONAL NETS AND FULLY CONNECTED CRFS/index.html">
 <meta property="og:site_name" content="Be a geek">
-<meta property="og:description">
+<meta property="og:description" content="The main difference between this model and other state-of-the-art models is the combination ofpixel-level CRFs and DCNN-based ‘unary terms’.">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Notes for <SEMANTIC IMAGE SEGMENTATION WITH DEEP CONVOLUTIONAL NETS AND FULLY CONNECTED CRFS>">
-<meta name="twitter:description">
+<meta name="twitter:description" content="The main difference between this model and other state-of-the-art models is the combination ofpixel-level CRFs and DCNN-based ‘unary terms’.">
 
     
     <link rel="alternative" href="/atom.xml" title="Be a geek" type="application/atom+xml">
@@ -44,7 +44,7 @@
 			
 			<div id="textlogo">
 				<h1 class="site-name"><a href="/" title="Be a geek">Be a geek</a></h1>
-				<h2 class="blog-motto">Smiling to the Challenge</h2>
+				<h2 class="blog-motto">梦想一定要有的，万一见鬼了呢</h2>
 			</div>
 			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
@@ -98,7 +98,13 @@
 		
 		</div>
 		
-		  
+		<p>The main difference between this model and other state-of-the-art models is the combination of<br>pixel-level CRFs and DCNN-based ‘unary terms’.<br><a id="more"></a></p>
+<ol>
+<li>How to get dense inference form cousre FCNN output?  </li>
+</ol>
+<p><em>Hole algorithm</em>:</p>
+<p>We skip subsampling after the last two max-pooling layers and modify the convolutional filters in the layers that follow them by introducing zeros to increase their length (2x in the last three convolutional layers and 4x in the first fully connected layer). We can implement this more efficiently by keeping the filters intact and instead sparsely sample the feature maps on which they are applied on using an input stride of 2 or 4 pixels, respectively.</p>
+  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -128,6 +134,14 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2015/05/01/Caffe-1-Google-Protocol-Buffer/" title="[Caffe](1) Google Protocol Buffer">
+  <strong>上一篇：</strong><br/>
+  <span>
+  [Caffe](1) Google Protocol Buffer</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2015/04/30/notes-for-Fully-Convolutional-Networks-for-Semantic-Segmentation/"  title="notes for &lt;Fully Convolutional Networks for Semantic Segmentation&gt;">

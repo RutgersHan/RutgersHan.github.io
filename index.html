@@ -44,7 +44,7 @@
 			
 			<div id="textlogo">
 				<h1 class="site-name"><a href="/" title="Be a geek">Be a geek</a></h1>
-				<h2 class="blog-motto">Smiling to the Challenge</h2>
+				<h2 class="blog-motto">梦想一定要有的，万一见鬼了呢</h2>
 			</div>
 			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
 			</a></div>
@@ -80,6 +80,65 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/05/01/Caffe-1-Google-Protocol-Buffer/" title="[Caffe](1) Google Protocol Buffer" itemprop="url">[Caffe](1) Google Protocol Buffer</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
+		
+  <p class="article-time">
+    <time datetime="2015-05-01T04:10:40.000Z" itemprop="datePublished"> 发表于 2015-05-01</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p><a href="http://blog.csdn.net/kkk584520/article/details/41046827" target="_blank" rel="external">Caffe代码导读（1）：Protobuf例子</a><br><a href="https://developers.google.com/protocol-buffers/docs/cpptutorial" target="_blank" rel="external">Protocol Buffer Basics</a></p>
+<p>总的来说，Protobuf主要是在不同平台不同语言之间传递变量的作用. 在Caffe中具体的作用就是</p>
+<blockquote>
+<p>一个软件项目 = 数据结构 + 算法 + 参数，对于数据结构和算法我们都已经有较多研究，但不同开发者对参数管理却各有千秋。有人喜欢TXT格式化的参数文件，有人喜欢BIN简单高效，也有人喜欢图形化界面的直观。不一致的参数管理带来很多问题，例如一个项目组内不同成员必须 约定一套统一的参数方案，或者称为通信协议，这样便于模块集成。而Protobuf工具就完美解决了这个问题，关键部分代码自动生成，节省了&gt;&gt; 大量的开发、调试时间</p>
+<p>除了上述简单功能，Protobuf还可以用来传递不同语言(C/C++与Java、Python)之间的参数，省去了自己手动维护数据结构的繁琐工作。也可以支持客户端/服务器模式，在主机/从机之间传递参数。</p>
+<p>caffe代码中的参数初始化、参数保存操作</p>
+</blockquote>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/05/01/Caffe-1-Google-Protocol-Buffer/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/05/01/Caffe-1-Google-Protocol-Buffer/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/04/30/Notes-for-SEMANTIC IMAGE SEGMENTATION WITH DEEP CONVOLUTIONAL NETS AND FULLY CONNECTED CRFS/" title="Notes for &lt;SEMANTIC IMAGE SEGMENTATION WITH DEEP CONVOLUTIONAL NETS AND FULLY CONNECTED CRFS&gt;" itemprop="url">Notes for &lt;SEMANTIC IMAGE SEGMENTATION WITH DEEP CONVOLUTIONAL NETS AND FULLY CONNECTED CRFS&gt;</a>
   </h1>
   <p class="article-author">By
@@ -93,10 +152,12 @@
 </header>
     <div class="article-content">
         
-        
+        <p>The main difference between this model and other state-of-the-art models is the combination of<br>pixel-level CRFs and DCNN-based ‘unary terms’.<br>
         
         
         <p class="article-more-link">
+          
+            <a href="/2015/04/30/Notes-for-SEMANTIC IMAGE SEGMENTATION WITH DEEP CONVOLUTIONAL NETS AND FULLY CONNECTED CRFS/#more">Read More</a>
           
        </p>
     </div>
@@ -627,80 +688,9 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/04/22/cs231n-Neural-Networks-Part-3-Learning-and-Evaluation/" title="[cs231n]Neural Networks Part 3: Learning and Evaluation" itemprop="url">[cs231n]Neural Networks Part 3: Learning and Evaluation</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
-		
-  <p class="article-time">
-    <time datetime="2015-04-22T20:55:56.000Z" itemprop="datePublished"> 发表于 2015-04-22</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p><a href="http://cs231n.github.io/neural-networks-3/">Lecture Note</a><br><a href="http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf">Hinton Note on the same topic</a><br>Reference<br>Read</p>
-<ul>
-<li><a href="http://research.microsoft.com/pubs/192769/tricks-2012.pdf">SGD</a> tips and tricks from Leon Bottou</li>
-<li><a href="http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf">Efficient BackProp</a> (pdf) from Yann LeCun</li>
-<li><a href="http://arxiv.org/pdf/1206.5533v2.pdf">Practical Recommendations for Gradient-Based Training of Deep Architectures</a> from Yoshua Bengio</li>
-</ul>
-<p>About Nesterov’s Accelerated Momentum (NAG)<br><a href="http://arxiv.org/pdf/1212.0901v2.pdf">Advances in optimizing Recurrent Networks</a><br><a href="http://www.cs.utoronto.ca/~ilya/pubs/ilya_sutskever_phd_thesis.pdf">Ilya Sutskever’s thesis</a></p>
-<p>L-BFGS VS SGD</p>
-<ul>
-<li><a href="http://ai.stanford.edu/~ang/papers/icml11-OptimizationForDeepLearning.pdf">On Optimization Methods for Deep Learning</a> from Le et al. is a paper from 2011 comparing SGD vs. L-BFGS. Some of its conclusions have since been challenged.</li>
-<li><a href="http://research.google.com/archive/large_deep_networks_nips2012.html">Large Scale Distributed Deep Networks</a> is a paper from the Google Brain team, comparing L-BFGS and SGD variants in large-scale distributed optimization.</li>
-<li><a href="http://arxiv.org/abs/1311.2115">SFO</a> algorithm strives to combine the advantages of SGD with advantages of L-BFGS.</li>
-</ul>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2015/04/22/cs231n-Neural-Networks-Part-3-Learning-and-Evaluation/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Open-Course/">Open Course</a>
-</div>
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/04/22/cs231n-Neural-Networks-Part-3-Learning-and-Evaluation/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/04/22/cs231n-Neural-Networks-Part-3-Learning-and-Evaluation/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
   </nav>
 
 </div>
