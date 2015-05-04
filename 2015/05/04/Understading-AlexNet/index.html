@@ -4,22 +4,38 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>[cs231n]Putting it together: Minimal Neural Network Case Study | Be a geek</title>
+    <title>Understading AlexNet | Be a geek</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Han Zhang">
     
 
     
-    <meta name="description" content="Lecture note">
+    <meta name="description" content="Reference: 
+
+Caffe AlexNet Prototxt
+cs231n: Convolutional Neural Networks: Architectures, Convolution / Pooling Layers
+ImageNet Classification with Deep ConvolutionalNeural Networks
+slides of the pape">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[cs231n]Putting it together: Minimal Neural Network Case Study">
-<meta property="og:url" content="https://RutgersHan.github.io/2015/04/25/cs231n-Putting-it-together-Minimal-Neural-Network-Case-Study/index.html">
+<meta property="og:title" content="Understading AlexNet">
+<meta property="og:url" content="https://RutgersHan.github.io/2015/05/04/Understading-AlexNet/index.html">
 <meta property="og:site_name" content="Be a geek">
-<meta property="og:description" content="Lecture note">
+<meta property="og:description" content="Reference: 
+
+Caffe AlexNet Prototxt
+cs231n: Convolutional Neural Networks: Architectures, Convolution / Pooling Layers
+ImageNet Classification with Deep ConvolutionalNeural Networks
+slides of the pape">
+<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-05-04 at 1.27.08 PM.png">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="[cs231n]Putting it together: Minimal Neural Network Case Study">
-<meta name="twitter:description" content="Lecture note">
+<meta name="twitter:title" content="Understading AlexNet">
+<meta name="twitter:description" content="Reference: 
+
+Caffe AlexNet Prototxt
+cs231n: Convolutional Neural Networks: Architectures, Convolution / Pooling Layers
+ImageNet Classification with Deep ConvolutionalNeural Networks
+slides of the pape">
 
     
     <link rel="alternative" href="/atom.xml" title="Be a geek" type="application/atom+xml">
@@ -78,14 +94,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/04/25/cs231n-Putting-it-together-Minimal-Neural-Network-Case-Study/" title="[cs231n]Putting it together: Minimal Neural Network Case Study" itemprop="url">[cs231n]Putting it together: Minimal Neural Network Case Study</a>
+      <a href="/2015/05/04/Understading-AlexNet/" title="Understading AlexNet" itemprop="url">Understading AlexNet</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
 		
   <p class="article-time">
-    <time datetime="2015-04-26T02:05:10.000Z" itemprop="datePublished"> 发表于 2015-04-25</time>
+    <time datetime="2015-05-04T17:02:57.000Z" itemprop="datePublished"> 发表于 2015-05-04</time>
     
   </p>
 </header>
@@ -94,36 +110,34 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#<!-more->"><span class="toc-number">1.</span> <span class="toc-text"></span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Preprocessing"><span class="toc-number">1.1.</span> <span class="toc-text">Preprocessing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Network_Structure"><span class="toc-number">1.2.</span> <span class="toc-text">Network Structure</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<p><a href="http://cs231n.github.io/neural-networks-case-study/" target="_blank" rel="external">Lecture note</a><br><a id="more"></a><br>This lecture just give a example to train a two layer NN. I just wrote down some points need to remide. Please read the original one for details. </p>
+		<p>Reference: </p>
 <ol>
-<li>The gradient of the softmax function:<br>$$<br>p_k = \frac{e^{f_k}}{ \sum_j e^{f_j} } \hspace{1in} L_i =-\log\left(p_{y_i}\right)<br>$$</li>
+<li>Caffe AlexNet Prototxt</li>
+<li><a href="http://cs231n.github.io/convolutional-networks/" target="_blank" rel="external">cs231n: Convolutional Neural Networks: Architectures, Convolution / Pooling Layers</a></li>
+<li><a href="http://www.cs.toronto.edu/~fritz/absps/imagenet.pdf" target="_blank" rel="external">ImageNet Classification with Deep ConvolutionalNeural Networks</a></li>
+<li><a href="http://www.image-net.org/challenges/LSVRC/2012/supervision.pdf" target="_blank" rel="external">slides of the paper</a></li>
 </ol>
-<p>$$<br>\frac{\partial L_i }{ \partial f_k } = p_k - \mathbb{1}(y_i = k)<br>$$</p>
-<p>Notice how elegant and simple this expression is. Suppose the probabilities we computed were <code>p = [0.2, 0.3, 0.5]</code>, and that the correct class was the middle one (with probability 0.3). According to this derivation the gradient on the scores would be <code>df = [0.2, -0.7, 0.5]</code>. </p>
-<ol>
-<li><p>When compute the loss, we need to divide by the number of training sample. So we should use<br><code>loss/N</code> rather than <code>1/N * lo</code>ss<code>, since in python 1/N just give you 0. Or use 1/(float)N. 
-When dealing with arrays, we can use</code>numpy.astype` to change the data type. </p>
-</li>
-<li><p>In NN, when dealing with the gradient of bias, so it would just be the formulate of <code>np.sum(dout, axis = ?)</code> for the axis just use the dimension matching rule use in last lecture. </p>
-</li>
-<li><p>To calculate the gradient of RELU, we need to know which neuron is on fire. </p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dhidden = np.dot(dscores, W2.T)</span><br><span class="line">dhidden[hidden_layer &lt;= <span class="number">0</span>] = <span class="number">0</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
+<h2 id="<!-more->"><a id="more"></a></h2><p>First in CS231n, we know the following (K is the kernal size, P is the padding size, S is the stride)<br>For convolutonal layer:</p>
+<p>$$W_{new} = \frac {W_{old} - K + 2P}{S} + 1$$</p>
+<p>For the pooling layer (we don’t use padding):</p>
+<p>$$W_{new} = \frac {W_{old} - K}{S} + 1$$</p>
+<hr>
+<h3 id="Preprocessing">Preprocessing</h3><p>Resize the image, subtract the mean , and do the crop<br><figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Image----resize--<span class="function">--&gt;</span><span class="number">256</span> x <span class="number">256</span>----crop--<span class="function">--&gt;</span><span class="number">227</span> x <span class="number">227</span>  (<span class="literal">it</span> seems <span class="number">224</span> <span class="keyword">in</span> the original paper <span class="keyword">is</span> wrong)</span><br><span class="line">Here <span class="keyword">for</span> <span class="attribute">crops</span>: <span class="number">4</span> conner patches <span class="keyword">and</span> one center pathch</span><br></pre></td></tr></table></figure></p>
+<h3 id="Network_Structure">Network Structure</h3><p><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-05-04 at 1.27.08 PM.png" alt=""><br><figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">          input(size, channel)         para                  output(size, channel)</span><br><span class="line">Conv1     <span class="number">227</span> x <span class="number">227</span>, <span class="number">3</span>	       <span class="variable">K=</span><span class="number">11</span>, <span class="variable">S=</span><span class="number">4</span>, <span class="variable">P=</span><span class="number">0</span>, <span class="variable">group=</span><span class="number">1</span>         <span class="number">55</span> x <span class="number">55</span>, <span class="number">96</span></span><br><span class="line">ReLU1</span><br><span class="line">LRN1</span><br><span class="line">Pool1     <span class="number">55</span> x <span class="number">55</span>, <span class="number">96</span>          <span class="variable">K=</span><span class="number">3</span>, <span class="variable">S=</span><span class="number">2</span>                        <span class="number">27</span> x <span class="number">27</span>, <span class="number">96</span>	 </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Conv2     <span class="number">27</span> x <span class="number">27</span>, <span class="number">256</span>         <span class="variable">K=</span><span class="number">5</span>, <span class="variable">S =</span> <span class="number">1</span>, <span class="variable">P=</span><span class="number">2</span>  <span class="variable">group=</span><span class="number">2</span>        <span class="number">27</span> x <span class="number">27</span>, <span class="number">256</span> (since <span class="variable">group=</span><span class="number">2</span>, means48-&gt;<span class="number">128</span>, <span class="number">48</span>-&gt;<span class="number">128</span> see the above image,two parts) </span><br><span class="line">ReLU2</span><br><span class="line">LRN2</span><br><span class="line">Pool2    <span class="number">27</span> x <span class="number">27</span>, <span class="number">256</span>          <span class="variable">K=</span><span class="number">3</span>, <span class="variable">S =</span> <span class="number">2</span>, <span class="variable">P =</span> <span class="number">0</span>               <span class="number">13</span> x <span class="number">13</span>, <span class="number">256</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Conv3    <span class="number">13</span> x <span class="number">13</span>, <span class="number">256</span>          <span class="variable">K=</span><span class="number">3</span>, <span class="variable">S=</span><span class="number">1</span>, <span class="variable">P=</span><span class="number">1</span>, <span class="variable">group=</span><span class="number">1</span>          <span class="number">13</span> x <span class="number">13</span>, <span class="number">384</span> (since <span class="variable">group=</span><span class="number">1</span>, <span class="keyword">in</span> the above image, you can see the lines crossed <span class="keyword">in</span> that layer)</span><br><span class="line">ReLU3</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Conv4    <span class="number">13</span> x <span class="number">13</span>, <span class="number">384</span>          <span class="variable">K=</span><span class="number">3</span>, <span class="variable">S=</span><span class="number">1</span>, <span class="variable">P=</span><span class="number">1</span>, <span class="variable">group=</span><span class="number">2</span>          <span class="number">13</span> x <span class="number">13</span>, <span class="number">384</span> (<span class="variable">group=</span><span class="number">2</span>, split again, <span class="number">192</span>-&gt;<span class="number">192</span>, <span class="number">192</span>-&gt;<span class="number">192</span>)</span><br><span class="line">ReLU4</span><br><span class="line"></span><br><span class="line">Conv5    <span class="number">13</span> x <span class="number">13</span>, <span class="number">384</span>          <span class="variable">K=</span><span class="number">3</span>, <span class="variable">S=</span><span class="number">1</span>, <span class="variable">P=</span><span class="number">1</span>, <span class="variable">group=</span><span class="number">2</span>          <span class="number">13</span> x <span class="number">13</span>, <span class="number">256</span> (<span class="variable">group=</span><span class="number">2</span>, two parts, <span class="number">192</span>-&gt;<span class="number">128</span>, <span class="number">192</span>-&gt;<span class="number">128</span>)</span><br><span class="line">ReLU5</span><br><span class="line">Pool5    <span class="number">13</span> x <span class="number">13</span>, <span class="number">284</span>             <span class="variable">K=</span><span class="number">3</span>, <span class="variable">S=</span><span class="number">2</span>                     <span class="number">6</span> x <span class="number">6</span>, <span class="number">256</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">FC6      <span class="number">6</span> x <span class="number">6</span>, <span class="number">256</span>            Fully connected                 <span class="number">4096</span> x <span class="number">1</span></span><br><span class="line">ReLU6</span><br><span class="line">Dropout6 (<span class="variable">p=</span><span class="number">0.5</span>)(Only <span class="keyword">in</span> training phase, see <span class="number">231</span>n <span class="keyword">if</span> forget)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">FC7      <span class="number">4096</span>, <span class="number">1</span>               Fully connected                 <span class="number">4096</span> x <span class="number">1</span></span><br><span class="line">ReLU7</span><br><span class="line">Dropout7 (<span class="variable">p=</span><span class="number">0.5</span>)(Only <span class="keyword">in</span> training phase, see <span class="number">231</span>n <span class="keyword">if</span> forget)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">FC8      <span class="number">4096</span>, <span class="number">1</span>               Fully connected                   <span class="number">1000</span> x <span class="number">1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">LOSS    <span class="number">1000</span> x <span class="number">1</span>               SoftMAX loss function             scalar</span><br></pre></td></tr></table></figure></p>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Open-Course/">Open Course</a>
-</div>
 
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/deep-learning/">deep learning</a>
+  </div>
 
 </div>
 
@@ -131,7 +145,7 @@ When dealing with arrays, we can use</code>numpy.astype` to change the data type
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://RutgersHan.github.io/2015/04/25/cs231n-Putting-it-together-Minimal-Neural-Network-Case-Study/" data-title="[cs231n]Putting it together: Minimal Neural Network Case Study | Be a geek" data-tsina="null" class="share clearfix">
+	  <div data-url="https://RutgersHan.github.io/2015/05/04/Understading-AlexNet/" data-title="Understading AlexNet | Be a geek" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -144,19 +158,11 @@ When dealing with arrays, we can use</code>numpy.astype` to change the data type
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/04/25/cs231n-Convolutional-Neural-Networks-Architectures-Convolution-Pooling-Layers/" title="[cs231n]Convolutional Neural Networks: Architectures, Convolution / Pooling Layers">
-  <strong>上一篇：</strong><br/>
-  <span>
-  [cs231n]Convolutional Neural Networks: Architectures, Convolution / Pooling Layers</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/04/22/cs231n-Neural-Networks-Part-3-Learning-and-Evaluation/"  title="[cs231n]Neural Networks Part 3: Learning and Evaluation">
+<a href="/2015/05/04/caffe-3-Tutorial-Reading/"  title="[caffe](3)Tutorial Reading">
  <strong>下一篇：</strong><br/> 
- <span>[cs231n]Neural Networks Part 3: Learning and Evaluation
+ <span>[caffe](3)Tutorial Reading
 </span>
 </a>
 </div>
@@ -165,7 +171,7 @@ When dealing with arrays, we can use</code>numpy.astype` to change the data type
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/04/25/cs231n-Putting-it-together-Minimal-Neural-Network-Case-Study/" data-title="[cs231n]Putting it together: Minimal Neural Network Case Study" data-url="https://RutgersHan.github.io/2015/04/25/cs231n-Putting-it-together-Minimal-Neural-Network-Case-Study/"></div>
+	<div class="ds-thread" data-thread-key="2015/05/04/Understading-AlexNet/" data-title="Understading AlexNet" data-url="https://RutgersHan.github.io/2015/05/04/Understading-AlexNet/"></div>
 </section>
 
 
@@ -181,7 +187,7 @@ When dealing with arrays, we can use</code>numpy.astype` to change the data type
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#<!-more->"><span class="toc-number">1.</span> <span class="toc-text"></span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Preprocessing"><span class="toc-number">1.1.</span> <span class="toc-text">Preprocessing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Network_Structure"><span class="toc-number">1.2.</span> <span class="toc-text">Network Structure</span></a></li></ol></li></ol>
  
   </div>
 

@@ -4,22 +4,22 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>[cs231n]Putting it together: Minimal Neural Network Case Study | Be a geek</title>
+    <title>Filters, Convolutions, FFT used in Images | Be a geek</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Han Zhang">
     
 
     
-    <meta name="description" content="Lecture note">
+    <meta name="description">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[cs231n]Putting it together: Minimal Neural Network Case Study">
-<meta property="og:url" content="https://RutgersHan.github.io/2015/04/25/cs231n-Putting-it-together-Minimal-Neural-Network-Case-Study/index.html">
+<meta property="og:title" content="Filters, Convolutions, FFT used in Images">
+<meta property="og:url" content="https://RutgersHan.github.io/2015/05/03/Filters-Convolutions-FFT-used-in-Images/index.html">
 <meta property="og:site_name" content="Be a geek">
-<meta property="og:description" content="Lecture note">
+<meta property="og:description">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="[cs231n]Putting it together: Minimal Neural Network Case Study">
-<meta name="twitter:description" content="Lecture note">
+<meta name="twitter:title" content="Filters, Convolutions, FFT used in Images">
+<meta name="twitter:description">
 
     
     <link rel="alternative" href="/atom.xml" title="Be a geek" type="application/atom+xml">
@@ -78,14 +78,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/04/25/cs231n-Putting-it-together-Minimal-Neural-Network-Case-Study/" title="[cs231n]Putting it together: Minimal Neural Network Case Study" itemprop="url">[cs231n]Putting it together: Minimal Neural Network Case Study</a>
+      <a href="/2015/05/03/Filters-Convolutions-FFT-used-in-Images/" title="Filters, Convolutions, FFT used in Images" itemprop="url">Filters, Convolutions, FFT used in Images</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
 		
   <p class="article-time">
-    <time datetime="2015-04-26T02:05:10.000Z" itemprop="datePublished"> 发表于 2015-04-25</time>
+    <time datetime="2015-05-03T20:06:43.000Z" itemprop="datePublished"> 发表于 2015-05-03</time>
     
   </p>
 </header>
@@ -98,31 +98,10 @@
 		
 		</div>
 		
-		<p><a href="http://cs231n.github.io/neural-networks-case-study/" target="_blank" rel="external">Lecture note</a><br><a id="more"></a><br>This lecture just give a example to train a two layer NN. I just wrote down some points need to remide. Please read the original one for details. </p>
-<ol>
-<li>The gradient of the softmax function:<br>$$<br>p_k = \frac{e^{f_k}}{ \sum_j e^{f_j} } \hspace{1in} L_i =-\log\left(p_{y_i}\right)<br>$$</li>
-</ol>
-<p>$$<br>\frac{\partial L_i }{ \partial f_k } = p_k - \mathbb{1}(y_i = k)<br>$$</p>
-<p>Notice how elegant and simple this expression is. Suppose the probabilities we computed were <code>p = [0.2, 0.3, 0.5]</code>, and that the correct class was the middle one (with probability 0.3). According to this derivation the gradient on the scores would be <code>df = [0.2, -0.7, 0.5]</code>. </p>
-<ol>
-<li><p>When compute the loss, we need to divide by the number of training sample. So we should use<br><code>loss/N</code> rather than <code>1/N * lo</code>ss<code>, since in python 1/N just give you 0. Or use 1/(float)N. 
-When dealing with arrays, we can use</code>numpy.astype` to change the data type. </p>
-</li>
-<li><p>In NN, when dealing with the gradient of bias, so it would just be the formulate of <code>np.sum(dout, axis = ?)</code> for the axis just use the dimension matching rule use in last lecture. </p>
-</li>
-<li><p>To calculate the gradient of RELU, we need to know which neuron is on fire. </p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dhidden = np.dot(dscores, W2.T)</span><br><span class="line">dhidden[hidden_layer &lt;= <span class="number">0</span>] = <span class="number">0</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-  
+		  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Open-Course/">Open Course</a>
-</div>
 
 
 </div>
@@ -131,7 +110,7 @@ When dealing with arrays, we can use</code>numpy.astype` to change the data type
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://RutgersHan.github.io/2015/04/25/cs231n-Putting-it-together-Minimal-Neural-Network-Case-Study/" data-title="[cs231n]Putting it together: Minimal Neural Network Case Study | Be a geek" data-tsina="null" class="share clearfix">
+	  <div data-url="https://RutgersHan.github.io/2015/05/03/Filters-Convolutions-FFT-used-in-Images/" data-title="Filters, Convolutions, FFT used in Images | Be a geek" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -145,18 +124,18 @@ When dealing with arrays, we can use</code>numpy.astype` to change the data type
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/04/25/cs231n-Convolutional-Neural-Networks-Architectures-Convolution-Pooling-Layers/" title="[cs231n]Convolutional Neural Networks: Architectures, Convolution / Pooling Layers">
+ <a href="/2015/05/03/caffe-2-Learn-from-the-examples/" title="[caffe](2)Learn from the examples">
   <strong>上一篇：</strong><br/>
   <span>
-  [cs231n]Convolutional Neural Networks: Architectures, Convolution / Pooling Layers</span>
+  [caffe](2)Learn from the examples</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2015/04/22/cs231n-Neural-Networks-Part-3-Learning-and-Evaluation/"  title="[cs231n]Neural Networks Part 3: Learning and Evaluation">
+<a href="/2015/05/03/cs231n-Assignment-2-Neural-Networks-ConvNets-I/"  title="[cs231n]Assignment #2: Neural Networks, ConvNets I">
  <strong>下一篇：</strong><br/> 
- <span>[cs231n]Neural Networks Part 3: Learning and Evaluation
+ <span>[cs231n]Assignment #2: Neural Networks, ConvNets I
 </span>
 </a>
 </div>
@@ -165,7 +144,7 @@ When dealing with arrays, we can use</code>numpy.astype` to change the data type
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/04/25/cs231n-Putting-it-together-Minimal-Neural-Network-Case-Study/" data-title="[cs231n]Putting it together: Minimal Neural Network Case Study" data-url="https://RutgersHan.github.io/2015/04/25/cs231n-Putting-it-together-Minimal-Neural-Network-Case-Study/"></div>
+	<div class="ds-thread" data-thread-key="2015/05/03/Filters-Convolutions-FFT-used-in-Images/" data-title="Filters, Convolutions, FFT used in Images" data-url="https://RutgersHan.github.io/2015/05/03/Filters-Convolutions-FFT-used-in-Images/"></div>
 </section>
 
 

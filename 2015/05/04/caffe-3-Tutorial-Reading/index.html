@@ -4,22 +4,28 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>[cs231n]Putting it together: Minimal Neural Network Case Study | Be a geek</title>
+    <title>[caffe](3)Tutorial Reading | Be a geek</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Han Zhang">
     
 
     
-    <meta name="description" content="Lecture note">
+    <meta name="description" content="Convnet Benchmark https://github.com/soumith/convnet-benchmarks&amp;lt;!--mroe--&amp;gt;
+Rules of thumb for setting the learning rate$ \alpha $ and momentum $ \mu $
+A good strategy for deep learning with SGD is to">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[cs231n]Putting it together: Minimal Neural Network Case Study">
-<meta property="og:url" content="https://RutgersHan.github.io/2015/04/25/cs231n-Putting-it-together-Minimal-Neural-Network-Case-Study/index.html">
+<meta property="og:title" content="[caffe](3)Tutorial Reading">
+<meta property="og:url" content="https://RutgersHan.github.io/2015/05/04/caffe-3-Tutorial-Reading/index.html">
 <meta property="og:site_name" content="Be a geek">
-<meta property="og:description" content="Lecture note">
+<meta property="og:description" content="Convnet Benchmark https://github.com/soumith/convnet-benchmarks&amp;lt;!--mroe--&amp;gt;
+Rules of thumb for setting the learning rate$ \alpha $ and momentum $ \mu $
+A good strategy for deep learning with SGD is to">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="[cs231n]Putting it together: Minimal Neural Network Case Study">
-<meta name="twitter:description" content="Lecture note">
+<meta name="twitter:title" content="[caffe](3)Tutorial Reading">
+<meta name="twitter:description" content="Convnet Benchmark https://github.com/soumith/convnet-benchmarks&amp;lt;!--mroe--&amp;gt;
+Rules of thumb for setting the learning rate$ \alpha $ and momentum $ \mu $
+A good strategy for deep learning with SGD is to">
 
     
     <link rel="alternative" href="/atom.xml" title="Be a geek" type="application/atom+xml">
@@ -78,14 +84,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/04/25/cs231n-Putting-it-together-Minimal-Neural-Network-Case-Study/" title="[cs231n]Putting it together: Minimal Neural Network Case Study" itemprop="url">[cs231n]Putting it together: Minimal Neural Network Case Study</a>
+      <a href="/2015/05/04/caffe-3-Tutorial-Reading/" title="[caffe](3)Tutorial Reading" itemprop="url">[caffe](3)Tutorial Reading</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
 		
   <p class="article-time">
-    <time datetime="2015-04-26T02:05:10.000Z" itemprop="datePublished"> 发表于 2015-04-25</time>
+    <time datetime="2015-05-04T14:58:56.000Z" itemprop="datePublished"> 发表于 2015-05-04</time>
     
   </p>
 </header>
@@ -94,36 +100,58 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Rules_of_thumb_for_setting_the_learning_rate"><span class="toc-number">1.</span> <span class="toc-text">Rules of thumb for setting the learning rate</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Default_parameter_setting_of_Convolution_layer"><span class="toc-number">2.</span> <span class="toc-text">Default parameter setting of Convolution layer</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Loss_functions"><span class="toc-number">3.</span> <span class="toc-text">Loss functions</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Data_Layers"><span class="toc-number">4.</span> <span class="toc-text">Data Layers</span></a></li></ol>
 		
 		</div>
 		
-		<p><a href="http://cs231n.github.io/neural-networks-case-study/" target="_blank" rel="external">Lecture note</a><br><a id="more"></a><br>This lecture just give a example to train a two layer NN. I just wrote down some points need to remide. Please read the original one for details. </p>
-<ol>
-<li>The gradient of the softmax function:<br>$$<br>p_k = \frac{e^{f_k}}{ \sum_j e^{f_j} } \hspace{1in} L_i =-\log\left(p_{y_i}\right)<br>$$</li>
+		<p>Convnet Benchmark <a href="https://github.com/soumith/convnet-benchmarks" target="_blank" rel="external">https://github.com/soumith/convnet-benchmarks</a><br><!--mroe--></p>
+<h4 id="Rules_of_thumb_for_setting_the_learning_rate">Rules of thumb for setting the learning rate</h4><p>$ \alpha $ and momentum $ \mu $</p>
+<p>A good strategy for deep learning with SGD is to initialize the learning rate $ \alpha $ to a value around $ \alpha \approx 0.01 = 10^{-2} $, and dropping it by a constant factor (e.g., 10) throughout training when the loss begins to reach an apparent “plateau”, repeating this several times.<br>Generally, you probably want to use a momentum $ \mu = 0.9 $ or similar value.<br>By smoothing the weight updates across iterations, momentum tends to make deep learning with SGD both stabler and faster.</p>
+<p>To use a learning rate policy like this, you can put the following lines somewhere in your solver prototxt file:</p>
+<pre><code><span class="attribute">base_lr</span>: <span class="string">0.01     # begin training at a learning rate of 0.01 = 1e-2</span>
+
+<span class="stata">lr_policy: <span class="string">"step"</span> # learning rate policy: <span class="keyword">drop</span> the learning rate <span class="keyword">in</span> <span class="string">"steps"</span>
+                  # <span class="keyword">by</span> a <span class="keyword">factor</span> of <span class="keyword">gamma</span> every stepsize iterations
+
+<span class="keyword">gamma</span>: 0.1        # <span class="keyword">drop</span> the learning rate <span class="keyword">by</span> a <span class="keyword">factor</span> of 10
+                  # (i.<span class="keyword">e</span>., multiply it <span class="keyword">by</span> a <span class="keyword">factor</span> of <span class="keyword">gamma</span> = 0.1)
+
+stepsize: 100000  # <span class="keyword">drop</span> the learning rate every 100K iterations
+
+max_iter: 350000  # train <span class="keyword">for</span> 350K iterations <span class="keyword">total</span>
+
+momentum: 0.9</span>
+</code></pre><p>Under the above settings, we’ll always use <code>momentum</code> $ \mu = 0.9 $<br>We’ll begin training at a <code>base_lr</code> of $ \alpha = 0.01 = 10^{-2} $ for the first 100,000 iterations, then multiply the learning rate by <code>gamma</code> ($ \gamma $) and train at $ \alpha’ = \alpha \gamma = (0.01) (0.1) = 0.001 = 10^{-3} $ for iterations 100K-200K, then at $ \alpha’’ = 10^{-4} $ for iterations 200K-300K, and finally train until iteration 350K (since we have <code>max_iter: 350000</code>) at $ \alpha’’’ = 10^{-5} $.</p>
+<p>Note that the momentum setting $ \mu $ effectively multiplies the size of your updates by a factor of $ \frac{1}{1 - \mu} $ after many iterations of training, so if you increase $ \mu $, it may be a good idea to <strong>decrease</strong> $ \alpha $ accordingly (and vice versa).</p>
+<p>For example, with $ \mu = 0.9 $, we have an effective update size multiplier of $ \frac{1}{1 - 0.9} = 10 $.<br>If we increased the momentum to $ \mu = 0.99 $, we’ve increased our update size multiplier to 100, so we should drop $ \alpha $ (<code>base_lr</code>) by a factor of 10.</p>
+<p>Note also that the above settings are merely guidelines, and they’re definitely not guaranteed to be optimal (or even work at all!) in every situation.<br>If learning diverges (e.g., you start to see very large or <code>NaN</code> or <code>inf</code> loss values or outputs), try dropping the <code>base_lr</code> (e.g., <code>base_lr: 0.001</code>) and re-training, repeating this until you find a <code>base_lr</code> value that works.</p>
+<h4 id="Default_parameter_setting_of_Convolution_layer">Default parameter setting of Convolution layer</h4><ul>
+<li>weight_filler [default type: ‘constant’ value: 0]</li>
+<li>bias_term [default true]: specifies whether to learn and apply a set of additive biases to the filter outputs</li>
+<li>pad (or pad_h and pad_w) [default 0]: specifies the number of pixels to (implicitly) add to each side of the input</li>
+<li>stride (or stride_h and stride_w) <strong>[default 1]</strong>: specifies the intervals at which to apply the filters to the input</li>
+<li>group (g) [default 1]: If g &gt; 1, we restrict the connectivity of each filter to a subset of the input. Specifically, the input and output channels are separated into g groups, and the ith output group channels will be only connected to the ith input group channels.</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">layers &#123;</span><br><span class="line">  name: <span class="string">"conv1"</span></span><br><span class="line">  <span class="built_in">type</span>: CONVOLUTION</span><br><span class="line">  bottom: <span class="string">"data"</span></span><br><span class="line">  top: <span class="string">"conv1"</span></span><br><span class="line">  blobs_lr: <span class="number">1</span>          <span class="comment"># learning rate multiplier for the filters</span></span><br><span class="line">  blobs_lr: <span class="number">2</span>          <span class="comment"># learning rate multiplier for the biases</span></span><br><span class="line">  weight_decay: <span class="number">1</span>      <span class="comment"># weight decay multiplier for the filters</span></span><br><span class="line">  weight_decay: <span class="number">0</span>      <span class="comment"># weight decay multiplier for the biases</span></span><br><span class="line">  convolution_param &#123;</span><br><span class="line">    num_output: <span class="number">96</span>     <span class="comment"># learn 96 filters</span></span><br><span class="line">    kernel_size: <span class="number">11</span>    <span class="comment"># each filter is 11x11</span></span><br><span class="line">    stride: <span class="number">4</span>          <span class="comment"># step 4 pixels between each filter application</span></span><br><span class="line">    weight_filler &#123;</span><br><span class="line">      <span class="built_in">type</span>: <span class="string">"gaussian"</span> <span class="comment"># initialize the filters from a Gaussian</span></span><br><span class="line">      std: <span class="number">0.01</span>        <span class="comment"># distribution with stdev 0.01 (default mean: 0)</span></span><br><span class="line">    &#125;</span><br><span class="line">    bias_filler &#123;</span><br><span class="line">      <span class="built_in">type</span>: <span class="string">"constant"</span> <span class="comment"># initialize the biases to zero (0)</span></span><br><span class="line">      value: <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Loss_functions">Loss functions</h4><ol>
+<li>SoftMax(LayerType: SOFTMAX_LOSS)</li>
+<li>Sum-of-Squares / Euclidean(LayerType: EUCLIDEAN_LOSS)</li>
+<li>Hinger/Margin(LayerType: HINGE_LOSS)</li>
+<li>Sigmoid Cross-Entropy(SIGMOID_CROSS_ENTROPY_LOSS)</li>
+<li>Infogain(INFOGAIN_LOSS)</li>
 </ol>
-<p>$$<br>\frac{\partial L_i }{ \partial f_k } = p_k - \mathbb{1}(y_i = k)<br>$$</p>
-<p>Notice how elegant and simple this expression is. Suppose the probabilities we computed were <code>p = [0.2, 0.3, 0.5]</code>, and that the correct class was the middle one (with probability 0.3). According to this derivation the gradient on the scores would be <code>df = [0.2, -0.7, 0.5]</code>. </p>
-<ol>
-<li><p>When compute the loss, we need to divide by the number of training sample. So we should use<br><code>loss/N</code> rather than <code>1/N * lo</code>ss<code>, since in python 1/N just give you 0. Or use 1/(float)N. 
-When dealing with arrays, we can use</code>numpy.astype` to change the data type. </p>
-</li>
-<li><p>In NN, when dealing with the gradient of bias, so it would just be the formulate of <code>np.sum(dout, axis = ?)</code> for the axis just use the dimension matching rule use in last lecture. </p>
-</li>
-<li><p>To calculate the gradient of RELU, we need to know which neuron is on fire. </p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dhidden = np.dot(dscores, W2.T)</span><br><span class="line">dhidden[hidden_layer &lt;= <span class="number">0</span>] = <span class="number">0</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
+<h4 id="Data_Layers">Data Layers</h4><p>Data enters Caffe through data layers: they lie at the bottom of nets. Data can come from efficient databases (LevelDB or LMDB), directly from memory, or, when efficiency is not critical, from files on disk in HDF5 or common image formats.</p>
+<p>Common input preprocessing (mean subtraction, scaling, random cropping, and mirroring) is available by specifying TransformationParameters.</p>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Open-Course/">Open Course</a>
-</div>
 
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/caffe/">caffe</a>
+  </div>
 
 </div>
 
@@ -131,7 +159,7 @@ When dealing with arrays, we can use</code>numpy.astype` to change the data type
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://RutgersHan.github.io/2015/04/25/cs231n-Putting-it-together-Minimal-Neural-Network-Case-Study/" data-title="[cs231n]Putting it together: Minimal Neural Network Case Study | Be a geek" data-tsina="null" class="share clearfix">
+	  <div data-url="https://RutgersHan.github.io/2015/05/04/caffe-3-Tutorial-Reading/" data-title="[caffe](3)Tutorial Reading | Be a geek" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -145,18 +173,18 @@ When dealing with arrays, we can use</code>numpy.astype` to change the data type
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/04/25/cs231n-Convolutional-Neural-Networks-Architectures-Convolution-Pooling-Layers/" title="[cs231n]Convolutional Neural Networks: Architectures, Convolution / Pooling Layers">
+ <a href="/2015/05/04/Understading-AlexNet/" title="Understading AlexNet">
   <strong>上一篇：</strong><br/>
   <span>
-  [cs231n]Convolutional Neural Networks: Architectures, Convolution / Pooling Layers</span>
+  Understading AlexNet</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2015/04/22/cs231n-Neural-Networks-Part-3-Learning-and-Evaluation/"  title="[cs231n]Neural Networks Part 3: Learning and Evaluation">
+<a href="/2015/05/03/caffe-2-Learn-from-the-examples/"  title="[caffe](2)Learn from the examples">
  <strong>下一篇：</strong><br/> 
- <span>[cs231n]Neural Networks Part 3: Learning and Evaluation
+ <span>[caffe](2)Learn from the examples
 </span>
 </a>
 </div>
@@ -165,7 +193,7 @@ When dealing with arrays, we can use</code>numpy.astype` to change the data type
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/04/25/cs231n-Putting-it-together-Minimal-Neural-Network-Case-Study/" data-title="[cs231n]Putting it together: Minimal Neural Network Case Study" data-url="https://RutgersHan.github.io/2015/04/25/cs231n-Putting-it-together-Minimal-Neural-Network-Case-Study/"></div>
+	<div class="ds-thread" data-thread-key="2015/05/04/caffe-3-Tutorial-Reading/" data-title="[caffe](3)Tutorial Reading" data-url="https://RutgersHan.github.io/2015/05/04/caffe-3-Tutorial-Reading/"></div>
 </section>
 
 
@@ -181,7 +209,7 @@ When dealing with arrays, we can use</code>numpy.astype` to change the data type
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Rules_of_thumb_for_setting_the_learning_rate"><span class="toc-number">1.</span> <span class="toc-text">Rules of thumb for setting the learning rate</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Default_parameter_setting_of_Convolution_layer"><span class="toc-number">2.</span> <span class="toc-text">Default parameter setting of Convolution layer</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Loss_functions"><span class="toc-number">3.</span> <span class="toc-text">Loss functions</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Data_Layers"><span class="toc-number">4.</span> <span class="toc-text">Data Layers</span></a></li></ol>
  
   </div>
 

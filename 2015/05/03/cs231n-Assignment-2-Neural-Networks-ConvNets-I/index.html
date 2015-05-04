@@ -1,0 +1,621 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>[cs231n]Assignment #2: Neural Networks, ConvNets I | Be a geek</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Han Zhang">
+    
+
+    
+    <meta name="description" content="Assignement Web">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[cs231n]Assignment #2: Neural Networks, ConvNets I">
+<meta property="og:url" content="https://RutgersHan.github.io/2015/05/03/cs231n-Assignment-2-Neural-Networks-ConvNets-I/index.html">
+<meta property="og:site_name" content="Be a geek">
+<meta property="og:description" content="Assignement Web">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[cs231n]Assignment #2: Neural Networks, ConvNets I">
+<meta name="twitter:description" content="Assignement Web">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Be a geek" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/victor.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/victor.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Be a geek" title="Be a geek"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Be a geek">Be a geek</a></h1>
+				<h2 class="blog-motto">梦想一定要有的，万一见鬼了呢</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:RutgersHan.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/05/03/cs231n-Assignment-2-Neural-Networks-ConvNets-I/" title="[cs231n]Assignment #2: Neural Networks, ConvNets I" itemprop="url">[cs231n]Assignment #2: Neural Networks, ConvNets I</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
+		
+  <p class="article-time">
+    <time datetime="2015-05-03T19:43:33.000Z" itemprop="datePublished"> 发表于 2015-05-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Train_a_Convnet"><span class="toc-number">1.</span> <span class="toc-text">Train a Convnet</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Things_you_should_try:"><span class="toc-number">2.</span> <span class="toc-text">Things you should try:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Tips_for_training"><span class="toc-number">3.</span> <span class="toc-text">Tips for training</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Going_above_and_beyond"><span class="toc-number">4.</span> <span class="toc-text">Going above and beyond</span></a></li></ol>
+		
+		</div>
+		
+		<p><a href="http://cs231n.github.io/assignment2/" target="_blank" rel="external">Assignement Web</a><br><a id="more"></a></p>
+<p>Experiemence:</p>
+<ol>
+<li>Design the Neural Network layer by laryer. For each layer, remember to implement the forward passs (save related parameters for backward pass) and backward pass. </li>
+<li>First implement  loss computation, then implement gradient computation. Then use gradient check just whether you implement correctly</li>
+<li>For traning, baby sitting the training, print all the relevant parameters to guide the choose of hyper parameters.  </li>
+</ol>
+<p>Some examples: </p>
+<ol>
+<li>affine_forward: save (x,w,b)</li>
+<li><p>affine_backward: use dimension match, b is always the sum of dout along one axis</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">affine_backward</span><span class="params">(dout, cache)</span>:</span></span><br><span class="line">  <span class="string">"""</span><br><span class="line">  Computes the backward pass for an affine layer.</span><br><span class="line"></span><br><span class="line">  Inputs:</span><br><span class="line">  - dout: Upstream derivative, of shape (N, M)</span><br><span class="line">  - cache: Tuple of:</span><br><span class="line">    - x: Input data, of shape (N, d_1, ... d_k)</span><br><span class="line">    - w: Weights, of shape (D, M)</span><br><span class="line"></span><br><span class="line">  Returns a tuple of:</span><br><span class="line">  - dx: Gradient with respect to x, of shape (N, d1, ..., d_k)</span><br><span class="line">  - dw: Gradient with respect to w, of shape (D, M)</span><br><span class="line">  - db: Gradient with respect to b, of shape (M,)</span><br><span class="line">  """</span></span><br><span class="line">  x, w, b = cache</span><br><span class="line">  dx, dw, db = <span class="keyword">None</span>, <span class="keyword">None</span>, <span class="keyword">None</span></span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line">  <span class="comment"># TODO: Implement the affine backward pass.                                 #</span></span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line">  <span class="keyword">pass</span></span><br><span class="line">  N = x.shape[<span class="number">0</span>]</span><br><span class="line">  flat_x = x.reshape((N,-<span class="number">1</span>))</span><br><span class="line">  dflat_x = dout.dot(w.T)</span><br><span class="line">  dx = dflat_x.reshape(x.shape)</span><br><span class="line">  dw =  flat_x.T.dot(dout)</span><br><span class="line">  db = np.sum(dout,<span class="number">0</span>)</span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line">  <span class="comment">#                             END OF YOUR CODE                              #</span></span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line">  <span class="keyword">return</span> dx, dw, db</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>ReLU_forward: save x</p>
+</li>
+<li><p>ReLU_backward: use x to know which node should get back propagation(same as which node is fired during the farward pass)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">relu_backward</span><span class="params">(dout, cache)</span>:</span></span><br><span class="line">  <span class="string">"""</span><br><span class="line">  Computes the backward pass for a layer of rectified linear units (ReLUs).</span><br><span class="line"></span><br><span class="line">  Input:</span><br><span class="line">  - dout: Upstream derivatives, of any shape</span><br><span class="line">  - cache: Input x, of same shape as dout</span><br><span class="line"></span><br><span class="line">  Returns:</span><br><span class="line">  - dx: Gradient with respect to x</span><br><span class="line">  """</span></span><br><span class="line">  dx, x = <span class="keyword">None</span>, cache</span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line">  <span class="comment"># TODO: Implement the ReLU backward pass.                                   #</span></span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line">  <span class="keyword">pass</span></span><br><span class="line">  indexs = x&lt;=<span class="number">0</span></span><br><span class="line">  dx = dout.copy()</span><br><span class="line">  dx[indexs] = <span class="number">0</span></span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line">  <span class="comment">#                             END OF YOUR CODE                              #</span></span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line">  <span class="keyword">return</span> dx</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>conv_forward</p>
+<ol>
+<li>naive way to do, just using nested loops to move the filter acoss the image</li>
+<li>using im2col, then do the convolution by matrix production</li>
+<li>fft</li>
+</ol>
+</li>
+<li><p>conv_backward: Similar as conv_forwad(E.g. the naive way to implement is lke following)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"""</span><br><span class="line">  A naive implementation of the backward pass for a convolutional layer.</span><br><span class="line"></span><br><span class="line">  Inputs:</span><br><span class="line">  - dout: Upstream derivatives.</span><br><span class="line">  - cache: A tuple of (x, w, b, conv_param) as in conv_forward_naive</span><br><span class="line"></span><br><span class="line">  Returns a tuple of:</span><br><span class="line">  - dx: Gradient with respect to x</span><br><span class="line">  - dw: Gradient with respect to w</span><br><span class="line">  - db: Gradient with respect to b</span><br><span class="line">  """</span></span><br><span class="line">  dx, dw, db = <span class="keyword">None</span>, <span class="keyword">None</span>, <span class="keyword">None</span></span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line">  <span class="comment"># TODO: Implement the convolutional backward pass.                          #</span></span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line">  <span class="keyword">pass</span></span><br><span class="line">  x, w, b, conv_param = cache</span><br><span class="line">  N, C, H, W = x.shape</span><br><span class="line">  F, _, HH, WW = w.shape</span><br><span class="line">  pad = conv_param[<span class="string">'pad'</span>]</span><br><span class="line">  stride = conv_param[<span class="string">'stride'</span>]</span><br><span class="line"></span><br><span class="line">  dw = np.zeros((F, C, HH, WW))</span><br><span class="line">  dx = np.zeros((N, C, H, W))</span><br><span class="line">  H_prime = <span class="number">1</span> + (H + <span class="number">2</span> * pad - HH) / stride</span><br><span class="line">  W_prime = <span class="number">1</span> + (W + <span class="number">2</span> * pad - WW) / stride</span><br><span class="line">  padded_x = np.pad(x,((<span class="number">0</span>,<span class="number">0</span>),(<span class="number">0</span>,<span class="number">0</span>),(pad,pad),(pad,pad)),<span class="string">'constant'</span>,constant_values = <span class="number">0</span>)</span><br><span class="line">  dpadded_x = np.zeros(padded_x.shape)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  db = dout.sum(-<span class="number">1</span>).sum(-<span class="number">1</span>).sum(<span class="number">0</span>)</span><br><span class="line">  <span class="keyword">for</span> num <span class="keyword">in</span> xrange(N):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> xrange(F):</span><br><span class="line">      <span class="keyword">for</span> h <span class="keyword">in</span> xrange(H_prime):</span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> xrange(W_prime):</span><br><span class="line">          dw[i] += dout[num,i,h,k] * padded_x[num,:, h*stride:h*stride+HH, k*stride:k*stride+WW]</span><br><span class="line">          dpadded_x[num,:, h*stride:h*stride+HH, k*stride:k*stride+WW] += dout[num,i,h,k] * w[i]</span><br><span class="line">  dx = dpadded_x[:,:,pad:H+pad,pad:W+pad]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line">  <span class="comment">#                             END OF YOUR CODE                              #</span></span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line">  <span class="keyword">return</span> dx, dw, db</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>max_pool_forward: it seems max_pool operation can be transformed to fast filtering?<br>The naive solution is just using nested loops to select the max in each patch. and save x</p>
+</li>
+<li><p>max_pool_backward: according to x to know which node should got the gradient(argmax)<br>naive implementation:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">max_pool_backward_naive</span><span class="params">(dout, cache)</span>:</span></span><br><span class="line">  <span class="string">"""</span><br><span class="line">  A naive implementation of the backward pass for a max pooling layer.</span><br><span class="line"></span><br><span class="line">  Inputs:</span><br><span class="line">  - dout: Upstream derivatives</span><br><span class="line">  - cache: A tuple of (x, pool_param) as in the forward pass.</span><br><span class="line"></span><br><span class="line">  Returns:</span><br><span class="line">  - dx: Gradient with respect to x</span><br><span class="line">  """</span></span><br><span class="line">  dx = <span class="keyword">None</span></span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line">  <span class="comment"># TODO: Implement the max pooling backward pass                             #</span></span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line">  <span class="keyword">pass</span></span><br><span class="line">  x, pool_param = cache</span><br><span class="line">  N, C, H, W = x.shape</span><br><span class="line">  HH = pool_param[<span class="string">'pool_height'</span>]</span><br><span class="line">  WW = pool_param[<span class="string">'pool_width'</span>]</span><br><span class="line">  stride = pool_param[<span class="string">'stride'</span>]</span><br><span class="line">  dx = np.zeros(x.shape)</span><br><span class="line">  W_prime = (W - WW) / stride + <span class="number">1</span></span><br><span class="line">  H_prime = (H - HH) / stride + <span class="number">1</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">for</span> num <span class="keyword">in</span> xrange(N):</span><br><span class="line">    <span class="keyword">for</span> c <span class="keyword">in</span> xrange(C):</span><br><span class="line">      <span class="keyword">for</span> i <span class="keyword">in</span> xrange(H_prime):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> xrange(W_prime):</span><br><span class="line">          t_indexs = x[num,c,i*stride:(i+<span class="number">1</span>)*stride,j*stride:(j+<span class="number">1</span>)*stride].argmax(-<span class="number">1</span>)</span><br><span class="line">          t_max = x[num,c,i*stride:(i+<span class="number">1</span>)*stride,j*stride:(j+<span class="number">1</span>)*stride].max(-<span class="number">1</span>)</span><br><span class="line">          index1 = t_max.argmax(-<span class="number">1</span>)</span><br><span class="line">          index2 = t_indexs[index1]</span><br><span class="line">          dx[num,c,i*stride+index1,j*stride + index2] = dout[num,c,i,j]</span><br><span class="line">  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line">  <span class="comment">#                             END OF YOUR CODE                              #</span></span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line">  <span class="keyword">return</span> dx</span><br><span class="line"></span><br><span class="line">  <span class="number">8.</span> Loss functions(SVM <span class="keyword">and</span> softmax)</span><br><span class="line">  ```python</span><br><span class="line">  ef svm_loss(x, y):</span><br><span class="line">  <span class="string">"""</span><br><span class="line">  Computes the loss and gradient using for multiclass SVM classification.</span><br><span class="line"></span><br><span class="line">  Inputs:</span><br><span class="line">  - x: Input data, of shape (N, C) where x[i, j] is the score for the jth class</span><br><span class="line">    for the ith input.</span><br><span class="line">  - y: Vector of labels, of shape (N,) where y[i] is the label for x[i] and</span><br><span class="line">    0 &lt;= y[i] &lt; C</span><br><span class="line"></span><br><span class="line">  Returns a tuple of:</span><br><span class="line">  - loss: Scalar giving the loss</span><br><span class="line">  - dx: Gradient of the loss with respect to x</span><br><span class="line">  """</span></span><br><span class="line">  N = x.shape[<span class="number">0</span>]</span><br><span class="line">  correct_class_scores = x[np.arange(N), y]</span><br><span class="line">  margins = np.maximum(<span class="number">0</span>, x - correct_class_scores[:, np.newaxis] + <span class="number">1.0</span>)</span><br><span class="line">  margins[np.arange(N), y] = <span class="number">0</span></span><br><span class="line">  loss = np.sum(margins) / N</span><br><span class="line">  num_pos = np.sum(margins &gt; <span class="number">0</span>, axis=<span class="number">1</span>)</span><br><span class="line">  dx = np.zeros_like(x)</span><br><span class="line">  dx[margins &gt; <span class="number">0</span>] = <span class="number">1</span></span><br><span class="line">  dx[np.arange(N), y] -= num_pos</span><br><span class="line">  dx /= N</span><br><span class="line">  <span class="keyword">return</span> loss, dx</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">softmax_loss</span><span class="params">(x, y)</span>:</span></span><br><span class="line">  <span class="string">"""</span><br><span class="line">  Computes the loss and gradient for softmax classification.</span><br><span class="line"></span><br><span class="line">  Inputs:</span><br><span class="line">  - x: Input data, of shape (N, C) where x[i, j] is the score for the jth class</span><br><span class="line">    for the ith input.</span><br><span class="line">  - y: Vector of labels, of shape (N,) where y[i] is the label for x[i] and</span><br><span class="line">    0 &lt;= y[i] &lt; C</span><br><span class="line"></span><br><span class="line">  Returns a tuple of:</span><br><span class="line">  - loss: Scalar giving the loss</span><br><span class="line">  - dx: Gradient of the loss with respect to x</span><br><span class="line">  """</span></span><br><span class="line">  probs = np.exp(x - np.max(x, axis=<span class="number">1</span>, keepdims=<span class="keyword">True</span>))</span><br><span class="line">  probs /= np.sum(probs, axis=<span class="number">1</span>, keepdims=<span class="keyword">True</span>)</span><br><span class="line">  N = x.shape[<span class="number">0</span>]</span><br><span class="line">  loss = -np.sum(np.log(probs[np.arange(N), y])) / N</span><br><span class="line">  dx = probs.copy()</span><br><span class="line">  dx[np.arange(N), y] -= <span class="number">1</span></span><br><span class="line">  dx /= N</span><br><span class="line">  <span class="keyword">return</span> loss, dx</span><br></pre></td></tr></table></figure>
+<h3 id="Train_a_Convnet">Train a Convnet</h3><ol>
+<li>Sanity check loss(parameter is 0, result is random guess)</li>
+<li>Gradient check</li>
+<li>Overfit small data(No error)</li>
+<li>Train the net</li>
+</ol>
+<h3 id="Things_you_should_try:">Things you should try:</h3></li>
+</ol>
+<ul>
+<li>Filter size: Above we used 7x7; this makes pretty pictures but smaller filters may be more efficient</li>
+<li>Number of filters: Above we used 32 filters. Do more or fewer do better?</li>
+<li>Network depth: The network above has two layers of trainable parameters. Can you do better with a deeper network? You can implement alternative architectures in the file <code>cs231n/classifiers/convnet.py</code>. Some good architectures to try include:<ul>
+<li>[conv-relu-pool]xN - conv - relu - [affine]xM - [softmax or SVM]</li>
+<li>[conv-relu-pool]XN - [affine]XM - [softmax or SVM]</li>
+<li>[conv-relu-conv-relu-pool]xN - [affine]xM - [softmax or SVM]</li>
+</ul>
+</li>
+</ul>
+<h3 id="Tips_for_training">Tips for training</h3><p>For each network architecture that you try, you should tune the learning rate and regularization strength. When doing this there are a couple important things to keep in mind:</p>
+<ul>
+<li>If the parameters are working well, you should see improvement within a few hundred iterations</li>
+<li>Remember the course-to-fine approach for hyperparameter tuning: start by testing a large range of hyperparameters for just a few training iterations to find the combinations of parameters that are working at all.</li>
+<li>Once you have found some sets of parameters that seem to work, search more finely around these parameters. You may need to train for more epochs.</li>
+</ul>
+<h3 id="Going_above_and_beyond">Going above and beyond</h3><p>If you are feeling adventurous there are many other features you can implement to try and improve your performance. You are <strong>not required</strong> to implement any of these; however they would be good things to try for extra credit.</p>
+<ul>
+<li>Alternative update steps: For the assignment we implemented SGD+momentum and RMSprop; you could try alternatives like AdaGrad or AdaDelta.</li>
+<li>Other forms of regularization such as L1 or Dropout</li>
+<li>Alternative activation functions such as leaky ReLU or maxout</li>
+<li>Model ensembles</li>
+<li>Data augmentation</li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Open-Course/">Open Course</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://RutgersHan.github.io/2015/05/03/cs231n-Assignment-2-Neural-Networks-ConvNets-I/" data-title="[cs231n]Assignment #2: Neural Networks, ConvNets I | Be a geek" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/05/03/Filters-Convolutions-FFT-used-in-Images/" title="Filters, Convolutions, FFT used in Images">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Filters, Convolutions, FFT used in Images</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/05/03/cs231n-Assignment-3-ConvNets-II-Transfer-Learning-Visualization/"  title="[cs231n]Assignment #3: ConvNets II, Transfer Learning, Visualization">
+ <strong>下一篇：</strong><br/> 
+ <span>[cs231n]Assignment #3: ConvNets II, Transfer Learning, Visualization
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/05/03/cs231n-Assignment-2-Neural-Networks-ConvNets-I/" data-title="[cs231n]Assignment #2: Neural Networks, ConvNets I" data-url="https://RutgersHan.github.io/2015/05/03/cs231n-Assignment-2-Neural-Networks-ConvNets-I/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Train_a_Convnet"><span class="toc-number">1.</span> <span class="toc-text">Train a Convnet</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Things_you_should_try:"><span class="toc-number">2.</span> <span class="toc-text">Things you should try:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Tips_for_training"><span class="toc-number">3.</span> <span class="toc-text">Tips for training</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Going_above_and_beyond"><span class="toc-number">4.</span> <span class="toc-text">Going above and beyond</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Engineering/" title="Engineering">Engineering<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/LeetCode/" title="LeetCode">LeetCode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Open-Course/" title="Open Course">Open Course<sup>17</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Research/" title="Research">Research<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计划/" title="计划">计划<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Deep-Learning/" title="Deep Learning">Deep Learning<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/caffe/" title="caffe">caffe<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/时间管理/" title="时间管理">时间管理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Notes/" title="Notes">Notes<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Object-Detection/" title="Object Detection">Object Detection<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/deep-learning/" title="deep learning">deep learning<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Image-Caption-Generation/" title="Image Caption Generation">Image Caption Generation<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Han at Rutgers. <br/>
+			Wanna be a geek, let&#39;s learn together</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="https://RutgersHan.github.io/about" target="_blank" title="Han Zhang">Han Zhang</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zhanghan"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'zhanghan';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  <!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</body>
+</html>

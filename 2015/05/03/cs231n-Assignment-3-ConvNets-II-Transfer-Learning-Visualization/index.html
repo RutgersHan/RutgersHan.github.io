@@ -1,0 +1,604 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>[cs231n]Assignment #3: ConvNets II, Transfer Learning, Visualization | Be a geek</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Han Zhang">
+    
+
+    
+    <meta name="description" content="Assignment WebsiteReference
+
+K. Simonyan, A. Vedaldi, A. Zisserman , “Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps”, ICLR Workshop 2014
+Szegedy, Christ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[cs231n]Assignment #3: ConvNets II, Transfer Learning, Visualization">
+<meta property="og:url" content="https://RutgersHan.github.io/2015/05/03/cs231n-Assignment-3-ConvNets-II-Transfer-Learning-Visualization/index.html">
+<meta property="og:site_name" content="Be a geek">
+<meta property="og:description" content="Assignment WebsiteReference
+
+K. Simonyan, A. Vedaldi, A. Zisserman , “Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps”, ICLR Workshop 2014
+Szegedy, Christ">
+<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-05-03 at 3.08.02 PM.png">
+<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-05-03 at 3.21.49 PM.png">
+<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-05-03 at 3.31.33 PM.png">
+<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-05-03 at 3.31.40 PM.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[cs231n]Assignment #3: ConvNets II, Transfer Learning, Visualization">
+<meta name="twitter:description" content="Assignment WebsiteReference
+
+K. Simonyan, A. Vedaldi, A. Zisserman , “Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps”, ICLR Workshop 2014
+Szegedy, Christ">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Be a geek" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/victor.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/victor.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Be a geek" title="Be a geek"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Be a geek">Be a geek</a></h1>
+				<h2 class="blog-motto">梦想一定要有的，万一见鬼了呢</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:RutgersHan.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/05/03/cs231n-Assignment-3-ConvNets-II-Transfer-Learning-Visualization/" title="[cs231n]Assignment #3: ConvNets II, Transfer Learning, Visualization" itemprop="url">[cs231n]Assignment #3: ConvNets II, Transfer Learning, Visualization</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
+		
+  <p class="article-time">
+    <time datetime="2015-05-03T18:47:06.000Z" itemprop="datePublished"> 发表于 2015-05-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Dropout_and_Data_Augmentation"><span class="toc-number">1.</span> <span class="toc-text">Dropout and Data Augmentation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ensemble_method"><span class="toc-number">2.</span> <span class="toc-text">Ensemble method</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Transfer_learning"><span class="toc-number">3.</span> <span class="toc-text">Transfer learning</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Visualize_Saliency_Maps(very_useful)"><span class="toc-number">4.</span> <span class="toc-text">Visualize Saliency Maps(very useful)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Fooling_images_for_ConvNets_(For_detail_code_please_view_the_ipython_file)"><span class="toc-number">5.</span> <span class="toc-text">Fooling images for ConvNets (For detail code please view the ipython file)</span></a></li></ol>
+		
+		</div>
+		
+		<p><a href="http://cs231n.github.io/assignment3/" target="_blank" rel="external">Assignment Website</a><br>Reference</p>
+<ol>
+<li><a href="http://arxiv.org/pdf/1312.6034.pdf" target="_blank" rel="external">K. Simonyan, A. Vedaldi, A. Zisserman , “Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps”, ICLR Workshop 2014</a></li>
+<li><a href="http://arxiv.org/abs/1312.6199" target="_blank" rel="external">Szegedy, Christian, et al. “Intriguing properties of neural networks.” arXiv preprint, 2013.</a></li>
+<li><a href="http://arxiv.org/abs/1412.1897" target="_blank" rel="external">Nguyen, Anh, Jason Yosinski, and Jeff Clune. “Deep Neural Networks are Easily Fooled: High Confidence Predictions for Unrecognizable Images.” arXiv preprint, 2014.</a><a id="more"></a>
+<h3 id="Dropout_and_Data_Augmentation">Dropout and Data Augmentation</h3>(Networks with dropout usually take a bit longer to train, so we will use more training epochs this time.)</li>
+</ol>
+<p>Dropout usually applied to fully connected layer instead of convolutional layer. </p>
+<p>Code for dropout:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dropout_forward</span><span class="params">(x, dropout_param)</span>:</span></span><br><span class="line">  <span class="string">"""</span><br><span class="line">  Performs the forward pass for (inverted) dropout.</span><br><span class="line"></span><br><span class="line">  Inputs:</span><br><span class="line">  - x: Input data, of any shape</span><br><span class="line">  - dropout_param: A dictionary with the following keys:</span><br><span class="line">    - p: Dropout parameter. We keep each neuron output with probability p.</span><br><span class="line">    - mode: 'test' or 'train'. If the mode is train, then perform dropout;</span><br><span class="line">      if the mode is test, then just return the input.</span><br><span class="line">    - seed: Seed for the random number generator. Passing seed makes this</span><br><span class="line">      function deterministic, which is needed for gradient checking but not in</span><br><span class="line">      real networks.</span><br><span class="line"></span><br><span class="line">  Outputs:</span><br><span class="line">  - out: Array of the same shape as x.</span><br><span class="line">  - cache: A tuple (dropout_param, mask). In training mode, mask is the dropout</span><br><span class="line">    mask that was used to multiply the input; in test mode, mask is None.</span><br><span class="line">  """</span></span><br><span class="line">  p, mode = dropout_param[<span class="string">'p'</span>], dropout_param[<span class="string">'mode'</span>]</span><br><span class="line">  <span class="keyword">if</span> <span class="string">'seed'</span> <span class="keyword">in</span> dropout_param:</span><br><span class="line">    np.random.seed(dropout_param[<span class="string">'seed'</span>])</span><br><span class="line"></span><br><span class="line">  mask = <span class="keyword">None</span></span><br><span class="line">  out = <span class="keyword">None</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> mode == <span class="string">'train'</span>:</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line">    mask = (np.random.rand(*x.shape)&lt;p) / p</span><br><span class="line">    out = x * mask</span><br><span class="line">  <span class="keyword">elif</span> mode == <span class="string">'test'</span>:</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line">    out = x</span><br><span class="line"></span><br><span class="line">  cache = (dropout_param, mask)</span><br><span class="line">  out = out.astype(x.dtype, copy=<span class="keyword">False</span>)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> out, cache</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dropout_backward</span><span class="params">(dout, cache)</span>:</span></span><br><span class="line">  <span class="string">"""</span><br><span class="line">  Perform the backward pass for (inverted) dropout.</span><br><span class="line"></span><br><span class="line">  Inputs:</span><br><span class="line">  - dout: Upstream derivatives, of any shape</span><br><span class="line">  - cache: (dropout_param, mask) from dropout_forward.</span><br><span class="line">  """</span></span><br><span class="line">  dropout_param, mask = cache</span><br><span class="line">  mode = dropout_param[<span class="string">'mode'</span>]</span><br><span class="line">  <span class="keyword">if</span> mode == <span class="string">'train'</span>:</span><br><span class="line">    <span class="comment">###########################################################################</span></span><br><span class="line">    <span class="comment"># TODO: Implement the training phase forward pass for inverted dropout.   #</span></span><br><span class="line">    <span class="comment"># Store the dropout mask in the mask variable.                            #</span></span><br><span class="line">    <span class="comment">###########################################################################</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line">    dx = mask * dout</span><br><span class="line">    <span class="comment">###########################################################################</span></span><br><span class="line">    <span class="comment">#                            END OF YOUR CODE                             #</span></span><br><span class="line">    <span class="comment">###########################################################################</span></span><br><span class="line">  <span class="keyword">elif</span> mode == <span class="string">'test'</span>:</span><br><span class="line">    dx = dout</span><br><span class="line">  <span class="keyword">return</span> dx</span><br></pre></td></tr></table></figure>
+<p>Code for data Augmentation<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">random_flips</span><span class="params">(X)</span>:</span></span><br><span class="line">  <span class="string">"""</span><br><span class="line">  Take random x-y flips of images.</span><br><span class="line"></span><br><span class="line">  Input:</span><br><span class="line">  - X: (N, C, H, W) array of image data.</span><br><span class="line"></span><br><span class="line">  Output:</span><br><span class="line">  - An array of the same shape as X, containing a copy of the data in X,</span><br><span class="line">    but with half the examples flipped along the horizontal direction.</span><br><span class="line">  """</span></span><br><span class="line">  out = <span class="keyword">None</span></span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line">  <span class="comment"># TODO: Implement the random_flips function. Store the result in out.       #</span></span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line">  <span class="keyword">pass</span></span><br><span class="line">  N, C, H, W = X.shape</span><br><span class="line">  out = np.zeros(X.shape)</span><br><span class="line">  flag = np.random.rand(N)&lt;<span class="number">0.5</span></span><br><span class="line">  flag = flag.astype(int)</span><br><span class="line">  flag[flag==<span class="number">0</span>] = -<span class="number">1</span></span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> xrange(N):</span><br><span class="line">    out[i] = X[i,:,:,::flag[i]]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line">  <span class="comment">#                           END OF YOUR CODE                                #</span></span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line">  <span class="keyword">return</span> out</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">random_crops</span><span class="params">(X, crop_shape)</span>:</span></span><br><span class="line">  <span class="string">"""</span><br><span class="line">  Take random crops of images. For each input image we will generate a random</span><br><span class="line">  crop of that image of the specified size.</span><br><span class="line"></span><br><span class="line">  Input:</span><br><span class="line">  - X: (N, C, H, W) array of image data</span><br><span class="line">  - crop_shape: Tuple (HH, WW) to which each image will be cropped.</span><br><span class="line"></span><br><span class="line">  Output:</span><br><span class="line">  - Array of shape (N, C, HH, WW)</span><br><span class="line">  """</span></span><br><span class="line">  N, C, H, W = X.shape</span><br><span class="line">  HH, WW = crop_shape</span><br><span class="line">  <span class="keyword">assert</span> HH &lt; H <span class="keyword">and</span> WW &lt; W</span><br><span class="line"></span><br><span class="line">  out = np.zeros((N, C, HH, WW), dtype=X.dtype)</span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line">  <span class="comment"># TODO: Implement the random_crops function. Store the result in out.       #</span></span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line">  <span class="keyword">pass</span></span><br><span class="line">  H_range = H - HH</span><br><span class="line">  W_range = W - WW</span><br><span class="line">  ratio_H = np.random.rand(N)</span><br><span class="line">  ratio_W = np.random.rand(N)</span><br><span class="line">  startH = np.round(ratio_H * H_range)</span><br><span class="line">  startW = np.round(ratio_W * W_range)</span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> xrange(N):</span><br><span class="line">    out[i] = X[i,:,startH[i]:startH[i]+HH, startW[i]:startW[i]+WW]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line">  <span class="comment">#                           END OF YOUR CODE                                #</span></span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> out</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">random_contrast</span><span class="params">(X, scale=<span class="params">(<span class="number">0.8</span>, <span class="number">1.2</span>)</span>)</span>:</span></span><br><span class="line">  <span class="string">"""</span><br><span class="line">  Randomly adjust the contrast of images. For each input image, choose a</span><br><span class="line">  number uniformly at random from the range given by the scale parameter,</span><br><span class="line">  and multiply each pixel of the image by that number.</span><br><span class="line"></span><br><span class="line">  Inputs:</span><br><span class="line">  - X: (N, C, H, W) array of image data</span><br><span class="line">  - scale: Tuple (low, high). For each image we sample a scalar in the</span><br><span class="line">    range (low, high) and multiply the image by that scaler.</span><br><span class="line"></span><br><span class="line">  Output:</span><br><span class="line">  - Rescaled array out of shape (N, C, H, W) where out[i] is a contrast</span><br><span class="line">    adjusted version of X[i].</span><br><span class="line">  """</span></span><br><span class="line">  low, high = scale</span><br><span class="line">  N = X.shape[<span class="number">0</span>]</span><br><span class="line">  out = np.zeros_like(X)</span><br><span class="line"></span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line">  <span class="comment"># TODO: Implement the random_contrast function. Store the result in out.    #</span></span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line">  <span class="keyword">pass</span></span><br><span class="line">  ratio = np.random.rand(N)</span><br><span class="line">  contrast = low + (high - low) * ratio</span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> xrange(N):</span><br><span class="line">    out[i] = contrast[i] * X[i]</span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line">  <span class="comment">#                           END OF YOUR CODE                                #</span></span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">return</span> out</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">random_tint</span><span class="params">(X, scale=<span class="params">(-<span class="number">10</span>, <span class="number">10</span>)</span>)</span>:</span></span><br><span class="line">  <span class="string">"""</span><br><span class="line">  Randomly tint images. For each input image, choose a random color whose</span><br><span class="line">  red, green, and blue components are each drawn uniformly at random from</span><br><span class="line">  the range given by scale. Add that color to each pixel of the image.</span><br><span class="line"></span><br><span class="line">  Inputs:</span><br><span class="line">  - X: (N, C, W, H) array of image data</span><br><span class="line">  - scale: A tuple (low, high) giving the bounds for the random color that</span><br><span class="line">    will be generated for each image.</span><br><span class="line"></span><br><span class="line">  Output:</span><br><span class="line">  - Tinted array out of shape (N, C, H, W) where out[i] is a tinted version</span><br><span class="line">    of X[i].</span><br><span class="line">  """</span></span><br><span class="line">  low, high = scale</span><br><span class="line">  N, C = X.shape[:<span class="number">2</span>]</span><br><span class="line">  out = np.zeros_like(X)</span><br><span class="line"></span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line">  <span class="comment"># TODO: Implement the random_tint function. Store the result in out.        #</span></span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line">  <span class="keyword">pass</span></span><br><span class="line">  tint_color = low + np.random.rand(N,C) * (high - low)</span><br><span class="line">  <span class="comment">#tint_color.reshape((N,C,1,1))</span></span><br><span class="line">  <span class="keyword">for</span> i <span class="keyword">in</span> xrange(N):</span><br><span class="line">    out[i] = X[i] + tint_color[i].reshape((C,<span class="number">1</span>,<span class="number">1</span>))</span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line">  <span class="comment">#                           END OF YOUR CODE                                #</span></span><br><span class="line">  <span class="comment">#############################################################################</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> out</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fixed_crops</span><span class="params">(X, crop_shape, crop_type)</span>:</span></span><br><span class="line">  <span class="string">"""</span><br><span class="line">  Take center or corner crops of images.</span><br><span class="line"></span><br><span class="line">  Inputs:</span><br><span class="line">  - X: Input data, of shape (N, C, H, W)</span><br><span class="line">  - crop_shape: Tuple of integers (HH, WW) giving the size to which each</span><br><span class="line">    image will be cropped.</span><br><span class="line">  - crop_type: One of the following strings, giving the type of crop to</span><br><span class="line">    compute:</span><br><span class="line">    'center': Center crop</span><br><span class="line">    'ul': Upper left corner</span><br><span class="line">    'ur': Upper right corner</span><br><span class="line">    'bl': Bottom left corner</span><br><span class="line">    'br': Bottom right corner</span><br><span class="line"></span><br><span class="line">  Returns:</span><br><span class="line">  Array of cropped data of shape (N, C, HH, WW) </span><br><span class="line">  """</span></span><br><span class="line">  N, C, H, W = X.shape</span><br><span class="line">  HH, WW = crop_shape</span><br><span class="line"></span><br><span class="line">  x0 = (W - WW) / <span class="number">2</span></span><br><span class="line">  y0 = (H - HH) / <span class="number">2</span></span><br><span class="line">  x1 = x0 + WW</span><br><span class="line">  y1 = y0 + HH</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> crop_type == <span class="string">'center'</span>:</span><br><span class="line">    <span class="keyword">return</span> X[:, :, y0:y1, x0:x1]</span><br><span class="line">  <span class="keyword">elif</span> crop_type == <span class="string">'ul'</span>:</span><br><span class="line">    <span class="keyword">return</span> X[:, :, :HH, :WW]</span><br><span class="line">  <span class="keyword">elif</span> crop_type == <span class="string">'ur'</span>:</span><br><span class="line">    <span class="keyword">return</span> X[:, :, :HH, -WW:]</span><br><span class="line">  <span class="keyword">elif</span> crop_type == <span class="string">'bl'</span>:</span><br><span class="line">    <span class="keyword">return</span> X[:, :, -HH:, :WW]</span><br><span class="line">  <span class="keyword">elif</span> crop_type == <span class="string">'br'</span>:</span><br><span class="line">    <span class="keyword">return</span> X[:, :, -HH:, -WW:]</span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    <span class="keyword">raise</span> ValueError(<span class="string">'Unrecognized crop type %s'</span> % crop_type)</span><br></pre></td></tr></table></figure></p>
+<h3 id="Ensemble_method">Ensemble method</h3><p>Ensemble methods tends to always make the prediction better. </p>
+<p>A simple way to implement an ensemble of models is to average the predicted probabilites for each model in the ensemble.</p>
+<p>More concretely, suppose we have models $k$ models $m_1,\ldots,m_k$ and we want to combine them into an ensemble. If $p(x=y_i \mid m_j)$ is the probability that the input $x$ is classified as $y_i$ under model $m_j$, then the enemble predicts</p>
+<p>$$p(x=y_i \mid {m_1,\ldots,m_k}) = \frac1k\sum_{j=1}^kp(x=y_i\mid m_j)$$</p>
+<p>In this example, we have 10 pretrained models and the <em>structures are all the same</em><br>Each of these models was trained for 25 epochs over the TinyImageNet-100-A training data with a batch size of 50 and with dropout on the hidden affine layer. <em>Each model was trained using slightly different values for the learning rate, regularization, and dropout probability.</em></p>
+<p>We can use all of them, or just part of them. And we can plot the validation accuracy with respect to the number of models selected.<br><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-05-03 at 3.08.02 PM.png" alt=""></p>
+<h3 id="Transfer_learning">Transfer learning</h3><ol>
+<li>Just use the trained the network on a new dataset to get last fully connnected layer(RELUed) as the feature, and then use KNN/SVM/softmax as the classfier. </li>
+<li>Use the network as the initial the parameter and fine-tune it with the new dataset. </li>
+</ol>
+<h3 id="Visualize_Saliency_Maps(very_useful)">Visualize Saliency Maps(very useful)</h3><p>[1] K. Simonyan, A. Vedaldi, A. Zisserman , “Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps”, ICLR Workshop 2014</p>
+<p>understand which part of an image is important for classification by visualizing the gradient of the correct class score with respect to the input image. Recall that if a region of the image has a high data gradient, then this indicates that the output of the ConvNet is sensitive to perturbations in that region of the input image.</p>
+<p>We will do something similar, instead visualizing the gradient of the data loss with respect to the input image; this gives similar results and is cleaner to implement using our codebase.</p>
+<p>The computation is relatively easy(use the conv_relu_pool_backward.)<br><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-05-03 at 3.21.49 PM.png" alt=""></p>
+<h3 id="Fooling_images_for_ConvNets_(For_detail_code_please_view_the_ipython_file)">Fooling images for ConvNets (For detail code please view the ipython file)</h3><p>Two other papers [2, 3] showed that given a trained ConvNet, an input image, and a desired label, that we can add a small amount of noise to the input image to force the ConvNet to classify it as having the desired label.</p>
+<p>Suppose that $L(x, y, m)$ is the data loss under model $m$, where we tell the network that the input $x$ should be classified as having label $y$. Given a starting image $x_0$, a desired label $y$, and a pretrained model $m$, we will create a fooling image $x_f$ by solving the following optimization problem:</p>
+<p>$$x_f = \arg\min_x \left(L(x, y, m) + \frac\lambda2 |x - x_0|^2_2\right)$$</p>
+<p>The term $|x - x_0|^2$ is $L_2$ regularization in image space which encourages the fooling image to look similar to the starting image, and the constant $\lambda$ is the strength of this regularization. We will use gradient descent to perform optimization under this model.</p>
+<p>In the past, when using gradient descent we have stopped after a fixed number of iterations. Here we will use a different stopping criteria. Suppose that $p(x=y \mid m)$ is the probability that the input $x$ is assigned the label $y$ under the model $m$. We will specify a desired <em>confidence threshold</em> $t$ for the fooling image, and we will stop our optimization when we have $p(x_f=y\mid m) &gt;= t$.</p>
+<ol>
+<li>Fooling images from correctly classified images<br><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-05-03 at 3.31.33 PM.png" alt=""></li>
+<li>Fooling image from random noise<br><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-05-03 at 3.31.40 PM.png" alt=""></li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Open-Course/">Open Course</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="https://RutgersHan.github.io/2015/05/03/cs231n-Assignment-3-ConvNets-II-Transfer-Learning-Visualization/" data-title="[cs231n]Assignment #3: ConvNets II, Transfer Learning, Visualization | Be a geek" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/05/03/cs231n-Assignment-2-Neural-Networks-ConvNets-I/" title="[cs231n]Assignment #2: Neural Networks, ConvNets I">
+  <strong>上一篇：</strong><br/>
+  <span>
+  [cs231n]Assignment #2: Neural Networks, ConvNets I</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/05/01/Caffe-1-Google-Protocol-Buffer/"  title="[Caffe](1) Google Protocol Buffer">
+ <strong>下一篇：</strong><br/> 
+ <span>[Caffe](1) Google Protocol Buffer
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/05/03/cs231n-Assignment-3-ConvNets-II-Transfer-Learning-Visualization/" data-title="[cs231n]Assignment #3: ConvNets II, Transfer Learning, Visualization" data-url="https://RutgersHan.github.io/2015/05/03/cs231n-Assignment-3-ConvNets-II-Transfer-Learning-Visualization/"></div>
+</section>
+
+
+<section id="comments" class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Dropout_and_Data_Augmentation"><span class="toc-number">1.</span> <span class="toc-text">Dropout and Data Augmentation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ensemble_method"><span class="toc-number">2.</span> <span class="toc-text">Ensemble method</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Transfer_learning"><span class="toc-number">3.</span> <span class="toc-text">Transfer learning</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Visualize_Saliency_Maps(very_useful)"><span class="toc-number">4.</span> <span class="toc-text">Visualize Saliency Maps(very useful)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Fooling_images_for_ConvNets_(For_detail_code_please_view_the_ipython_file)"><span class="toc-number">5.</span> <span class="toc-text">Fooling images for ConvNets (For detail code please view the ipython file)</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Engineering/" title="Engineering">Engineering<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/LeetCode/" title="LeetCode">LeetCode<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Open-Course/" title="Open Course">Open Course<sup>17</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Research/" title="Research">Research<sup>6</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/计划/" title="计划">计划<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Deep-Learning/" title="Deep Learning">Deep Learning<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/caffe/" title="caffe">caffe<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/时间管理/" title="时间管理">时间管理<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Notes/" title="Notes">Notes<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Object-Detection/" title="Object Detection">Object Detection<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/deep-learning/" title="deep learning">deep learning<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Image-Caption-Generation/" title="Image Caption Generation">Image Caption Generation<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Han at Rutgers. <br/>
+			Wanna be a geek, let&#39;s learn together</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="https://RutgersHan.github.io/about" target="_blank" title="Han Zhang">Han Zhang</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#nothing"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"zhanghan"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+<script type="text/javascript">
+
+var disqus_shortname = 'zhanghan';
+
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+(function(){
+  var dsq = document.createElement('script');
+  dsq.type = 'text/javascript';
+  dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+}());
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  <!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</body>
+</html>
