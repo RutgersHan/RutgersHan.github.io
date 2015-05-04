@@ -107,9 +107,10 @@ For the input, it creates two top layers(label and data). For the loss layer, i"
 		<h3 id="Define_the_Network">Define the Network</h3><ol>
 <li>Giving the same name to the bottom and top blobs to do in-place operations to save some memory (ReLU)</li>
 <li>For the input, it creates two top layers(label and data). For the loss layer, it uses two input layers(label and fully connected)</li>
-<li>Layer definitions can include rules for whether and when they are included in the network definition, like the one below:<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">layers</span> &#123;</span><br><span class="line">  <span class="comment">// ...layer definition...</span></span><br><span class="line">  <span class="tag">include</span>: &#123; <span class="attribute">phase</span>: TRAIN &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
+<li>Layer definitions can include rules for whether and when they are included in the network definition, like the one below:</li>
 </ol>
+<a id="more"></a>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">layers</span> &#123;</span><br><span class="line">  <span class="comment">// ...layer definition...</span></span><br><span class="line">  <span class="tag">include</span>: &#123; <span class="attribute">phase</span>: TRAIN &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>In the above example, this layer will be included only in TRAIN phase. If we change TRAIN with TEST, then this layer will be used only in test phase. By default, that is without layer rules, a layer is always included in the network.</p>
 <h3 id="Define_the_Solver">Define the Solver</h3><ol>
 <li>have the net description </li>

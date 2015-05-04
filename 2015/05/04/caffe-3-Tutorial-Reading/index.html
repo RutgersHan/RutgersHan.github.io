@@ -11,21 +11,15 @@
     
 
     
-    <meta name="description" content="Convnet Benchmark https://github.com/soumith/convnet-benchmarks&amp;lt;!--mroe--&amp;gt;
-Rules of thumb for setting the learning rate$ \alpha $ and momentum $ \mu $
-A good strategy for deep learning with SGD is to">
+    <meta name="description" content="Convnet BenchmarkThe above link compares the speed of existing CNN implementation">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[caffe](3)Tutorial Reading">
 <meta property="og:url" content="https://RutgersHan.github.io/2015/05/04/caffe-3-Tutorial-Reading/index.html">
 <meta property="og:site_name" content="Be a geek">
-<meta property="og:description" content="Convnet Benchmark https://github.com/soumith/convnet-benchmarks&amp;lt;!--mroe--&amp;gt;
-Rules of thumb for setting the learning rate$ \alpha $ and momentum $ \mu $
-A good strategy for deep learning with SGD is to">
+<meta property="og:description" content="Convnet BenchmarkThe above link compares the speed of existing CNN implementation">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[caffe](3)Tutorial Reading">
-<meta name="twitter:description" content="Convnet Benchmark https://github.com/soumith/convnet-benchmarks&amp;lt;!--mroe--&amp;gt;
-Rules of thumb for setting the learning rate$ \alpha $ and momentum $ \mu $
-A good strategy for deep learning with SGD is to">
+<meta name="twitter:description" content="Convnet BenchmarkThe above link compares the speed of existing CNN implementation">
 
     
     <link rel="alternative" href="/atom.xml" title="Be a geek" type="application/atom+xml">
@@ -104,7 +98,8 @@ A good strategy for deep learning with SGD is to">
 		
 		</div>
 		
-		<p>Convnet Benchmark <a href="https://github.com/soumith/convnet-benchmarks" target="_blank" rel="external">https://github.com/soumith/convnet-benchmarks</a><br><!--mroe--></p>
+		<p><a href="https://github.com/soumith/convnet-benchmarks" target="_blank" rel="external">Convnet Benchmark</a><br>The above link compares the speed of existing CNN implementation</p>
+<a id="more"></a>
 <h4 id="Rules_of_thumb_for_setting_the_learning_rate">Rules of thumb for setting the learning rate</h4><p>$ \alpha $ and momentum $ \mu $</p>
 <p>A good strategy for deep learning with SGD is to initialize the learning rate $ \alpha $ to a value around $ \alpha \approx 0.01 = 10^{-2} $, and dropping it by a constant factor (e.g., 10) throughout training when the loss begins to reach an apparent “plateau”, repeating this several times.<br>Generally, you probably want to use a momentum $ \mu = 0.9 $ or similar value.<br>By smoothing the weight updates across iterations, momentum tends to make deep learning with SGD both stabler and faster.</p>
 <p>To use a learning rate policy like this, you can put the following lines somewhere in your solver prototxt file:</p>
