@@ -4,22 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>[LeetCode]Binary Tree Right Side View | Be a geek</title>
+    <title>Notes for&lt;Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps&gt; | Be a geek</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Han Zhang">
     
 
     
-    <meta name="description" content="Given a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.">
+    <meta name="description" content="This paper addresses the visualisation of image classification models. We consider two visualisation techniques, based on computing the gradient of the class score with respect to the input image. The">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[LeetCode]Binary Tree Right Side View">
-<meta property="og:url" content="https://RutgersHan.github.io/2015/04/15/LeetCode-Binary-Tree-Right-Side-View/index.html">
+<meta property="og:title" content="Notes for<Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps>">
+<meta property="og:url" content="https://RutgersHan.github.io/2015/05/13/Notes-for-Deep-Inside-Convolutional-Networks-Visualising-Image-Classification-Models-and-Saliency-Maps/index.html">
 <meta property="og:site_name" content="Be a geek">
-<meta property="og:description" content="Given a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.">
+<meta property="og:description" content="This paper addresses the visualisation of image classification models. We consider two visualisation techniques, based on computing the gradient of the class score with respect to the input image. The">
+<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-05-13 at 12.53.45 PM.png">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="[LeetCode]Binary Tree Right Side View">
-<meta name="twitter:description" content="Given a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.">
+<meta name="twitter:title" content="Notes for<Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps>">
+<meta name="twitter:description" content="This paper addresses the visualisation of image classification models. We consider two visualisation techniques, based on computing the gradient of the class score with respect to the input image. The">
 
     
     <link rel="alternative" href="/atom.xml" title="Be a geek" type="application/atom+xml">
@@ -78,14 +79,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/04/15/LeetCode-Binary-Tree-Right-Side-View/" title="[LeetCode]Binary Tree Right Side View" itemprop="url">[LeetCode]Binary Tree Right Side View</a>
+      <a href="/2015/05/13/Notes-for-Deep-Inside-Convolutional-Networks-Visualising-Image-Classification-Models-and-Saliency-Maps/" title="Notes for&lt;Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps&gt;" itemprop="url">Notes for&lt;Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps&gt;</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
 		
   <p class="article-time">
-    <time datetime="2015-04-15T04:49:25.000Z" itemprop="datePublished"> 发表于 2015-04-15</time>
+    <time datetime="2015-05-13T16:27:27.000Z" itemprop="datePublished"> 发表于 2015-05-13</time>
     
   </p>
 </header>
@@ -94,21 +95,19 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Class_Model_Visualisation"><span class="toc-number">1.</span> <span class="toc-text">Class Model Visualisation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Image-Specific_Class_Saliency_Visualisation"><span class="toc-number">2.</span> <span class="toc-text">Image-Specific Class Saliency Visualisation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Relation_to_Deconvolutional_Networks"><span class="toc-number">3.</span> <span class="toc-text">Relation to Deconvolutional Networks</span></a></li></ol>
 		
 		</div>
 		
-		<p>Given a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.<br><a id="more"></a></p>
-<p>For example:<br>Given the following binary tree<br><figure class="highlight haskell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   <span class="number">1</span>            &lt;-<span class="comment">--</span></span><br><span class="line"> /   \</span><br><span class="line"><span class="number">2</span>     <span class="number">3</span>         &lt;-<span class="comment">--</span></span><br><span class="line"> \     \</span><br><span class="line">  <span class="number">5</span>     <span class="number">4</span>       &lt;-<span class="comment">--</span></span><br></pre></td></tr></table></figure></p>
-<p>You should return [1, 3, 4].</p>
-<p>Solutions</p>
-<ol>
-<li><p>Based on level order traversal and then print the last element in each level(iterative)</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * Definition for binary tree</span><br><span class="line"> * struct TreeNode &#123;</span><br><span class="line"> *     int val;</span><br><span class="line"> *     TreeNode *left;</span><br><span class="line"> *     TreeNode *right;</span><br><span class="line"> *     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span><br><span class="line"> * &#125;;</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rightSideView(TreeNode *root) &#123;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;result;</span><br><span class="line">        <span class="keyword">if</span>(root==NULL)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">queue</span>&lt;TreeNode*&gt; Que_Nodes;</span><br><span class="line">        Que_Nodes.push(root);</span><br><span class="line">        Que_Nodes.push(NULL);</span><br><span class="line">        <span class="keyword">while</span>(!Que_Nodes.empty())</span><br><span class="line">        &#123;</span><br><span class="line">            TreeNode* Current = Que_Nodes.front();</span><br><span class="line">            Que_Nodes.pop();</span><br><span class="line">            TreeNode* Next = Que_Nodes.front();</span><br><span class="line">            <span class="keyword">if</span>(Current-&gt;left!=NULL)</span><br><span class="line">            &#123;</span><br><span class="line">                Que_Nodes.push(Current-&gt;left);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(Current-&gt;right!=NULL)</span><br><span class="line">            &#123;</span><br><span class="line">                Que_Nodes.push(Current-&gt;right);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(Next==NULL &amp;&amp; Que_Nodes.size()!=<span class="number">1</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                result.push_back(Current-&gt;val);</span><br><span class="line">                Que_Nodes.push(NULL);</span><br><span class="line">                Que_Nodes.pop();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(Next==NULL &amp;&amp; Que_Nodes.size()==<span class="number">1</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                result.push_back(Current-&gt;val);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Recursive Method, the size of the vector is a indicator of the max level now, if the current level is bigger than the max level, then the node should be put in the vector</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">* Definition for binary tree</span><br><span class="line">* struct TreeNode &#123;</span><br><span class="line">*     int val;</span><br><span class="line">*     TreeNode *left;</span><br><span class="line">*     TreeNode *right;</span><br><span class="line">*     TreeNode(int x) : val(x), left(NULL), right(NULL) &#123;&#125;</span><br><span class="line">* &#125;;</span><br><span class="line">*/</span></span><br><span class="line"><span class="keyword">class</span> Solution &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; rightSideView(TreeNode *root) &#123;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; right_side;</span><br><span class="line">        rightSide(root, right_side, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> right_side;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">rightSide</span><span class="params">(TreeNode *r, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;a, <span class="keyword">int</span> i)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (r == NULL)<span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">if</span> (i == a.size())</span><br><span class="line">            a.push_back(r-&gt;val);</span><br><span class="line">        rightSide(r-&gt;right, a, i + <span class="number">1</span>);</span><br><span class="line">        rightSide(r-&gt;left, a, i + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
-</ol>
+		<p>This paper addresses the visualisation of image classification models. We consider two visualisation techniques, based on computing the gradient of the class score with respect to the input image. The first one generates an image, which maximises the class score, thus visualising the notion of the class, captured by a ConvNet. The second technique computes a class saliency map, specific to a given image and class.</p>
+<a id="more"></a>
+<h3 id="Class_Model_Visualisation">Class Model Visualisation</h3><p>Given a learnt classification ConvNet and a class of interest, the visualisation method consists in numerically generating an image.<br>$$argmax_{I}S_c(I) - \lambda ||I||_{2}^{2}$$<br>y, let $S_c(I)$ be the score of the class c, computed by the classification layer of the ConvNet for an image I. We would like to find an L2-regularised image, such that the score $S_c$ is high.<br>A locally-optimal I can be found by the back-propagation method. The procedure is related to the ConvNet training procedure, where the back-propagation is used to optimise the layer weights. The difference is that in our case the optimisation is performed with respect to the input image, while the weights are fixed to those found during the training stage. We initialised the optimisation with the zero image (in our case, the ConvNet was trained on the zero-centred image data), and then added the training set mean image to the result.<br>Use (unnormalised) class scores Sc, rather than the class posteriors. The reason is that the maximisation of the class<br>posterior can be achieved by minimising the scores of other classes. Therefore, we optimise Sc to ensure that the optimisation concentrates only on the class in question c.</p>
+<h3 id="Image-Specific_Class_Saliency_Visualisation">Image-Specific Class Saliency Visualisation</h3><p>A classification ConvNet can be queried about the spatial support of a particular class in a given image.<br>Intuition: magnitude of the derivative indicates which pixels need to be changed the least to affect the class score the most. One can expect that such pixels correspond to the object location in the image.</p>
+<ul>
+<li>Class Saliency Extraction (computer the gradient with respect to the image)</li>
+<li>Weakly Supervised Object Localisation<br>Given an image and the corresponding class saliency map, we compute the object segmentation mask using the GraphCut colour segmentation. The use of the colour segmentation is motivated by the fact that the saliency map might capture only the most discriminative part of an object, so saliency thresholding might not be able to highlight the whole object. Therefore, it is important to be able to propagate the thresholded map to other parts of the object, which we aim to achieve here using the colour continuity cues. Foreground and background colour models were set to be the Gaussian Mixture Models. The foreground model was estimated from the pixels with the saliency higher than a threshold, set to the 95% quantile of the saliency distribution in the image; the background model was estimated from the pixels with the saliency smaller than the 30% quantile</li>
+</ul>
+<h3 id="Relation_to_Deconvolutional_Networks"><strong>Relation to Deconvolutional Networks</strong></h3><p>DeconvNet-based reconstruction of the n-th layer input $X_n$ is either equivalent or similar to computing the gradient of the visualised neuron activity f with respect to Xn, so DeconvNet effectively corresponds to the gradient back-propagation through a ConvNet.<br><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-05-13 at 12.53.45 PM.png" alt=""></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -116,7 +115,7 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/LeetCode/">LeetCode</a>
+  <a class="article-category-link" href="/categories/Research/">Research</a>
 </div>
 
 
@@ -126,7 +125,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://RutgersHan.github.io/2015/04/15/LeetCode-Binary-Tree-Right-Side-View/" data-title="[LeetCode]Binary Tree Right Side View | Be a geek" data-tsina="null" class="share clearfix">
+	  <div data-url="https://RutgersHan.github.io/2015/05/13/Notes-for-Deep-Inside-Convolutional-Networks-Visualising-Image-Classification-Models-and-Saliency-Maps/" data-title="Notes for&lt;Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps&gt; | Be a geek" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -139,19 +138,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/04/15/CS231n-Convolutional-Neural-Networks-for-Visual-Recognition/" title="[CS231n] Overview and Resources">
-  <strong>上一篇：</strong><br/>
-  <span>
-  [CS231n] Overview and Resources</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/04/14/Notes-for-Show-Attend-and-Tell-Neural-Image-Caption-Generation-with-Visual-Attention/"  title="Notes for &lt;Show, Attend and Tell: Neural Image Caption Generation with Visual Attention&gt;">
+<a href="/2015/05/13/Notes-for-Visualizing-and-Understanding-Convolutional-Networks/"  title="Notes for &lt;Visualizing and Understanding Convolutional Networks&gt;">
  <strong>下一篇：</strong><br/> 
- <span>Notes for &lt;Show, Attend and Tell: Neural Image Caption Generation with Visual Attention&gt;
+ <span>Notes for &lt;Visualizing and Understanding Convolutional Networks&gt;
 </span>
 </a>
 </div>
@@ -160,7 +151,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/04/15/LeetCode-Binary-Tree-Right-Side-View/" data-title="[LeetCode]Binary Tree Right Side View" data-url="https://RutgersHan.github.io/2015/04/15/LeetCode-Binary-Tree-Right-Side-View/"></div>
+	<div class="ds-thread" data-thread-key="2015/05/13/Notes-for-Deep-Inside-Convolutional-Networks-Visualising-Image-Classification-Models-and-Saliency-Maps/" data-title="Notes for<Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps>" data-url="https://RutgersHan.github.io/2015/05/13/Notes-for-Deep-Inside-Convolutional-Networks-Visualising-Image-Classification-Models-and-Saliency-Maps/"></div>
 </section>
 
 
@@ -176,7 +167,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Class_Model_Visualisation"><span class="toc-number">1.</span> <span class="toc-text">Class Model Visualisation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Image-Specific_Class_Saliency_Visualisation"><span class="toc-number">2.</span> <span class="toc-text">Image-Specific Class Saliency Visualisation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Relation_to_Deconvolutional_Networks"><span class="toc-number">3.</span> <span class="toc-text">Relation to Deconvolutional Networks</span></a></li></ol>
  
   </div>
 

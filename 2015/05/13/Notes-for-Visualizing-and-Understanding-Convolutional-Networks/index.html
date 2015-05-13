@@ -4,32 +4,28 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>How to use Git and GitHub | Be a geek</title>
+    <title>Notes for &lt;Visualizing and Understanding Convolutional Networks&gt; | Be a geek</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Han Zhang">
     
 
     
-    <meta name="description" content="Learning Material
-Best thing to start is this tutorial: 廖雪峰的Git教程
-Git cheat sheet: Git Cheat Sheet
-Git commands: jark’s blog about Git">
+    <meta name="description" content="A deconvnet can be thought of as a convnet model that uses the same components (filtering, pooling) but in reverse, so instead of mapping pixels to features does the opposite.Original PaperOne impleme">
 <meta property="og:type" content="article">
-<meta property="og:title" content="How to use Git and GitHub">
-<meta property="og:url" content="https://RutgersHan.github.io/2015/04/13/How-to-use-Git-and-GitHub/index.html">
+<meta property="og:title" content="Notes for <Visualizing and Understanding Convolutional Networks>">
+<meta property="og:url" content="https://RutgersHan.github.io/2015/05/13/Notes-for-Visualizing-and-Understanding-Convolutional-Networks/index.html">
 <meta property="og:site_name" content="Be a geek">
-<meta property="og:description" content="Learning Material
-Best thing to start is this tutorial: 廖雪峰的Git教程
-Git cheat sheet: Git Cheat Sheet
-Git commands: jark’s blog about Git">
-<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/81b78497jw1eqnk1bkyaij20e40bpjsm.jpg">
+<meta property="og:description" content="A deconvnet can be thought of as a convnet model that uses the same components (filtering, pooling) but in reverse, so instead of mapping pixels to features does the opposite.Original PaperOne impleme">
+<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-05-13 at 1.07.48 AM.png">
+<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-05-13 at 1.45.26 AM.png">
+<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-05-13 at 1.51.09 AM.png">
+<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-05-13 at 1.53.32 AM.png">
+<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-05-13 at 1.53.56 AM.png">
+<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-05-13 at 2.06.30 AM.png">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="How to use Git and GitHub">
-<meta name="twitter:description" content="Learning Material
-Best thing to start is this tutorial: 廖雪峰的Git教程
-Git cheat sheet: Git Cheat Sheet
-Git commands: jark’s blog about Git">
+<meta name="twitter:title" content="Notes for <Visualizing and Understanding Convolutional Networks>">
+<meta name="twitter:description" content="A deconvnet can be thought of as a convnet model that uses the same components (filtering, pooling) but in reverse, so instead of mapping pixels to features does the opposite.Original PaperOne impleme">
 
     
     <link rel="alternative" href="/atom.xml" title="Be a geek" type="application/atom+xml">
@@ -88,14 +84,14 @@ Git commands: jark’s blog about Git">
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/04/13/How-to-use-Git-and-GitHub/" title="How to use Git and GitHub" itemprop="url">How to use Git and GitHub</a>
+      <a href="/2015/05/13/Notes-for-Visualizing-and-Understanding-Convolutional-Networks/" title="Notes for &lt;Visualizing and Understanding Convolutional Networks&gt;" itemprop="url">Notes for &lt;Visualizing and Understanding Convolutional Networks&gt;</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
 		
   <p class="article-time">
-    <time datetime="2015-04-13T20:55:26.000Z" itemprop="datePublished"> 发表于 2015-04-13</time>
+    <time datetime="2015-05-13T04:51:14.000Z" itemprop="datePublished"> 发表于 2015-05-13</time>
     
   </p>
 </header>
@@ -104,36 +100,40 @@ Git commands: jark’s blog about Git">
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Learning_Material"><span class="toc-number">1.</span> <span class="toc-text">Learning Material</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The_most_frequent_Git_Commands:"><span class="toc-number">2.</span> <span class="toc-text">The most frequent Git Commands:</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Pipeline"><span class="toc-number">1.</span> <span class="toc-text">Pipeline</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Some_findings"><span class="toc-number">2.</span> <span class="toc-text">Some findings</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Experiments"><span class="toc-number">3.</span> <span class="toc-text">Experiments</span></a></li></ol>
 		
 		</div>
 		
-		<h2 id="Learning_Material">Learning Material</h2><ul>
-<li>Best thing to start is this tutorial: <a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="external">廖雪峰的Git教程</a></li>
-<li>Git cheat sheet: <a href="https://training.github.com/kit/downloads/github-git-cheat-sheet.pdf" target="_blank" rel="external">Git Cheat Sheet</a></li>
-<li>Git commands: <a href="http://wuchong.me/blog/2015/03/30/git-useful-skills/" target="_blank" rel="external">jark’s blog about Git</a></li>
-</ul>
+		<p>A deconvnet can be thought of as a convnet model that uses the same components (filtering, pooling) but in reverse, so instead of mapping pixels to features does the opposite.<br><a href="http://ftp.cs.nyu.edu/~fergus/papers/zeilerECCV2014.pdf" target="_blank" rel="external">Original Paper</a><br><a href="https://github.com/ChienliMa/DeConvNet" target="_blank" rel="external">One implementation</a><br><a href="https://chienlima.wordpress.com/2014/07/25/visualization-i-introduction/" target="_blank" rel="external">One blog</a></p>
 <a id="more"></a>
-<p><img src="http://7xikhz.com1.z0.glb.clouddn.com/81b78497jw1eqnk1bkyaij20e40bpjsm.jpg" alt="Git Work Flow"></p>
-<h2 id="The_most_frequent_Git_Commands:">The most frequent Git Commands:</h2><p><strong>Create repository, copy repository from remote(本地创建 || 远程复制)</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br><span class="line">git <span class="built_in">clone</span> git@server-name:path/repo-name.git</span><br></pre></td></tr></table></figure>
-<p><strong>Check status, log, diff</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br><span class="line">git <span class="built_in">log</span></span><br><span class="line">git <span class="built_in">log</span> --pretty=oneline filename <span class="comment">#一行显示</span></span><br><span class="line">git diff   <span class="comment">#check the difference between the current state and previous one</span></span><br><span class="line">git diff -- readme.txt</span><br></pre></td></tr></table></figure>
-<p><strong>Add Files</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git add file1.txt</span><br><span class="line">git add file2.txt</span><br><span class="line">git add file3.txt</span><br><span class="line">git commit -m <span class="string">"add three files"</span></span><br></pre></td></tr></table></figure>
-<p><strong>Go to the previous versions</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard HEAD^  <span class="comment"># Head is current one, HEAD^ is the previous one, HEAD^^ two step before</span></span><br><span class="line">git reset --hard id     <span class="comment"># id can be viewed use git log</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>Reset current working directory</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout -- &lt;file&gt;  <span class="comment">#丢弃工作区上某个文件的修改</span></span><br><span class="line">git reset HEAD &lt;file&gt;   <span class="comment">#丢弃暂存区上某个文件的修改，重新放回工作</span></span><br></pre></td></tr></table></figure>
-<p><strong> delete file</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git rm &lt;file&gt;           <span class="comment">#直接删除文件</span></span><br><span class="line">git rm --cached &lt;file&gt;  <span class="comment">#删除文件暂存状态</span></span><br></pre></td></tr></table></figure></p>
-<p><strong> Add remote repository and push </strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin git@server-name:path/repo-name.git  <span class="comment">#添加一个远程库</span></span><br><span class="line">git push -u origin master   <span class="comment">#第一次推送master分支的所有内容</span></span><br><span class="line">git push origin master    <span class="comment">#推送到远程master分支(以后)</span></span><br></pre></td></tr></table></figure></p>
-<p><strong> Branches </strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git branch dev              <span class="comment">#只创建分支</span></span><br><span class="line">git checkout -b dev  <span class="comment">#创建并切换到 dev 分支</span></span><br><span class="line">git branch   <span class="comment"># list all the branches</span></span><br><span class="line">git checkout master   <span class="comment"># 切换分支</span></span><br><span class="line">git branch <span class="operator">-d</span> dev    <span class="comment"># delete branch</span></span><br><span class="line">git merge --no-ff develop   <span class="comment">#把 develop 合并到 master 分支，no-ff 选项的作用是保留原分支记录</span></span><br><span class="line">git merge dev  <span class="comment">#when in master branch, call this, will merge dev and master</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>Stash</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git stash           <span class="comment">#储藏当前工作</span></span><br><span class="line">git stash list      <span class="comment">#查看储藏的工作现场</span></span><br><span class="line">git stash apply     <span class="comment">#恢复工作现场，stash内容并不删除, need to use git stash drop 删除</span></span><br><span class="line">git stash pop       <span class="comment">#恢复工作现场，并删除stash内容</span></span><br></pre></td></tr></table></figure></p>
-<p><strong> Push to remote server</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git push origin master    <span class="comment">#推送到远程master分支</span></span><br><span class="line">git push origin dev   <span class="comment">#dev分支</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>Pull from remote server</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b dev origin/dev  <span class="comment">#创建远程origin的dev分支到本地，并命名为dev</span></span><br><span class="line">git pull origin master          <span class="comment">#从远程分支进行更新 </span></span><br><span class="line">git fetch origin master         <span class="comment">#获取远程分支上的数据</span></span><br><span class="line">git branch --set-upstream branch-name origin/branch-name<span class="comment">#可以建立起本地分支和远程分支的关联，之后可以直接git pull从远程抓取分支。</span></span><br></pre></td></tr></table></figure></p>
-<p>另外，git pull = git fetch + merge to local</p>
-<p><strong>Delete romote branch</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin --delete bugfix</span><br></pre></td></tr></table></figure></p>
-<p><strong>Tag</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">git tag         <span class="comment">#列出现有标签 </span></span><br><span class="line">git show &lt;tagname&gt;  <span class="comment">#显示标签信息</span></span><br><span class="line">git tag v0.<span class="number">1</span>    <span class="comment">#新建标签，默认位 HEAD</span></span><br><span class="line">git tag v0.<span class="number">1</span> cb926e7  <span class="comment">#对指定的 commit id 打标签</span></span><br><span class="line">git tag <span class="operator">-a</span> v0.<span class="number">1</span> -m <span class="string">'version 0.1 released'</span>   <span class="comment">#新建带注释标签</span></span><br><span class="line"></span><br><span class="line">git checkout &lt;tagname&gt;        <span class="comment">#切换到标签</span></span><br><span class="line"></span><br><span class="line">git push origin &lt;tagname&gt;     <span class="comment">#推送分支到源上</span></span><br><span class="line">git push origin --tags        <span class="comment">#一次性推送全部尚未推送到远程的本地标签</span></span><br><span class="line"></span><br><span class="line">git tag <span class="operator">-d</span> &lt;tagname&gt;          <span class="comment">#删除标签</span></span><br><span class="line">git push origin :refs/tags/&lt;tagname&gt;      <span class="comment">#删除远程标签</span></span><br></pre></td></tr></table></figure></p>
-<p><strong> .gitignore </strong><br>ignore updates in some files</p>
+<h3 id="Pipeline">Pipeline</h3><p>An input image is presented to the convnet and features computed throughout the layers. To examine a given convnet activation, we set all other activations in the layer to zero and pass the feature maps as input to the attached deconvnet layer. Then we successively<br>(i) unpool, (ii) rectify and (iii) filter to reconstruct the activity in the layer beneath that gave rise to the chosen activation.This is then repeated until input pixel space is reached.<br><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-05-13 at 1.07.48 AM.png" alt=""></p>
+<ol>
+<li><p>Unpooling: save the switches in the pooling and in unpooling, using switches which record the<br>location of the local max in each pooling region and set the other locations to be zero. See the above image</p>
+</li>
+<li><p>Rectification: after the unpooling(actually it is form the deconv in the above), the feature map could have negative values. But the original RELU layer are all &gt;=0. To match that, we pass the reconstruction value to RELU.</p>
+</li>
+<li><p>Filtering(deconv): The convnet uses learned filters to convolve the feature maps from the previous layer. To invert this, the deconvnet uses transposed versions ofthe same filters, but applied to the rectified maps, not the output of the layer beneath. In practice this means <strong>flipping each filter vertically and horizontally</strong>.</p>
+</li>
+</ol>
+<h3 id="Some_findings">Some findings</h3><ol>
+<li><p><strong>Feature Visualization</strong>: (In the images, showed in this paper.For each neuron, find the images in the validation which have top 9 activation sccores, use the deconv net to propogate back to the original image and also the correspoing patch). We can see that layer 2,3,4 seem to discribe attributes. </p>
+</li>
+<li><p><strong>Feature Evolution during Training</strong>: The lower layers of the model can be seen to converge within a few epochs. However, the upper layers only develop develop after a considerable number of epochs (40-50)</p>
+</li>
+<li><p><strong>Feature Invariance</strong>: images being translated, rotated and scaled by varying degrees while looking at the changes in the feature vectors from the top and bottom layers of the model, relative to the untransformed feature. Small transformations have a<br>dramatic effect in the first layer of the model, but a lesser impact at the top feature layer,  being quasilinear<br>for translation &amp; scaling. The network output is stable to translations and scalings. In general, <strong>the output is not invariant to rotation</strong></p>
+</li>
+<li><p><strong>Architecture Selection</strong>: While visualization of a trained model gives insight into its operation, it can also assist with selecting good architectures in the first place. E.g. t. The first layer filters are a mix of extremely high and low frequency information, with little coverage of the mid frequencies. Additionally, the 2nd layer visualization shows <strong>aliasing artifacts</strong> caused by the large stride 4 used in the 1st layer convolutions. To remedy these problems, we (i) reduced the 1st layer filter size from 11x11 to 7x7 and (ii) made the stride of the convolution 2, rather than 4. It improves  the classification performance</p>
+</li>
+<li><p><strong>Occlusion Sensitivity</strong>: Answer <em>whether the model is truly identifying the location of the object in the image, or just using the surrounding context?</em>occluding different portions of the input image with a grey square, and monitoring the output of the classifier.<br><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-05-13 at 1.45.26 AM.png" alt=""></p>
+</li>
+<li><strong>Correspondence Analysis</strong>: Answer <em>whether CNN can model correspondence between specific object parts in different images</em>. we take 5 randomly drawn dog images with frontal pose and systematically mask out the same part of the face in each image. Then computer the difference of feature vectors at layer l original and occluded images respectively<br><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-05-13 at 1.51.09 AM.png" alt=""></li>
+</ol>
+<h3 id="Experiments">Experiments</h3><ol>
+<li>Accoridng to the visualizetion to change the structure, improves the classfication accuracy for ImageNet 2012</li>
+<li>Varying the model size: by adjusting the size of layers, or removing them entirely. Removing the fully connected layers (6,7) only gives a slight increase in error. ). This is surprising, given that they contain the majority of model parameters. Removing two of the middle convolutional layers also makes a relatively small difference to the error rate. However, removing both the middle convolution layers and the fully connected layers yields a model with only 4 layers whose performance is dramatically worse. This would suggest that the overall depth of the model is important for obtaining good performance. We then modify our model, shown in Fig. 3. Changing the size of the fully connected layers makes little difference to performance (same for model of Krizhevsky et al. [18]). However, increasing the size of the middle convolution layers goes give a useful gain in performance. But increasing these, while also enlarging the fully connected layers results in over-fitting.<br><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-05-13 at 1.53.32 AM.png" alt=""><br><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-05-13 at 1.53.56 AM.png" alt=""></li>
+<li>Feature Generalization: Pretrain-Finetune works good in Caltech-101 and Caltech-256, not very good for PASCAL 2012. Since images in Imagenet and PASCAL are so different. </li>
+<li>Feature Analysis:<br><img src="http://7xikhz.com1.z0.glb.clouddn.com/Screen Shot 2015-05-13 at 2.06.30 AM.png" alt=""></li>
+</ol>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -141,7 +141,7 @@ Git commands: jark’s blog about Git">
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Engineering/">Engineering</a>
+  <a class="article-category-link" href="/categories/Research/">Research</a>
 </div>
 
 
@@ -151,7 +151,7 @@ Git commands: jark’s blog about Git">
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://RutgersHan.github.io/2015/04/13/How-to-use-Git-and-GitHub/" data-title="How to use Git and GitHub | Be a geek" data-tsina="null" class="share clearfix">
+	  <div data-url="https://RutgersHan.github.io/2015/05/13/Notes-for-Visualizing-and-Understanding-Convolutional-Networks/" data-title="Notes for &lt;Visualizing and Understanding Convolutional Networks&gt; | Be a geek" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -165,18 +165,18 @@ Git commands: jark’s blog about Git">
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/04/13/Notes-for-Part-based-R-CNNs-for-Fine-grained-Category-Detection/" title="Notes for &lt;Part-based R-CNNs for Fine-grained Category Detection&gt;">
+ <a href="/2015/05/13/Notes-for-Deep-Inside-Convolutional-Networks-Visualising-Image-Classification-Models-and-Saliency-Maps/" title="Notes for&lt;Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps&gt;">
   <strong>上一篇：</strong><br/>
   <span>
-  Notes for &lt;Part-based R-CNNs for Fine-grained Category Detection&gt;</span>
+  Notes for&lt;Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps&gt;</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2015/04/13/Hello-Blog-Fresh-Start/"  title="Hello Blog - Fresh Start">
+<a href="/2015/05/05/Minerva-A-New-Deep-Learning-Framework/"  title="Minerva: A New Deep Learning Framework">
  <strong>下一篇：</strong><br/> 
- <span>Hello Blog - Fresh Start
+ <span>Minerva: A New Deep Learning Framework
 </span>
 </a>
 </div>
@@ -185,7 +185,7 @@ Git commands: jark’s blog about Git">
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/04/13/How-to-use-Git-and-GitHub/" data-title="How to use Git and GitHub" data-url="https://RutgersHan.github.io/2015/04/13/How-to-use-Git-and-GitHub/"></div>
+	<div class="ds-thread" data-thread-key="2015/05/13/Notes-for-Visualizing-and-Understanding-Convolutional-Networks/" data-title="Notes for <Visualizing and Understanding Convolutional Networks>" data-url="https://RutgersHan.github.io/2015/05/13/Notes-for-Visualizing-and-Understanding-Convolutional-Networks/"></div>
 </section>
 
 
@@ -201,7 +201,7 @@ Git commands: jark’s blog about Git">
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Learning_Material"><span class="toc-number">1.</span> <span class="toc-text">Learning Material</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The_most_frequent_Git_Commands:"><span class="toc-number">2.</span> <span class="toc-text">The most frequent Git Commands:</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Pipeline"><span class="toc-number">1.</span> <span class="toc-text">Pipeline</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Some_findings"><span class="toc-number">2.</span> <span class="toc-text">Some findings</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Experiments"><span class="toc-number">3.</span> <span class="toc-text">Experiments</span></a></li></ol>
  
   </div>
 

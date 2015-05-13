@@ -4,32 +4,25 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>How to use Git and GitHub | Be a geek</title>
+    <title>Minerva: A New Deep Learning Framework | Be a geek</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Han Zhang">
     
 
     
-    <meta name="description" content="Learning Material
-Best thing to start is this tutorial: 廖雪峰的Git教程
-Git cheat sheet: Git Cheat Sheet
-Git commands: jark’s blog about Git">
+    <meta name="description" content="DNN framework comparison李沐： 我的理解是 caffe/cxxnet是适合需要用dnn来跑自己应用的人，准备好数据，使用或者稍微改下已有的网络配置就能跑。torch/minerva/theano 适合折腾dnn的人，可以很方便写个脚本跑起来。(purine还来得及看）。从实现技术上每个库都有自己的特点，这可以写长文了
+yangqing： cudaconv偏hacky，caf">
 <meta property="og:type" content="article">
-<meta property="og:title" content="How to use Git and GitHub">
-<meta property="og:url" content="https://RutgersHan.github.io/2015/04/13/How-to-use-Git-and-GitHub/index.html">
+<meta property="og:title" content="Minerva: A New Deep Learning Framework">
+<meta property="og:url" content="https://RutgersHan.github.io/2015/05/05/Minerva-A-New-Deep-Learning-Framework/index.html">
 <meta property="og:site_name" content="Be a geek">
-<meta property="og:description" content="Learning Material
-Best thing to start is this tutorial: 廖雪峰的Git教程
-Git cheat sheet: Git Cheat Sheet
-Git commands: jark’s blog about Git">
-<meta property="og:image" content="http://7xikhz.com1.z0.glb.clouddn.com/81b78497jw1eqnk1bkyaij20e40bpjsm.jpg">
+<meta property="og:description" content="DNN framework comparison李沐： 我的理解是 caffe/cxxnet是适合需要用dnn来跑自己应用的人，准备好数据，使用或者稍微改下已有的网络配置就能跑。torch/minerva/theano 适合折腾dnn的人，可以很方便写个脚本跑起来。(purine还来得及看）。从实现技术上每个库都有自己的特点，这可以写长文了
+yangqing： cudaconv偏hacky，caf">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="How to use Git and GitHub">
-<meta name="twitter:description" content="Learning Material
-Best thing to start is this tutorial: 廖雪峰的Git教程
-Git cheat sheet: Git Cheat Sheet
-Git commands: jark’s blog about Git">
+<meta name="twitter:title" content="Minerva: A New Deep Learning Framework">
+<meta name="twitter:description" content="DNN framework comparison李沐： 我的理解是 caffe/cxxnet是适合需要用dnn来跑自己应用的人，准备好数据，使用或者稍微改下已有的网络配置就能跑。torch/minerva/theano 适合折腾dnn的人，可以很方便写个脚本跑起来。(purine还来得及看）。从实现技术上每个库都有自己的特点，这可以写长文了
+yangqing： cudaconv偏hacky，caf">
 
     
     <link rel="alternative" href="/atom.xml" title="Be a geek" type="application/atom+xml">
@@ -88,14 +81,14 @@ Git commands: jark’s blog about Git">
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/04/13/How-to-use-Git-and-GitHub/" title="How to use Git and GitHub" itemprop="url">How to use Git and GitHub</a>
+      <a href="/2015/05/05/Minerva-A-New-Deep-Learning-Framework/" title="Minerva: A New Deep Learning Framework" itemprop="url">Minerva: A New Deep Learning Framework</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
 		
   <p class="article-time">
-    <time datetime="2015-04-13T20:55:26.000Z" itemprop="datePublished"> 发表于 2015-04-13</time>
+    <time datetime="2015-05-06T03:40:47.000Z" itemprop="datePublished"> 发表于 2015-05-05</time>
     
   </p>
 </header>
@@ -104,45 +97,23 @@ Git commands: jark’s blog about Git">
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Learning_Material"><span class="toc-number">1.</span> <span class="toc-text">Learning Material</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The_most_frequent_Git_Commands:"><span class="toc-number">2.</span> <span class="toc-text">The most frequent Git Commands:</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#DNN_framework_comparison"><span class="toc-number">1.</span> <span class="toc-text">DNN framework comparison</span></a></li></ol>
 		
 		</div>
 		
-		<h2 id="Learning_Material">Learning Material</h2><ul>
-<li>Best thing to start is this tutorial: <a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000" target="_blank" rel="external">廖雪峰的Git教程</a></li>
-<li>Git cheat sheet: <a href="https://training.github.com/kit/downloads/github-git-cheat-sheet.pdf" target="_blank" rel="external">Git Cheat Sheet</a></li>
-<li>Git commands: <a href="http://wuchong.me/blog/2015/03/30/git-useful-skills/" target="_blank" rel="external">jark’s blog about Git</a></li>
+		<h3 id="DNN_framework_comparison">DNN framework comparison</h3><p>李沐： 我的理解是 caffe/cxxnet是适合需要用dnn来跑自己应用的人，准备好数据，使用或者稍微改下已有的网络配置就能跑。torch/minerva/theano 适合折腾dnn的人，可以很方便写个脚本跑起来。(purine还来得及看）。从实现技术上每个库都有自己的特点，这可以写长文了</p>
+<p>yangqing： cudaconv偏hacky，caffe相对比较注重稳定，minerva不很熟悉，cxxnet和purine偏重lightweight + cutting edge，DIGITS是个wrapper所以和其他不是很一样。话说我超喜欢cxxnet的template和purine的operator，我自己的code也在用… 又话说caffe现在的interface的确不太能忍 :P</p>
+<p>Alex Smola: See this <a href="https://www.youtube.com/watch?v=EeIWzRr80W4" target="_blank" rel="external">short video in youtube</a> Points: </p>
+<ul>
+<li>Never use Matlab Libraries for dnn</li>
+<li>Never start from scratch(unless you want to learn how it is done)</li>
+<li>Torch, theano is good but slow, caffe is kind of good, Minerva should be one of the bests now. </li>
 </ul>
-<a id="more"></a>
-<p><img src="http://7xikhz.com1.z0.glb.clouddn.com/81b78497jw1eqnk1bkyaij20e40bpjsm.jpg" alt="Git Work Flow"></p>
-<h2 id="The_most_frequent_Git_Commands:">The most frequent Git Commands:</h2><p><strong>Create repository, copy repository from remote(本地创建 || 远程复制)</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br><span class="line">git <span class="built_in">clone</span> git@server-name:path/repo-name.git</span><br></pre></td></tr></table></figure>
-<p><strong>Check status, log, diff</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br><span class="line">git <span class="built_in">log</span></span><br><span class="line">git <span class="built_in">log</span> --pretty=oneline filename <span class="comment">#一行显示</span></span><br><span class="line">git diff   <span class="comment">#check the difference between the current state and previous one</span></span><br><span class="line">git diff -- readme.txt</span><br></pre></td></tr></table></figure>
-<p><strong>Add Files</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git add file1.txt</span><br><span class="line">git add file2.txt</span><br><span class="line">git add file3.txt</span><br><span class="line">git commit -m <span class="string">"add three files"</span></span><br></pre></td></tr></table></figure>
-<p><strong>Go to the previous versions</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard HEAD^  <span class="comment"># Head is current one, HEAD^ is the previous one, HEAD^^ two step before</span></span><br><span class="line">git reset --hard id     <span class="comment"># id can be viewed use git log</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>Reset current working directory</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout -- &lt;file&gt;  <span class="comment">#丢弃工作区上某个文件的修改</span></span><br><span class="line">git reset HEAD &lt;file&gt;   <span class="comment">#丢弃暂存区上某个文件的修改，重新放回工作</span></span><br></pre></td></tr></table></figure>
-<p><strong> delete file</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git rm &lt;file&gt;           <span class="comment">#直接删除文件</span></span><br><span class="line">git rm --cached &lt;file&gt;  <span class="comment">#删除文件暂存状态</span></span><br></pre></td></tr></table></figure></p>
-<p><strong> Add remote repository and push </strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin git@server-name:path/repo-name.git  <span class="comment">#添加一个远程库</span></span><br><span class="line">git push -u origin master   <span class="comment">#第一次推送master分支的所有内容</span></span><br><span class="line">git push origin master    <span class="comment">#推送到远程master分支(以后)</span></span><br></pre></td></tr></table></figure></p>
-<p><strong> Branches </strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git branch dev              <span class="comment">#只创建分支</span></span><br><span class="line">git checkout -b dev  <span class="comment">#创建并切换到 dev 分支</span></span><br><span class="line">git branch   <span class="comment"># list all the branches</span></span><br><span class="line">git checkout master   <span class="comment"># 切换分支</span></span><br><span class="line">git branch <span class="operator">-d</span> dev    <span class="comment"># delete branch</span></span><br><span class="line">git merge --no-ff develop   <span class="comment">#把 develop 合并到 master 分支，no-ff 选项的作用是保留原分支记录</span></span><br><span class="line">git merge dev  <span class="comment">#when in master branch, call this, will merge dev and master</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>Stash</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git stash           <span class="comment">#储藏当前工作</span></span><br><span class="line">git stash list      <span class="comment">#查看储藏的工作现场</span></span><br><span class="line">git stash apply     <span class="comment">#恢复工作现场，stash内容并不删除, need to use git stash drop 删除</span></span><br><span class="line">git stash pop       <span class="comment">#恢复工作现场，并删除stash内容</span></span><br></pre></td></tr></table></figure></p>
-<p><strong> Push to remote server</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git push origin master    <span class="comment">#推送到远程master分支</span></span><br><span class="line">git push origin dev   <span class="comment">#dev分支</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>Pull from remote server</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b dev origin/dev  <span class="comment">#创建远程origin的dev分支到本地，并命名为dev</span></span><br><span class="line">git pull origin master          <span class="comment">#从远程分支进行更新 </span></span><br><span class="line">git fetch origin master         <span class="comment">#获取远程分支上的数据</span></span><br><span class="line">git branch --set-upstream branch-name origin/branch-name<span class="comment">#可以建立起本地分支和远程分支的关联，之后可以直接git pull从远程抓取分支。</span></span><br></pre></td></tr></table></figure></p>
-<p>另外，git pull = git fetch + merge to local</p>
-<p><strong>Delete romote branch</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin --delete bugfix</span><br></pre></td></tr></table></figure></p>
-<p><strong>Tag</strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">git tag         <span class="comment">#列出现有标签 </span></span><br><span class="line">git show &lt;tagname&gt;  <span class="comment">#显示标签信息</span></span><br><span class="line">git tag v0.<span class="number">1</span>    <span class="comment">#新建标签，默认位 HEAD</span></span><br><span class="line">git tag v0.<span class="number">1</span> cb926e7  <span class="comment">#对指定的 commit id 打标签</span></span><br><span class="line">git tag <span class="operator">-a</span> v0.<span class="number">1</span> -m <span class="string">'version 0.1 released'</span>   <span class="comment">#新建带注释标签</span></span><br><span class="line"></span><br><span class="line">git checkout &lt;tagname&gt;        <span class="comment">#切换到标签</span></span><br><span class="line"></span><br><span class="line">git push origin &lt;tagname&gt;     <span class="comment">#推送分支到源上</span></span><br><span class="line">git push origin --tags        <span class="comment">#一次性推送全部尚未推送到远程的本地标签</span></span><br><span class="line"></span><br><span class="line">git tag <span class="operator">-d</span> &lt;tagname&gt;          <span class="comment">#删除标签</span></span><br><span class="line">git push origin :refs/tags/&lt;tagname&gt;      <span class="comment">#删除远程标签</span></span><br></pre></td></tr></table></figure></p>
-<p><strong> .gitignore </strong><br>ignore updates in some files</p>
+<hr>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Engineering/">Engineering</a>
-</div>
 
 
 </div>
@@ -151,7 +122,7 @@ Git commands: jark’s blog about Git">
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="https://RutgersHan.github.io/2015/04/13/How-to-use-Git-and-GitHub/" data-title="How to use Git and GitHub | Be a geek" data-tsina="null" class="share clearfix">
+	  <div data-url="https://RutgersHan.github.io/2015/05/05/Minerva-A-New-Deep-Learning-Framework/" data-title="Minerva: A New Deep Learning Framework | Be a geek" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -165,18 +136,18 @@ Git commands: jark’s blog about Git">
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/04/13/Notes-for-Part-based-R-CNNs-for-Fine-grained-Category-Detection/" title="Notes for &lt;Part-based R-CNNs for Fine-grained Category Detection&gt;">
+ <a href="/2015/05/13/Notes-for-Visualizing-and-Understanding-Convolutional-Networks/" title="Notes for &lt;Visualizing and Understanding Convolutional Networks&gt;">
   <strong>上一篇：</strong><br/>
   <span>
-  Notes for &lt;Part-based R-CNNs for Fine-grained Category Detection&gt;</span>
+  Notes for &lt;Visualizing and Understanding Convolutional Networks&gt;</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2015/04/13/Hello-Blog-Fresh-Start/"  title="Hello Blog - Fresh Start">
+<a href="/2015/05/04/Understading-AlexNet/"  title="Understading AlexNet">
  <strong>下一篇：</strong><br/> 
- <span>Hello Blog - Fresh Start
+ <span>Understading AlexNet
 </span>
 </a>
 </div>
@@ -185,7 +156,7 @@ Git commands: jark’s blog about Git">
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/04/13/How-to-use-Git-and-GitHub/" data-title="How to use Git and GitHub" data-url="https://RutgersHan.github.io/2015/04/13/How-to-use-Git-and-GitHub/"></div>
+	<div class="ds-thread" data-thread-key="2015/05/05/Minerva-A-New-Deep-Learning-Framework/" data-title="Minerva: A New Deep Learning Framework" data-url="https://RutgersHan.github.io/2015/05/05/Minerva-A-New-Deep-Learning-Framework/"></div>
 </section>
 
 
@@ -201,7 +172,7 @@ Git commands: jark’s blog about Git">
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Learning_Material"><span class="toc-number">1.</span> <span class="toc-text">Learning Material</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#The_most_frequent_Git_Commands:"><span class="toc-number">2.</span> <span class="toc-text">The most frequent Git Commands:</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#DNN_framework_comparison"><span class="toc-number">1.</span> <span class="toc-text">DNN framework comparison</span></a></li></ol>
  
   </div>
 

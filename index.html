@@ -80,6 +80,185 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/05/13/Notes-for-Deep-Inside-Convolutional-Networks-Visualising-Image-Classification-Models-and-Saliency-Maps/" title="Notes for&lt;Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps&gt;" itemprop="url">Notes for&lt;Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps&gt;</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
+		
+  <p class="article-time">
+    <time datetime="2015-05-13T16:27:27.000Z" itemprop="datePublished"> 发表于 2015-05-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>This paper addresses the visualisation of image classification models. We consider two visualisation techniques, based on computing the gradient of the class score with respect to the input image. The first one generates an image, which maximises the class score, thus visualising the notion of the class, captured by a ConvNet. The second technique computes a class saliency map, specific to a given image and class.</p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2015/05/13/Notes-for-Deep-Inside-Convolutional-Networks-Visualising-Image-Classification-Models-and-Saliency-Maps/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Research/">Research</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/05/13/Notes-for-Deep-Inside-Convolutional-Networks-Visualising-Image-Classification-Models-and-Saliency-Maps/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/05/13/Notes-for-Deep-Inside-Convolutional-Networks-Visualising-Image-Classification-Models-and-Saliency-Maps/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/05/13/Notes-for-Visualizing-and-Understanding-Convolutional-Networks/" title="Notes for &lt;Visualizing and Understanding Convolutional Networks&gt;" itemprop="url">Notes for &lt;Visualizing and Understanding Convolutional Networks&gt;</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
+		
+  <p class="article-time">
+    <time datetime="2015-05-13T04:51:14.000Z" itemprop="datePublished"> 发表于 2015-05-13</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>A deconvnet can be thought of as a convnet model that uses the same components (filtering, pooling) but in reverse, so instead of mapping pixels to features does the opposite.<br><a href="http://ftp.cs.nyu.edu/~fergus/papers/zeilerECCV2014.pdf">Original Paper</a><br><a href="https://github.com/ChienliMa/DeConvNet">One implementation</a><br><a href="https://chienlima.wordpress.com/2014/07/25/visualization-i-introduction/">One blog</a></p>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2015/05/13/Notes-for-Visualizing-and-Understanding-Convolutional-Networks/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Research/">Research</a>
+</div>
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/05/13/Notes-for-Visualizing-and-Understanding-Convolutional-Networks/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/05/13/Notes-for-Visualizing-and-Understanding-Convolutional-Networks/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/05/05/Minerva-A-New-Deep-Learning-Framework/" title="Minerva: A New Deep Learning Framework" itemprop="url">Minerva: A New Deep Learning Framework</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
+		
+  <p class="article-time">
+    <time datetime="2015-05-06T03:40:47.000Z" itemprop="datePublished"> 发表于 2015-05-05</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="DNN_framework_comparison">DNN framework comparison</h3><p>李沐： 我的理解是 caffe/cxxnet是适合需要用dnn来跑自己应用的人，准备好数据，使用或者稍微改下已有的网络配置就能跑。torch/minerva/theano 适合折腾dnn的人，可以很方便写个脚本跑起来。(purine还来得及看）。从实现技术上每个库都有自己的特点，这可以写长文了</p>
+<p>yangqing： cudaconv偏hacky，caffe相对比较注重稳定，minerva不很熟悉，cxxnet和purine偏重lightweight + cutting edge，DIGITS是个wrapper所以和其他不是很一样。话说我超喜欢cxxnet的template和purine的operator，我自己的code也在用… 又话说caffe现在的interface的确不太能忍 :P</p>
+<p>Alex Smola: See this <a href="https://www.youtube.com/watch?v=EeIWzRr80W4" target="_blank" rel="external">short video in youtube</a> Points: </p>
+<ul>
+<li>Never use Matlab Libraries for dnn</li>
+<li>Never start from scratch(unless you want to learn how it is done)</li>
+<li>Torch, theano is good but slow, caffe is kind of good, Minerva should be one of the bests now. </li>
+</ul>
+<hr>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/05/05/Minerva-A-New-Deep-Learning-Framework/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/05/05/Minerva-A-New-Deep-Learning-Framework/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/05/04/Understading-AlexNet/" title="Understading AlexNet" itemprop="url">Understading AlexNet</a>
   </h1>
   <p class="article-author">By
@@ -500,189 +679,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/04/30/Notes-for-SEMANTIC IMAGE SEGMENTATION WITH DEEP CONVOLUTIONAL NETS AND FULLY CONNECTED CRFS/" title="Notes for &lt;SEMANTIC IMAGE SEGMENTATION WITH DEEP CONVOLUTIONAL NETS AND FULLY CONNECTED CRFS&gt;" itemprop="url">Notes for &lt;SEMANTIC IMAGE SEGMENTATION WITH DEEP CONVOLUTIONAL NETS AND FULLY CONNECTED CRFS&gt;</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
-		
-  <p class="article-time">
-    <time datetime="2015-04-30T18:25:32.000Z" itemprop="datePublished"> 发表于 2015-04-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>The main difference between this model and other state-of-the-art models is the combination of<br>pixel-level CRFs and DCNN-based ‘unary terms’.<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2015/04/30/Notes-for-SEMANTIC IMAGE SEGMENTATION WITH DEEP CONVOLUTIONAL NETS AND FULLY CONNECTED CRFS/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Research/">Research</a>
-</div>
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/04/30/Notes-for-SEMANTIC IMAGE SEGMENTATION WITH DEEP CONVOLUTIONAL NETS AND FULLY CONNECTED CRFS/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/04/30/Notes-for-SEMANTIC IMAGE SEGMENTATION WITH DEEP CONVOLUTIONAL NETS AND FULLY CONNECTED CRFS/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/04/30/notes-for-Fully-Convolutional-Networks-for-Semantic-Segmentation/" title="notes for &lt;Fully Convolutional Networks for Semantic Segmentation&gt;" itemprop="url">notes for &lt;Fully Convolutional Networks for Semantic Segmentation&gt;</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
-		
-  <p class="article-time">
-    <time datetime="2015-04-30T17:46:49.000Z" itemprop="datePublished"> 发表于 2015-04-30</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>Use CNN for Semantic Segmentation.(Pixel-level inference)</p>
-<ul>
-<li><p>First trick: <strong>Convert the fully connected layer to convolutional layer</strong>. The details can be seen in CS231n. (which change the pretrained net to the structure we want. Increase the efficiency.)</p>
-</li>
-<li><p>Second trick: <strong>Get dense predictions from coarse outputs</strong>(the coarse outputs are got from the first trick)</p>
-<ol>
-<li>Shift and stich (proposed in Overfeat)</li>
-<li>Upsampling / backwards strided convolution</li>
-</ol>
-</li>
-<li><p>Use the whole image instead of patch sampling for training? </p>
-</li>
-<li><p><strong>Combining fine layer and coarse layers to make local predictions that respect global structure.</strong>(Get more details) </p>
-</li>
-</ul>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Research/">Research</a>
-</div>
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/04/30/notes-for-Fully-Convolutional-Networks-for-Semantic-Segmentation/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/04/30/notes-for-Fully-Convolutional-Networks-for-Semantic-Segmentation/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/04/27/cs231n-Working-with-Caffe-an-open-source-ConvNet-library/" title="[cs231n]Working with Caffe, an open-source ConvNet library" itemprop="url">[cs231n]Working with Caffe, an open-source ConvNet library</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
-		
-  <p class="article-time">
-    <time datetime="2015-04-27T20:39:17.000Z" itemprop="datePublished"> 发表于 2015-04-27</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/04/27/cs231n-Working-with-Caffe-an-open-source-ConvNet-library/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/04/27/cs231n-Working-with-Caffe-an-open-source-ConvNet-library/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -713,7 +709,7 @@
 		  
 		
 		  
-			<li><a href="/categories/Research/" title="Research">Research<sup>6</sup></a></li>
+			<li><a href="/categories/Research/" title="Research">Research<sup>8</sup></a></li>
 		  
 		
 		  
