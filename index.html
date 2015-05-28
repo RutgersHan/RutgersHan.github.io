@@ -80,6 +80,187 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/05/24/LeetCode-Palindrome-Number/" title="[LeetCode] Palindrome Number" itemprop="url">[LeetCode] Palindrome Number</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
+		
+  <p class="article-time">
+    <time datetime="2015-05-24T04:18:51.000Z" itemprop="datePublished"> 发表于 2015-05-24</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>Determine whether an integer is a palindrome. Do this without extra space.</p>
+<p><strong>Some hints</strong>:<br>Could negative integers be palindromes? (ie, -1)</p>
+<p>If you are thinking of converting the integer to string, note the restriction of using extra space.</p>
+<p>You could also try reversing an integer. However, if you have solved the problem “Reverse Integer”, you know that the reversed integer might overflow. How would you handle such case?</p>
+<p>There is a more generic way of solving this problem.</p>
+<p>Solution:<br>Considering get the first half, and second half<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isPalindrome</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(x&lt;<span class="number">0</span>)                <span class="comment">//negative numbers are not palindrome</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">if</span>(x % <span class="number">10</span>==<span class="number">0</span> &amp;&amp; x!=<span class="number">0</span>)  <span class="comment">// 10,200,1000 are the extreme cases need to be exclued</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">int</span> y = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(x&gt;y)</span><br><span class="line">    &#123;</span><br><span class="line">        y = y * <span class="number">10</span> + x % <span class="number">10</span>;</span><br><span class="line">        x = x / <span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">bool</span> flag = (x==y || x==y/<span class="number">10</span>);</span><br><span class="line">    <span class="keyword">return</span> flag;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/LeetCode/">LeetCode</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/05/24/LeetCode-Palindrome-Number/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/05/24/LeetCode-Palindrome-Number/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/05/22/LeetCode-Intersection-of-Two-Linked-Lists/" title="[LeetCode] Intersection of Two Linked Lists " itemprop="url">[LeetCode] Intersection of Two Linked Lists </a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
+		
+  <p class="article-time">
+    <time datetime="2015-05-22T20:12:48.000Z" itemprop="datePublished"> 发表于 2015-05-22</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>Write a program to find the node at which the intersection of two singly linked lists begins.<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2015/05/22/LeetCode-Intersection-of-Two-Linked-Lists/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/LeetCode/">LeetCode</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/05/22/LeetCode-Intersection-of-Two-Linked-Lists/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/05/22/LeetCode-Intersection-of-Two-Linked-Lists/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/05/22/LeetCode-Easy-Problems/" title="[LeetCode] Easy Problems" itemprop="url">[LeetCode] Easy Problems</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
+		
+  <p class="article-time">
+    <time datetime="2015-05-22T13:41:56.000Z" itemprop="datePublished"> 发表于 2015-05-22</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>Some problems of Leetcode<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2015/05/22/LeetCode-Easy-Problems/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/LeetCode/">LeetCode</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/05/22/LeetCode-Easy-Problems/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/05/22/LeetCode-Easy-Problems/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/05/13/Notes-for-Deep-Inside-Convolutional-Networks-Visualising-Image-Classification-Models-and-Saliency-Maps/" title="Notes for&lt;Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps&gt;" itemprop="url">Notes for&lt;Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps&gt;</a>
   </h1>
   <p class="article-author">By
@@ -493,195 +674,9 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/05/03/cs231n-Assignment-2-Neural-Networks-ConvNets-I/" title="[cs231n]Assignment #2: Neural Networks, ConvNets I" itemprop="url">[cs231n]Assignment #2: Neural Networks, ConvNets I</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
-		
-  <p class="article-time">
-    <time datetime="2015-05-03T19:43:33.000Z" itemprop="datePublished"> 发表于 2015-05-03</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p><a href="http://cs231n.github.io/assignment2/">Assignement Web</a><br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2015/05/03/cs231n-Assignment-2-Neural-Networks-ConvNets-I/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Open-Course/">Open Course</a>
-</div>
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/05/03/cs231n-Assignment-2-Neural-Networks-ConvNets-I/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/05/03/cs231n-Assignment-2-Neural-Networks-ConvNets-I/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/05/03/cs231n-Assignment-3-ConvNets-II-Transfer-Learning-Visualization/" title="[cs231n]Assignment #3: ConvNets II, Transfer Learning, Visualization" itemprop="url">[cs231n]Assignment #3: ConvNets II, Transfer Learning, Visualization</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
-		
-  <p class="article-time">
-    <time datetime="2015-05-03T18:47:06.000Z" itemprop="datePublished"> 发表于 2015-05-03</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p><a href="http://cs231n.github.io/assignment3/">Assignment Website</a><br>Reference</p>
-<ol>
-<li><a href="http://arxiv.org/pdf/1312.6034.pdf">K. Simonyan, A. Vedaldi, A. Zisserman , “Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps”, ICLR Workshop 2014</a></li>
-<li><a href="http://arxiv.org/abs/1312.6199">Szegedy, Christian, et al. “Intriguing properties of neural networks.” arXiv preprint, 2013.</a></li>
-<li><a href="http://arxiv.org/abs/1412.1897">Nguyen, Anh, Jason Yosinski, and Jeff Clune. “Deep Neural Networks are Easily Fooled: High Confidence Predictions for Unrecognizable Images.” arXiv preprint, 2014.</a>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2015/05/03/cs231n-Assignment-3-ConvNets-II-Transfer-Learning-Visualization/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Open-Course/">Open Course</a>
-</div>
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/05/03/cs231n-Assignment-3-ConvNets-II-Transfer-Learning-Visualization/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/05/03/cs231n-Assignment-3-ConvNets-II-Transfer-Learning-Visualization/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/05/01/Caffe-1-Google-Protocol-Buffer/" title="[Caffe](1) Google Protocol Buffer" itemprop="url">[Caffe](1) Google Protocol Buffer</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="https://RutgersHan.github.io/about" title="Han Zhang" target="_blank" itemprop="author">Han Zhang</a>
-		
-  <p class="article-time">
-    <time datetime="2015-05-01T04:10:40.000Z" itemprop="datePublished"> 发表于 2015-05-01</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p><a href="http://blog.csdn.net/kkk584520/article/details/41046827" target="_blank" rel="external">Caffe代码导读（1）：Protobuf例子</a><br><a href="https://developers.google.com/protocol-buffers/docs/cpptutorial" target="_blank" rel="external">Protocol Buffer Basics</a></p>
-<p>总的来说，Protobuf主要是在不同平台不同语言之间传递变量的作用. 在Caffe中具体的作用就是</p>
-<blockquote>
-<p>一个软件项目 = 数据结构 + 算法 + 参数，对于数据结构和算法我们都已经有较多研究，但不同开发者对参数管理却各有千秋。有人喜欢TXT格式化的参数文件，有人喜欢BIN简单高效，也有人喜欢图形化界面的直观。不一致的参数管理带来很多问题，例如一个项目组内不同成员必须 约定一套统一的参数方案，或者称为通信协议，这样便于模块集成。而Protobuf工具就完美解决了这个问题，关键部分代码自动生成，节省了&gt;&gt; 大量的开发、调试时间</p>
-<p>除了上述简单功能，Protobuf还可以用来传递不同语言(C/C++与Java、Python)之间的参数，省去了自己手动维护数据结构的繁琐工作。也可以支持客户端/服务器模式，在主机/从机之间传递参数。</p>
-<p>caffe代码中的参数初始化、参数保存操作</p>
-</blockquote>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/caffe/">caffe</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/05/01/Caffe-1-Google-Protocol-Buffer/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/05/01/Caffe-1-Google-Protocol-Buffer/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
   </nav>
 
 </div>
@@ -735,6 +730,10 @@
 		
 			
 				<li><a href="/tags/caffe/" title="caffe">caffe<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/LeetCode/" title="LeetCode">LeetCode<sup>3</sup></a></li>
 			
 		
 			

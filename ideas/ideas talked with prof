@@ -1,0 +1,7 @@
+1. Use CNN and the localization technique to iteratively localize the object. Few and more accurate region proposal.
+
+2. localize attributes
+
+3. Use biological intuition to design temporal CNN
+
+4. use temporal CNN and usual CNN to do more vision tasks (eg.motion segmentation). What data is to train the temporal CNN should be considered(may be see the unsupervised CNN)
